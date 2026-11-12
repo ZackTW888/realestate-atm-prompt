@@ -55,8 +55,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .hero-in{display:grid;grid-template-columns:minmax(0,55fr) minmax(0,45fr);gap:24px;align-items:center;padding-block:40px 36px;position:relative}
 .brandline{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;letter-spacing:.04em}
 .brandline .dot{width:6px;height:6px;border-radius:50%;background:#ffc94a}
-.eyebrow{margin-top:18px;color:#ffc94a;font-weight:700;letter-spacing:.08em;font-size:14px}
-.hero h1{font-family:var(--f-disp);font-weight:700;font-size:clamp(34px,5.4vw,56px);letter-spacing:.04em;line-height:1.2;margin-top:6px}
+.chibi{display:block;width:min(100%,400px);height:auto;margin-top:20px}
+.hero h1{font-family:var(--f-disp);font-weight:700;font-size:clamp(30px,4.6vw,52px);letter-spacing:.04em;line-height:1.25;margin-top:16px}
 .hero p.lead{margin-top:12px;max-width:34em;color:#efeaf7;font-size:16.5px}
 .hero .tagline{margin-top:18px;font-size:14px;color:#efeaf7;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .hero .tagline b{color:#ffc94a;font-family:var(--f-disp)}
@@ -151,6 +151,9 @@ main{padding-block:32px 80px}
 .fld input:focus,.fld textarea:focus{border-color:var(--purple);outline:none}
 .flds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}
 .flds .full{grid-column:1/-1}
+.quick{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px}
+.quick span{font-size:12.5px;font-weight:700;color:var(--purple);margin-right:2px}
+.chip.q{font-size:13px;padding:3px 11px}
 .tprev{margin-top:12px;padding:10px 12px;border-radius:10px;background:var(--well);font-size:14.5px}
 
 .out{position:sticky;top:calc(env(safe-area-inset-top,0px) + 64px);display:grid;gap:14px}
@@ -266,7 +269,7 @@ footer b{color:var(--purple);font-family:var(--f-disp)}
   .jump.away{display:none}
 }
 @media (max-width:720px){
-  .hero-in{grid-template-columns:minmax(0,1fr);padding-block:28px 40px}
+  .hero-in{grid-template-columns:minmax(0,1fr);padding-block:28px 60px}
   .hero-art{display:none}
   .vs,.flds{grid-template-columns:minmax(0,1fr)}
   .scen{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -287,11 +290,42 @@ footer b{color:var(--purple);font-family:var(--f-disp)}
 <header class="hero">
   <div class="wrap pad hero-in">
     <div>
-      <div class="brandline"><span>AI效能實驗室｜秉軒老師</span><span class="dot"></span><span>企業內訓</span></div>
-      <div class="eyebrow">1119 桃園不動產仲介課程</div>
-      <h1>AI 房仲指令工坊</h1>
-      <p class="lead">今天下課，你就能用 AI 寫好第一篇物件文案、做出第一張社群圖。從你最常做的一件事開始。</p>
-      <div class="tagline"><b>是你，讓 AI 更強大</b><span>You Make AI Stronger.</span></div>
+      <div class="brandline"><span>AI效能實驗室｜秉軒老師</span><span class="dot"></span><span>實戰課程</span></div>
+      <h1>不動產行銷的<br>AI 社群圖文應用</h1>
+      <svg class="chibi" viewBox="0 0 360 210" role="img" aria-label="Q版房仲業務舉著手機展示 AI 做好的物件社群圖，旁邊是一棟熱銷小房子">
+        <path d="M30 150A86 86 0 1 1 168 52" fill="none" stroke="#806599" stroke-width="6" stroke-linecap="round"/>
+        <path d="M66 210Q66 152 110 146Q154 152 154 210Z" fill="#2e2640"/>
+        <path d="M99 148L110 176L121 148Z" fill="#fff"/>
+        <path d="M108 154H112L115 178L110 186L105 178Z" fill="#ffc94a"/>
+        <rect x="128" y="168" width="16" height="9" rx="2" fill="#36c2b4"/>
+        <circle cx="110" cy="95" r="47" fill="#f6d3b8"/>
+        <path d="M62 98Q58 44 110 42Q162 44 158 94Q150 70 124 64Q104 80 66 82Z" fill="#2e2640"/>
+        <ellipse cx="93" cy="101" rx="5.5" ry="7" fill="#2e2640"/><ellipse cx="127" cy="101" rx="5.5" ry="7" fill="#2e2640"/>
+        <circle cx="95" cy="98" r="2" fill="#fff"/><circle cx="129" cy="98" r="2" fill="#fff"/>
+        <ellipse cx="83" cy="116" rx="7.5" ry="4.5" fill="#f2a3a8" opacity=".75"/><ellipse cx="137" cy="116" rx="7.5" ry="4.5" fill="#f2a3a8" opacity=".75"/>
+        <path d="M101 116Q110 130 119 116Q110 120 101 116Z" fill="#b4392f"/>
+        <path d="M146 166L178 132" stroke="#2e2640" stroke-width="15" stroke-linecap="round"/>
+        <g transform="rotate(-8 198 112)">
+          <rect x="172" y="66" width="54" height="90" rx="9" fill="#fff" stroke="#2e2640" stroke-width="4"/>
+          <rect x="179" y="76" width="40" height="32" rx="4" fill="#efeaf7"/>
+          <path d="M187 100L199 88L211 100Z" fill="#603e8d"/><rect x="190" y="99" width="18" height="7" fill="#603e8d"/>
+          <rect x="179" y="114" width="40" height="5" rx="2.5" fill="#bfb2d1"/><rect x="179" y="123" width="28" height="5" rx="2.5" fill="#bfb2d1"/>
+          <path d="M205 141c-4-6-12-2-8 4l8 7 8-7c4-6-4-10-8-4z" fill="#e5627a"/>
+        </g>
+        <circle cx="179" cy="131" r="9" fill="#f6d3b8"/>
+        <rect x="248" y="186" width="104" height="5" rx="2.5" fill="#806599"/>
+        <path d="M262 132L301 97L340 132Z" fill="#ffc94a" stroke-linejoin="round"/>
+        <rect x="270" y="130" width="62" height="56" rx="4" fill="#fff"/>
+        <rect x="294" y="152" width="16" height="34" rx="3" fill="#603e8d"/>
+        <rect x="277" y="140" width="13" height="12" rx="2" fill="#36c2b4"/><rect x="314" y="140" width="13" height="12" rx="2" fill="#36c2b4"/>
+        <rect x="312" y="74" width="40" height="20" rx="10" fill="#36c2b4"/>
+        <text x="332" y="88.5" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="12" fill="#2e2640">熱銷</text>
+        <rect x="0" y="6" width="80" height="28" rx="14" fill="#fff"/>
+        <text x="40" y="25" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="13" fill="#603e8d">AI 出圖！</text>
+        <use href="#i-spark" x="226" y="34" width="28" height="28"/>
+        <use href="#i-spark" x="276" y="56" width="18" height="18"/>
+        <use href="#i-tick" x="190" y="176" width="44" height="26"/>
+      </svg>
     </div>
     <div class="hero-art" aria-hidden="true">
       <svg viewBox="0 0 220 220">
@@ -520,13 +554,13 @@ const store={get(k){try{return JSON.parse(localStorage.getItem('re-'+k)||'null')
 const SC=[
  {id:'house',name:'物件宣傳文',d:'長庚養生村這類主打物件',
   a:['20年經驗房屋行銷專家','樂齡生活規劃顧問','在地深耕的資深房仲店長','擅長說故事的生活風格作家'],
-  f:[{k:'obj',l:'物件／建案',v:'長庚養生村'}],
+  f:[{k:'obj',l:'物件／建案',v:'長庚養生村',o:['長庚養生村','青埔高鐵特區景觀三房','藝文特區電梯兩房','小檜溪重劃區新成屋','中壢火車站前小宅','八德擴大重劃區透天','南崁台茂商圈三房','龜山 A7 重劃區預售屋','大園航空城新成屋','龍潭渴望園區旁別墅','楊梅埔心車站兩房','平鎮山峰國小學區三房']}],
   t:'我要撰寫{obj}的宣傳文',
   m:[['依據「人文關懷」精神',1],['分為三段：物件亮點、擁有後的價值、如何進一步了解',1],['語氣溫暖、不浮誇，每段不超過 80 字',0],['結尾加上預約參觀的行動呼籲',0],['另外給我 3 個 20 字以內的標題',0],['最後列出需要我自己查證的資訊',0]],
   fu:['再給我 5 個吸睛標題，分別針對子女與長輩兩種讀者','改寫成適合放在 591 物件描述的條列版本','幫我檢查有沒有誇大不實、或違反不動產廣告規範的用語']},
  {id:'area',name:'區域宜居推廣',d:'平鎮、中壢、青埔等生活圈',
   a:['作家洪震宇','在地生活作家','都市規劃顧問','20年經驗房屋行銷專家'],
-  f:[{k:'area',l:'區域',v:'桃園平鎮區'}],
+  f:[{k:'area',l:'區域',v:'桃園平鎮區',o:['桃園平鎮區','中壢青埔','桃園藝文特區','桃園小檜溪重劃區','龜山 A7 重劃區','八德區','蘆竹南崁','大園航空城','中壢火車站周邊','楊梅區','龍潭區','大溪老街周邊']}],
   t:'我要推廣{area}的宜居',
   m:[['分析撰文主軸、亮眼大綱、相關佐證',1],['從交通、學區、生活機能、公園綠地四個面向切入',0],['寫給 30～40 歲、在雙北上班的首購家庭',0],['完成一篇 800 字部落格文章',0],['佐證數字標註「待查證」，不要自己編',1]],
   fu:['每個佐證各需要去哪一類官方資料查證？列成表格','改寫成 150 字、適合 LINE 群組的短版','幫我想 5 張配圖的畫面，搭配文章段落']},
@@ -538,19 +572,19 @@ const SC=[
   fu:['把激勵版改成 30 秒短影音口白','替三版各配 3 個 hashtag','站在家長的角度，挑出哪一句可能讓人不放心並改寫']},
  {id:'owner',name:'屋主開發信',d:'邀請屋主委託銷售',
   a:['10年經驗的在地房仲，擅長和屋主建立信任','不動產行銷顧問','溫暖誠懇的社區鄰居型業務'],
-  f:[{k:'cmty',l:'社區名稱',v:'中壢某電梯社區'}],
+  f:[{k:'cmty',l:'社區名稱',v:'中壢某電梯社區',o:['中壢某電梯社區','藝文特區某景觀大樓','青埔某高鐵宅社區','南崁某大型社區','八德某透天聚落','龜山 A7 某新成屋社區','平鎮某學區華廈']}],
   t:'我要寫一封給{cmty}屋主的開發信，邀請對方委託我銷售',
   m:[['開頭提到近期社區成交行情，數字留空給我填',1],['說明我的銷售策略三步驟',1],['語氣誠懇、不推銷，200 字以內',0],['結尾附上 LINE 與電話的空格',0]],
   fu:['改成可以印在 A5 傳單上的版本','屋主回覆「再想想」時，我可以怎麼回？給 3 種','幫我寫一則 7 天後的追蹤訊息']},
  {id:'follow',name:'帶看後追蹤訊息',d:'LINE 一對一跟進',
   a:['貼心的資深房仲','購屋顧問','擅長傾聽的家庭理財規劃師'],
-  f:[{k:'cust',l:'客戶描述',v:'一對帶小孩的雙薪夫妻'},{k:'obj',l:'看過的物件',v:'青埔三房'}],
+  f:[{k:'cust',l:'客戶描述',v:'一對帶小孩的雙薪夫妻'},{k:'obj',l:'看過的物件',v:'青埔三房',o:['青埔三房','藝文特區兩房','小檜溪新成屋','南崁三房平車','八德透天','楊梅車站小宅']}],
   t:'我要寫一則帶看後的 LINE 追蹤訊息給{cust}，延續他們對{obj}的興趣',
   m:[['回顧看屋時他們在意的 2 個重點',1],['補充一項他們沒問到的優點',1],['提出下一步：約二看或幫忙試算房貸',0],['100 字以內，口語、有溫度',1]],
   fu:['如果客戶已讀不回 3 天，下一則怎麼寫？','改成適合傳語音的口白版本','客戶覺得總價太高，給我 3 種回應方式']},
  {id:'video',name:'短影音腳本',d:'Reels／Shorts 60 秒',
   a:['百萬訂閱的房產 YouTuber','短影音企劃','擅長把專業講白話的房產講師'],
-  f:[{k:'topic',l:'影片主題',v:'首購族如何用青安貸款'}],
+  f:[{k:'topic',l:'影片主題',v:'首購族如何用青安貸款',o:['首購族如何用青安貸款','青埔 vs 中壢火車站，首購怎麼選','桃園重劃區看房 5 個重點','桃園捷運綠線沿線怎麼挑','航空城題材該不該追','雙北通勤族為什麼搬來桃園']}],
   t:'我要拍一支 60 秒的短影音，主題是{topic}',
   m:[['給我 3 種前 3 秒的吸睛開場',1],['做成分鏡表：時間／畫面／口白／字幕',1],['口白口語化，像跟朋友聊天',0],['結尾行動呼籲：留言或私訊預約諮詢',0],['政策數字標註「待查證」',1]],
   fu:['把分鏡改成我一個人拿手機就能拍的版本','幫我想影片標題與封面文字各 5 個','把同一主題拆成 3 支系列短片']}
@@ -559,12 +593,14 @@ const CS={sc:'house',a:{},af:{},m:{},v:{},custom:{}};
 SC.forEach(s=>{CS.a[s.id]=0;CS.m[s.id]=s.m.map(x=>!!x[1]);CS.v[s.id]={};s.f.forEach(f=>CS.v[s.id][f.k]=f.v)});
 const sv=store.get('copy');if(sv&&SC.some(s=>s.id===sv.sc)){CS.sc=sv.sc;for(const k of ['a','m','v'])if(sv[k])for(const id in sv[k])if(CS[k][id]!==undefined){if(k==='m'){if(Array.isArray(sv.m[id])&&sv.m[id].length===CS.m[id].length)CS.m[id]=sv.m[id]}else if(k==='v')Object.assign(CS.v[id],sv.v[id]);else if(SC.find(s=>s.id===id).a[sv.a[id]])CS.a[id]=sv.a[id]}}
 const cur=()=>SC.find(s=>s.id===CS.sc);
+const quick=f=>f.o?`<div class="quick"><span>桃園快選</span>${f.o.map(x=>`<button type="button" class="chip q" data-qk="${f.k}" data-qv="${esc(x)}">${esc(x)}</button>`).join('')}</div>`:'';
+function pickQuick(box,e,setv){const b=e.target.closest('[data-qk]');if(!b)return;const inp=box.querySelector(`input[data-k="${b.dataset.qk}"]`);inp.value=b.dataset.qv;setv(b.dataset.qk,b.dataset.qv)}
 function fillT(s,html){return s.t.replace(/\{(\w+)\}/g,(_,k)=>{const v=(CS.v[s.id][k]||'').trim()||s.f.find(f=>f.k===k).v;return html?`<span class="v">${esc(v)}</span>`:v})}
 function renderScen(){
   $('#scen').innerHTML=SC.map(s=>`<button data-s="${s.id}" aria-pressed="${s.id===CS.sc}"><b>${s.name}</b><span>${s.d}</span></button>`).join('');
   const s=cur();
   $('#aChips').innerHTML=s.a.map((a,i)=>`<button class="chip a" data-a="${i}" aria-pressed="${i===CS.a[s.id]}">${esc(a)}</button>`).join('');
-  $('#tFields').innerHTML=s.f.map(f=>`<div class="fld${s.f.length===1?' full':''}"><label for="tf-${f.k}">${f.l}</label><input id="tf-${f.k}" data-k="${f.k}" value="${esc(CS.v[s.id][f.k])}"></div>`).join('');
+  $('#tFields').innerHTML=s.f.map(f=>`<div class="fld${(s.f.length===1||f.o)?' full':''}"><label for="tf-${f.k}">${f.l}</label><input id="tf-${f.k}" data-k="${f.k}" value="${esc(CS.v[s.id][f.k])}">${quick(f)}</div>`).join('');
   $('#mChips').innerHTML=s.m.map((m,i)=>`<button class="chip m" data-m="${i}" aria-pressed="${CS.m[s.id][i]}">${esc(m[0])}</button>`).join('');
   $('#aCustom').value=CS.custom.a||'';$('#mCustom').value=CS.custom.m||'';
   updCopy();
@@ -588,6 +624,7 @@ function copyPlain(){const {s,A,M,extra}=copyParts();return `你是${A}，\n${fi
 $('#scen').addEventListener('click',e=>{const b=e.target.closest('[data-s]');if(!b)return;CS.sc=b.dataset.s;CS.custom={};renderScen()});
 $('#aChips').addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;CS.a[CS.sc]=+b.dataset.a;$('#aCustom').value='';CS.custom.a='';$$('#aChips .chip').forEach(c=>c.setAttribute('aria-pressed',c===b));updCopy()});
 $('#mChips').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(!b)return;const i=+b.dataset.m;CS.m[CS.sc][i]=!CS.m[CS.sc][i];b.setAttribute('aria-pressed',CS.m[CS.sc][i]);updCopy()});
+$('#tFields').addEventListener('click',e=>pickQuick($('#tFields'),e,(k,v)=>{CS.v[CS.sc][k]=v;updCopy()}));
 $('#tFields').addEventListener('input',e=>{const k=e.target.dataset.k;if(!k)return;CS.v[CS.sc][k]=e.target.value;updCopy()});
 $('#aCustom').addEventListener('input',e=>{CS.custom.a=e.target.value;updCopy()});
 $('#mCustom').addEventListener('input',e=>{CS.custom.m=e.target.value;updCopy()});
@@ -616,7 +653,7 @@ const RATIO={'1:1':[1,1,'1080×1080'],'4:5':[4,5,'1080×1350'],'5:4':[5,4,'1250�
 const STY=['高貴商務','溫馨居家','清新自然','活潑可愛','極簡現代'];
 const IT=[
  {id:'web',name:'網站上架宣傳圖',d:'物件上架、電商主圖',ratio:'5:4',style:'高貴商務',hint:'物件名稱／主要特點／議題連結',
-  f:[{k:'name',l:'物件名稱',v:'青埔高鐵特區・景觀三房'},{k:'feat',l:'主要特點（用頓號分開）',v:'步行到高鐵站、三房雙衛、邊間採光、平面車位'},{k:'issue',l:'議題連結',v:'首購族也能用青安貸款'}],
+  f:[{k:'name',l:'物件名稱',v:'青埔高鐵特區・景觀三房',o:['青埔高鐵特區・景觀三房','藝文特區・電梯兩房','小檜溪重劃區・新成屋','南崁台茂商圈・三房平車','八德擴大重劃區・透天','平鎮學區・三房華廈']},{k:'feat',l:'主要特點（用頓號分開）',v:'步行到高鐵站、三房雙衛、邊間採光、平面車位'},{k:'issue',l:'議題連結',v:'首購族也能用青安貸款'}],
   ref:'物件實拍照（客廳、外觀、景觀各一張）',
   A:'擅長房地產廣告的資深平面設計師',
   short:v=>`用你的實力，畫一張叫好又叫座的房屋網站上架宣傳圖，物件是「${v.name}」，${v.ratio}`,
@@ -696,7 +733,7 @@ function renderImgStatic(){
   $('#itype').innerHTML=IT.map(t=>`<button data-t="${t.id}" aria-pressed="${t.id===IS.t}"><b>${t.name}</b><span>${t.d}・預設 ${t.ratio}</span></button>`).join('');
   const t=itC();
   $('#iHint').textContent=t.hint;
-  $('#iFields').innerHTML=t.f.map(f=>`<div class="fld"><label for="if-${f.k}">${f.l}</label><input id="if-${f.k}" data-k="${f.k}" value="${esc(IS.v[t.id][f.k])}"></div>`).join('');
+  $('#iFields').innerHTML=t.f.map(f=>`<div class="fld"><label for="if-${f.k}">${f.l}</label><input id="if-${f.k}" data-k="${f.k}" value="${esc(IS.v[t.id][f.k])}">${quick(f)}</div>`).join('');
   $('#iRefL').innerHTML=`我會上傳參考圖：<b>${esc(t.ref)}</b>`;
   $('#iRef').checked=IS.ref;
   $('#iRatio').innerHTML=Object.keys(RATIO).map(r=>`<button class="chip" data-r="${r}" aria-pressed="${r===IS.ratio[t.id]}">${r}<small style="opacity:.7;font-weight:400"> ${RATIO[r][2]}</small></button>`).join('');
@@ -727,6 +764,7 @@ function updImg(){
   store.set('img',{t:IS.t,v:IS.v,ratio:IS.ratio,style:IS.style,k:IS.k,c:IS.c,ref:IS.ref});
 }
 $('#itype').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(!b)return;IS.t=b.dataset.t;renderImgStatic()});
+$('#iFields').addEventListener('click',e=>pickQuick($('#iFields'),e,(k,v)=>{IS.v[IS.t][k]=v;updImg()}));
 $('#iFields').addEventListener('input',e=>{const k=e.target.dataset.k;if(!k)return;IS.v[IS.t][k]=e.target.value;updImg()});
 $('#iRef').addEventListener('change',e=>{IS.ref=e.target.checked;updImg()});
 $('#iRatio').addEventListener('click',e=>{const b=e.target.closest('[data-r]');if(!b)return;IS.ratio[IS.t]=b.dataset.r;$$('#iRatio .chip').forEach(c=>c.setAttribute('aria-pressed',c===b));updImg()});
