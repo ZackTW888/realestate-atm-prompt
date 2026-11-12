@@ -1,0 +1,885 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}[hidden]{display:none!important}</style>
+<title>AI 房仲指令工坊</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="1119 桃園不動產仲介課程：用 ATM（角色／目標／方法）寫出房仲文案指令與社群圖像指令，含互動產生器、猜關鍵字、課堂練習與心得分享">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* Layout: 投影片同款（白底＋藍色斜帶＋奶茶金膠囊標題）；產生器左欄步驟、右欄黏住的輸出；手機上下堆疊 */
+:root{
+  --bg:#f6f5f1; --panel:#ffffff; --ink:#24253a; --muted:#62647a; --line:#e3dfd6; --well:#f2efe8;
+  --navy:#3e4273; --band:#556a9c; --on-dark:#ffffff;
+  --tan:#a89170; --on-tan:#ffffff; --tan-soft:#f4efe6; --tan-ink:#7c6646;
+  --org:#ef8c45; --org-ink:#bf5f1b; --org-soft:#fdeee2; --blue:#1f4e9c;
+  --cream:#fdf6d6; --cream-line:#efd98a; --gold:#f2c14e;
+  --a:#a85e55; --a-line:#d29a92; --t:#857a2b; --t-line:#cdbf72; --m:#7b5ca0; --m-line:#b99bd0;
+  --ok:#2f7d4f; --ok-soft:#e5f3ea; --bad:#b4392f; --bad-soft:#fbe8e6;
+  --f-disp:"LXGW WenKai TC","Noto Sans TC","PingFang TC","Microsoft JhengHei",serif;
+  --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --f-mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#15161f; --panel:#1f2030; --ink:#ececf3; --muted:#a7a9bc; --line:#35374b; --well:#1a1b27;
+  --navy:#3e4273; --band:#44578a; --on-dark:#ffffff;
+  --tan:#8c7a5d; --on-tan:#ffffff; --tan-soft:#2b271f; --tan-ink:#dcc7a0;
+  --org:#f0a060; --org-ink:#f3ac70; --org-soft:#382a1c; --blue:#9db8ef;
+  --cream:#2c291b; --cream-line:#5e5430; --gold:#d9ad45;
+  --a:#ec9f95; --a-line:#8e5d57; --t:#dccd7c; --t-line:#7d7440; --m:#c8acec; --m-line:#6f5a8c;
+  --ok:#7fd3a0; --ok-soft:#1d3327; --bad:#f19a90; --bad-soft:#3a2120;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15161f; --panel:#1f2030; --ink:#ececf3; --muted:#a7a9bc; --line:#35374b; --well:#1a1b27;
+  --navy:#3e4273; --band:#44578a; --on-dark:#ffffff;
+  --tan:#8c7a5d; --on-tan:#ffffff; --tan-soft:#2b271f; --tan-ink:#dcc7a0;
+  --org:#f0a060; --org-ink:#f3ac70; --org-soft:#382a1c; --blue:#9db8ef;
+  --cream:#2c291b; --cream-line:#5e5430; --gold:#d9ad45;
+  --a:#ec9f95; --a-line:#8e5d57; --t:#dccd7c; --t-line:#7d7440; --m:#c8acec; --m-line:#6f5a8c;
+  --ok:#7fd3a0; --ok-soft:#1d3327; --bad:#f19a90; --bad-soft:#3a2120;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.65}
+.pad{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1240px;margin:0 auto}
+h1,h2,h3,h4{text-wrap:balance;margin:0}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+:focus-visible{outline:2px solid var(--org);outline-offset:2px}
+a{color:var(--blue)}
+
+/* 標頭：白底＋斜帶（投影片版型） */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--panel)}
+.mast{position:relative;overflow:hidden;background:var(--panel);padding-block:44px 28px;border-bottom:1px solid var(--line)}
+.mast::before,.mast::after{content:"";position:absolute;height:64px;width:520px;background:var(--band);transform:rotate(-21deg)}
+.mast::before{left:-200px;top:-40px}
+.mast::after{right:-200px;bottom:-14px}
+.mast-in{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px 28px;align-items:center}
+.hash{font-family:var(--f-disp);font-size:clamp(17px,2.2vw,21px);color:var(--navy);letter-spacing:.12em}
+:root[data-theme="dark"] .hash{color:var(--ink)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hash{color:var(--ink)}}
+.mast h1{display:inline-block;margin-top:8px;font-family:var(--f-disp);font-weight:700;font-size:clamp(28px,5vw,46px);letter-spacing:.1em;line-height:1.25;background:var(--tan);color:var(--on-tan);padding:6px 30px;border-radius:999px}
+.mast p{margin-top:12px;max-width:60ch;color:var(--muted)}
+.keys{display:grid;gap:8px}
+.key{display:flex;align-items:center;gap:10px;background:var(--panel);padding:4px 0}
+.key b{flex:none;font-size:16px;font-weight:700;padding:3px 10px;border-radius:9px;border:2.5px solid;background:var(--panel);color:var(--ink);min-width:74px;text-align:center}
+.key.a b{border-color:var(--a-line)}.key.t b{border-color:var(--t-line)}.key.m b{border-color:var(--m-line)}
+.key span{font-size:13.5px;font-weight:500;color:var(--muted)}
+
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:25;background:var(--panel);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.nav .wrap::-webkit-scrollbar{display:none}
+.nav button{flex:none;background:none;border:0;border-bottom:3px solid transparent;padding:12px 14px 10px;cursor:pointer;font-size:14.5px;color:var(--muted);white-space:nowrap}
+.nav button[aria-selected="true"]{color:var(--ink);font-weight:700;border-bottom-color:var(--org)}
+main{padding-block:26px 72px}
+.vh{margin-bottom:20px;display:grid;gap:10px;justify-items:start}
+.pill{display:inline-block;font-family:var(--f-disp);font-weight:700;font-size:clamp(20px,2.8vw,26px);letter-spacing:.12em;background:var(--tan);color:var(--on-tan);padding:4px 24px;border-radius:999px}
+.vh p{color:var(--muted);max-width:72ch}
+.tagbox{display:inline-block;border:2px dashed var(--org);color:var(--org-ink);font-family:var(--f-disp);font-weight:700;padding:1px 10px;font-size:15px;margin-left:8px;vertical-align:middle}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;min-width:0}
+.note{font-size:13px;color:var(--muted)}
+.callout{background:var(--cream);border:1.5px solid var(--cream-line);border-radius:12px;padding:12px 16px;color:var(--ink);font-weight:500}
+.callout b{color:var(--blue)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid var(--line);background:var(--panel);border-radius:10px;padding:7px 14px;cursor:pointer;font-size:14px;font-weight:700;line-height:1.3;text-decoration:none;color:var(--ink)}
+.btn:hover{border-color:var(--org)}
+.btn.primary{background:var(--org);border-color:var(--org);color:#fff}
+:root[data-theme="dark"] .btn.primary{color:#1b1206}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.primary{color:#1b1206}}
+.btn.navy{background:var(--navy);border-color:var(--navy);color:var(--on-dark)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+
+/* ATM 架構頁 */
+.atm3{display:grid;gap:14px}
+.atmrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center}
+.lbl{font-size:19px;font-weight:700;padding:6px 14px;border-radius:12px;border:3px solid;background:var(--panel);min-width:104px;text-align:center}
+.lbl.a{border-color:var(--a-line)}.lbl.t{border-color:var(--t-line)}.lbl.m{border-color:var(--m-line)}
+.atmrow p{font-size:clamp(16px,2vw,20px);font-weight:700;color:var(--muted);letter-spacing:.04em}
+.vs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:22px}
+.vs h3{font-size:17px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge{font-size:12.5px;font-weight:700;padding:2px 10px;border-radius:999px}
+.badge.bad{background:var(--bad-soft);color:var(--bad)}.badge.ok{background:var(--ok-soft);color:var(--ok)}
+.bubble{margin-top:10px;background:var(--well);border-radius:16px;padding:10px 14px;font-weight:500;width:fit-content;max-width:100%}
+.aiout{margin-top:10px;border-left:3px solid var(--line);padding-left:12px;color:var(--muted);font-size:14px}
+.aiout b{color:var(--ink)}
+.exs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:22px}
+.ex{display:grid;gap:10px;align-content:start}
+.ex h3{font-size:16px}
+.exline{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;font-weight:700;color:var(--blue);line-height:1.55}
+.exline .lbl{font-size:13px;min-width:0;padding:1px 8px;border-width:2px;border-radius:8px;color:var(--ink)}
+.hl{color:var(--org-ink)}
+.ex .row{margin-top:4px}
+.sub{font-size:18px;font-weight:700;margin:30px 0 4px;display:flex;align-items:center;gap:10px}
+.sub::before{content:"";width:6px;height:20px;border-radius:3px;background:var(--org)}
+
+/* 產生器共用 */
+.gen{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:20px;align-items:start}
+.steps{display:grid;gap:14px}
+.step h3{font-size:15.5px;display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.step h3 .n{flex:none;width:24px;height:24px;border-radius:50%;background:var(--navy);color:var(--on-dark);display:grid;place-items:center;font-size:13px}
+.step h3 small{font-weight:500;color:var(--muted);font-size:12.5px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:var(--panel);border-radius:999px;padding:6px 13px;cursor:pointer;font-size:14px;text-align:left;line-height:1.4}
+.chip:hover{border-color:var(--org)}
+.chip[aria-pressed="true"]{background:var(--org-soft);border-color:var(--org);color:var(--org-ink);font-weight:700}
+.chip.a[aria-pressed="true"]{border-color:var(--a-line);background:var(--panel);color:var(--a);box-shadow:inset 0 0 0 1.5px var(--a-line)}
+.chip.m{border-radius:10px}
+.chip.m[aria-pressed="true"]{border-color:var(--m-line);background:var(--panel);color:var(--m);box-shadow:inset 0 0 0 1.5px var(--m-line)}
+.chip.m[aria-pressed="true"]::before{content:"✓ "}
+.scen{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.scen button{border:1.5px solid var(--line);background:var(--panel);border-radius:12px;padding:10px 12px;cursor:pointer;text-align:left;display:grid;gap:2px}
+.scen button b{font-size:14.5px}
+.scen button span{font-size:12.5px;color:var(--muted);line-height:1.4}
+.scen button:hover{border-color:var(--org)}
+.scen button[aria-pressed="true"]{border-color:var(--navy);box-shadow:inset 0 0 0 1.5px var(--navy);background:var(--tan-soft)}
+.fld{display:grid;gap:4px;margin-top:10px}
+.fld label{font-size:13px;font-weight:700;color:var(--muted)}
+.fld input,.fld textarea,.fld select{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:8px 11px;background:var(--panel);font-size:14.5px}
+.fld textarea{resize:vertical;min-height:64px;line-height:1.55}
+.fld input:focus,.fld textarea:focus{border-color:var(--org);outline:none}
+.flds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}
+.flds .full{grid-column:1/-1}
+.tprev{margin-top:12px;padding:10px 12px;border-radius:10px;background:var(--well);font-size:14px}
+.tprev b{color:var(--t)}
+
+.out{position:sticky;top:calc(env(safe-area-inset-top,0px) + 60px);display:grid;gap:12px}
+.out-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;min-width:0}
+.out-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px 0 12px;flex-wrap:wrap}
+.tabs{display:flex;gap:2px}
+.tabs button{border:0;background:none;padding:8px 12px;border-radius:10px 10px 0 0;cursor:pointer;font-size:14px;color:var(--muted);font-weight:700}
+.tabs button[aria-selected="true"]{background:var(--well);color:var(--ink)}
+.out-body{background:var(--well);padding:16px;margin:0 12px 12px;border-radius:0 12px 12px 12px;min-height:180px}
+.prompt{white-space:pre-wrap;word-break:break-word;font-size:15px;line-height:1.75}
+.prompt .tag{display:inline-block;font-size:12px;font-weight:700;padding:0 7px;border-radius:6px;border:2px solid;margin-right:6px;vertical-align:1px;background:var(--panel)}
+.prompt .tag.a{border-color:var(--a-line);color:var(--a)}.prompt .tag.t{border-color:var(--t-line);color:var(--t)}.prompt .tag.m{border-color:var(--m-line);color:var(--m)}
+.prompt .v{color:var(--org-ink);font-weight:700}
+.fu{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.fu li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:14px}
+.fu li button{font-size:12.5px;padding:4px 10px}
+.check{display:grid;gap:6px;font-size:13.5px;margin:0;padding-left:18px}
+.jump{display:none}
+
+/* 圖像產生器 */
+.itype{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.itype button{border:1.5px solid var(--line);background:var(--panel);border-radius:12px;padding:10px 12px;cursor:pointer;text-align:left;display:grid;gap:2px}
+.itype button b{font-size:14.5px}
+.itype button span{font-size:12.5px;color:var(--muted)}
+.itype button[aria-pressed="true"]{border-color:var(--navy);box-shadow:inset 0 0 0 1.5px var(--navy);background:var(--tan-soft)}
+.colors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.cpick{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:10px;padding:6px 8px}
+.cpick input[type=color]{width:34px;height:30px;border:0;padding:0;background:none;cursor:pointer;flex:none}
+.cpick input[type=text]{border:0;width:100%;min-width:0;font-family:var(--f-mono);font-size:14px;background:transparent;padding:4px}
+.cpick input[type=text]:focus{outline:none}
+.swatches{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.sw{border:1.5px solid var(--line);border-radius:999px;padding:3px 10px 3px 4px;background:var(--panel);cursor:pointer;font-size:12.5px;display:flex;align-items:center;gap:6px}
+.sw i{display:flex;border-radius:999px;overflow:hidden}
+.sw i em{width:14px;height:18px;display:block}
+.refrow{display:flex;gap:10px;align-items:flex-start;background:var(--cream);border:1.5px solid var(--cream-line);border-radius:12px;padding:10px 12px}
+.refrow input{margin-top:5px;width:18px;height:18px;accent-color:var(--org);flex:none}
+.refrow label{font-size:14px;cursor:pointer}
+
+/* 示意圖（畫面模擬，固定淺色當作一張圖） */
+.mock-wrap{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:8px}
+.mock-cap{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--muted);flex-wrap:wrap}
+.mock{--k:#FE8E3F;--c:#3e4273;position:relative;width:100%;max-width:100%;margin:0 auto;overflow:hidden;border-radius:8px;background:#f3efe8;color:#2a2a35;container-type:inline-size;font-family:var(--f-body)}
+.mock *{box-sizing:border-box}
+.mock .ph{position:absolute;background:linear-gradient(160deg,#d9cfc0,#b9ab95 55%,#8f816c);}
+.mock .ph::after{content:attr(data-l);position:absolute;inset:auto 0 6% 0;text-align:center;font-size:3cqw;color:rgba(255,255,255,.85);letter-spacing:.1em}
+.mock .ttl{position:absolute;font-weight:900;line-height:1.15;color:var(--c)}
+.mock .ttl em{font-style:normal;color:var(--k)}
+.mock .bar{position:absolute;background:var(--c);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;letter-spacing:.08em}
+.mock .feat{position:absolute;display:grid;gap:2.2cqw}
+.mock .feat div{display:flex;align-items:center;gap:1.6cqw;font-weight:700;color:#3a3530}
+.mock .feat div::before{content:"";flex:none;width:5cqw;height:5cqw;border-radius:50%;border:.7cqw solid var(--k);background:#fff}
+.mock .tag2{position:absolute;background:#fff;border-radius:999px;font-weight:700;color:#3a3530;box-shadow:0 .5cqw 1.5cqw rgba(0,0,0,.15);white-space:nowrap}
+.mock .seal{position:absolute;border-radius:50%;background:var(--k);color:#fff;display:grid;place-items:center;text-align:center;font-weight:900;line-height:1.1}
+.mock .person{position:absolute}
+.mock .person::before{content:"";position:absolute;left:30%;width:40%;aspect-ratio:1;border-radius:50%;background:#e9c9ad;top:0}
+.mock .person::after{content:"";position:absolute;left:5%;right:5%;top:36%;bottom:0;border-radius:45% 45% 6% 6%;background:var(--c)}
+.mock .tbl{position:absolute;display:grid;border:.4cqw solid var(--c);border-radius:1cqw;overflow:hidden;background:#fff}
+.mock .tbl div{display:grid;grid-template-columns:1fr 1fr 1fr;border-top:.25cqw solid #d8d4cc}
+.mock .tbl div:first-child{border-top:0}
+.mock .tbl span{padding:1.1cqw;font-size:2.5cqw;text-align:center;border-left:.25cqw solid #d8d4cc}
+.mock .tbl span:first-child{border-left:0;font-weight:700}
+.mock .tbl .h span{background:var(--c);color:#fff;font-weight:700}
+.mock .tbl .h span:nth-child(2){background:var(--k)}
+.mock .diag{position:absolute;background:var(--c);transform:rotate(-24deg)}
+.mock .diag.k{background:var(--k)}
+.mock .icons{position:absolute;display:flex;justify-content:space-between;gap:1cqw}
+.mock .icons span{flex:1;text-align:center;font-weight:700;color:#3a3530;display:grid;gap:.8cqw;justify-items:center}
+.mock .icons span::before{content:"";width:6cqw;height:6cqw;border-radius:50%;border:.5cqw solid var(--k);background:#fff}
+.mock .hand{position:absolute;font-family:var(--f-disp);font-weight:700;color:#fff;-webkit-text-stroke:.35cqw var(--k);paint-order:stroke fill;transform:rotate(-6deg);line-height:1.1}
+
+/* 猜關鍵字 */
+.guess{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:20px;align-items:start}
+.rounds{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.seen{margin:10px 0 0;padding-left:18px;font-size:14px;color:var(--muted);display:grid;gap:2px}
+.gchips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.gchip{border:1.5px solid var(--line);background:var(--panel);border-radius:10px;padding:7px 12px;cursor:pointer;font-size:14px;font-weight:500}
+.gchip[aria-pressed="true"]{border-color:var(--navy);background:var(--tan-soft);font-weight:700}
+.gchip.hit{border-color:var(--ok);background:var(--ok-soft);color:var(--ok);font-weight:700}
+.gchip.miss{border-style:dashed;border-color:var(--ok);color:var(--ok)}
+.gchip.wrong{border-color:var(--bad);background:var(--bad-soft);color:var(--bad);text-decoration:line-through}
+.gchip:disabled{cursor:default}
+.reveal{margin-top:14px;display:grid;gap:10px}
+.realp{background:var(--well);border-radius:12px;padding:12px 14px;font-weight:700}
+.score{font-family:var(--f-disp);font-size:20px;font-weight:700;color:var(--org-ink)}
+.legend2{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.legend2 span{display:flex;align-items:center;gap:5px}
+.legend2 i{width:14px;height:14px;border-radius:4px;border:1.5px solid}
+
+/* 練習 */
+.prac{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.circ{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--panel);cursor:pointer;text-align:left}
+.circ:hover{border-color:var(--org)}
+.circ .dot{width:92px;height:92px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-disp);font-weight:700;font-size:21px;line-height:1.2;text-align:center;color:#4a4540}
+.circ .dot.r{background:#e3bcb6}.circ .dot.o{background:#e2c4a2}.circ .dot.g{background:#dcd8ad}
+.circ ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.circ li{border:2px solid var(--org);padding:1px 8px;font-weight:700;font-size:14px;width:fit-content;color:var(--ink)}
+.circ small{display:block;margin-top:6px;color:var(--muted);font-size:12.5px}
+.timer{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:center}
+.clock{font-family:var(--f-mono);font-size:clamp(40px,7vw,60px);font-weight:700;font-variant-numeric:tabular-nums;color:var(--navy);line-height:1;border:3px dashed var(--org);padding:10px 18px;border-radius:12px}
+:root[data-theme="dark"] .clock{color:var(--ink)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .clock{color:var(--ink)}}
+.clock.done{color:var(--bad);border-color:var(--bad)}
+.tips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.tip{display:grid;gap:4px;align-content:start}
+.tip b{font-size:17px;color:var(--blue)}
+.tip span{font-size:13.5px;color:var(--muted)}
+.tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.tools .card{display:grid;gap:6px;align-content:start}
+.tools h4{font-size:16px}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+
+/* 心得 */
+.share{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+.q{display:grid;gap:6px}
+.q h3{font-size:18px;font-family:var(--f-disp);letter-spacing:.06em}
+.q h3 em{font-style:normal;color:var(--tan-ink)}
+.qlist{display:grid;gap:16px}
+.spark{display:flex;flex-wrap:wrap;gap:6px}
+.spark button{font-size:12.5px;padding:3px 10px}
+
+footer{border-top:1px solid var(--line);background:var(--panel);padding-block:18px;font-size:13px;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:var(--navy);color:var(--on-dark);padding:10px 18px;border-radius:999px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:.25s;z-index:50;max-width:calc(100% - 32px);text-align:center}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media (max-width:980px){
+  .gen,.guess,.share{grid-template-columns:minmax(0,1fr)}
+  .out{position:static}
+  .exs,.prac,.tips,.tools{grid-template-columns:minmax(0,1fr)}
+  .jump{display:flex;position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+  .jump.away{display:none}
+}
+@media (max-width:720px){
+  .mast-in{grid-template-columns:minmax(0,1fr)}
+  .vs,.two{grid-template-columns:minmax(0,1fr)}
+  .scen{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .flds{grid-template-columns:minmax(0,1fr)}
+  .atmrow{grid-template-columns:minmax(0,1fr);gap:6px}
+  .lbl{justify-self:start}
+  .mast h1{padding:6px 20px}
+}
+@media (max-width:420px){.itype,.colors{grid-template-columns:minmax(0,1fr)}.scen{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="wrap pad mast-in">
+    <div>
+      <div class="hash">#人機協作指令技巧 ・ 1119 桃園不動產仲介課程</div>
+      <h1>AI 房仲指令工坊</h1>
+      <p>把「寫一篇文章」升級成會成交的指令。用 ATM 三步驟寫物件文案、區域推廣、招募文案，再用同一套邏輯做出網站上架圖、開箱圖、IG 乾貨圖卡與 YT 封面。</p>
+    </div>
+    <div class="keys" aria-label="ATM 指令架構">
+      <div class="key a"><b>A 角色</b><span>請 AI 扮演什麼專家／達人？</span></div>
+      <div class="key t"><b>T 目標</b><span>你期待達成什麼任務／目的？</span></div>
+      <div class="key m"><b>M 方法</b><span>給什麼資料／條件讓 AI 做得更好？</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="nav" aria-label="頁面">
+  <div class="wrap pad" role="tablist">
+    <button role="tab" data-go="atm" aria-selected="true">ATM 架構</button>
+    <button role="tab" data-go="copy" aria-selected="false">文案指令產生器</button>
+    <button role="tab" data-go="image" aria-selected="false">圖像指令產生器</button>
+    <button role="tab" data-go="guess" aria-selected="false">猜猜關鍵字</button>
+    <button role="tab" data-go="practice" aria-selected="false">繪圖練習</button>
+    <button role="tab" data-go="share" aria-selected="false">心得與收穫</button>
+  </div>
+</nav>
+
+<main class="wrap pad">
+
+<!-- ATM 架構 -->
+<section data-v="atm">
+  <div class="vh">
+    <span class="pill">ATM 指令架構</span>
+    <p>AI 不是不會寫，是不知道你要什麼。每次下指令前，先把這三件事講清楚。</p>
+  </div>
+  <div class="card atm3">
+    <div class="atmrow"><span class="lbl a">A 角色</span><p>☕ 請 AI 扮演什麼專家／高手／達人？</p></div>
+    <div class="atmrow"><span class="lbl t">T 目標</span><p>🧑‍💻 你期待達成什麼事情／任務／目的？</p></div>
+    <div class="atmrow"><span class="lbl m">M 方法</span><p>🤖 有什麼資料／條件，讓 AI 做得更好？</p></div>
+  </div>
+
+  <div class="vs">
+    <div class="card">
+      <h3><span class="badge bad">無效指令</span>寫一篇文章<span class="tagbox">泡一杯拿鐵</span></h3>
+      <p class="note" style="margin-top:6px">就像只跟同事說「幫我泡一杯拿鐵」：冰的熱的？幾分糖？誰要喝？對方只能猜。</p>
+      <div class="bubble">寫一篇文章</div>
+      <div class="aiout"><b>〈慢一點，才看得見方向〉</b><br>有時候，我們以為「快」就是效率。但其實，快只是讓焦慮有了更漂亮的包裝……<br><span class="note">AI 交出一篇和房子、客戶都無關的心靈散文。</span></div>
+    </div>
+    <div class="card">
+      <h3><span class="badge ok">有效指令</span>用 ATM 說清楚</h3>
+      <div class="bubble">你是 20 年經驗房屋行銷專家，我要撰寫長庚養生村的宣傳文，依據「人文關懷」精神，分為三段：物件亮點、擁有後的價值、如何進一步了解。</div>
+      <div class="aiout">AI 知道<b>用誰的口吻</b>、<b>寫給哪個物件</b>、<b>分幾段寫什麼</b>，第一版就能拿來修。</div>
+      <div class="row" style="margin-top:12px"><button class="btn primary" data-open-scen="house">在產生器打開這個例子</button></div>
+    </div>
+  </div>
+
+  <h2 class="sub">課堂三個房仲範例</h2>
+  <p class="note">藍字是骨架，橘字是換成你自己的物件、區域、對象的地方。</p>
+  <div class="exs" id="exs"></div>
+</section>
+
+<!-- 文案指令產生器 -->
+<section data-v="copy" hidden>
+  <div class="vh">
+    <span class="pill">文案指令產生器</span>
+    <p>選情境，再依序點選 A、T、M。右邊會即時組好指令，複製貼到 ChatGPT 或 Gemini 就能用。橘字都可以改成你手上的物件。</p>
+  </div>
+  <div class="gen">
+    <div class="steps">
+      <div class="card step">
+        <h3><span class="n">1</span>選一個房仲情境</h3>
+        <div class="scen" id="scen"></div>
+      </div>
+      <div class="card step">
+        <h3><span class="n">2</span>A 角色<small>請 AI 扮演誰</small></h3>
+        <div class="chips" id="aChips"></div>
+        <div class="fld"><label for="aCustom">或自己寫角色（填了就以這個為準）</label><input id="aCustom" placeholder="例：在桃園深耕 15 年、專做重劃區的店長"></div>
+      </div>
+      <div class="card step">
+        <h3><span class="n">3</span>T 目標<small>填入你的物件／對象</small></h3>
+        <div class="flds" id="tFields"></div>
+        <div class="tprev" id="tPrev"></div>
+      </div>
+      <div class="card step">
+        <h3><span class="n">4</span>M 方法<small>可複選，越具體越好</small></h3>
+        <div class="chips" id="mChips"></div>
+        <div class="fld"><label for="mCustom">補充資料或條件（選填）</label><textarea id="mCustom" placeholder="例：屋齡 8 年、26 坪、兩房一廳、近捷運 A19；屋主急售可議價"></textarea></div>
+      </div>
+    </div>
+    <div class="out" id="copyOut">
+      <div class="out-card">
+        <div class="out-head">
+          <div class="tabs" role="tablist">
+            <button role="tab" data-ct="p" aria-selected="true">ATM 指令</button>
+            <button role="tab" data-ct="f" aria-selected="false">建議追問</button>
+          </div>
+          <button class="btn primary" id="copyCopy">複製指令</button>
+        </div>
+        <div class="out-body"><div id="copyP" class="prompt"></div><ul id="copyF" class="fu" hidden></ul></div>
+      </div>
+      <div class="card">
+        <h4 style="font-size:14.5px;margin-bottom:6px">刊登前檢查</h4>
+        <ul class="check">
+          <li>廣告內容與事實相符，並註明經紀業名稱。</li>
+          <li>坪數、價格、距離、成交行情等數字，一律自己查證後再填。</li>
+          <li>不寫「保證增值」「穩賺」「保證月入」這類承諾字眼。</li>
+          <li>客戶姓名、電話等個資不要貼進 AI。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <button class="btn navy jump" data-jump="copyOut">看產出的指令 ↓</button>
+</section>
+
+<!-- 圖像指令產生器 -->
+<section data-v="image" hidden>
+  <div class="vh">
+    <span class="pill">圖像指令產生器</span>
+    <p>四種房仲最常用的社群圖。填三個關鍵欄位、選比例與顏色，右邊會給你兩種指令：課堂示範的「一句話短指令」，以及更好控的「ATM 完整指令」。</p>
+  </div>
+  <div class="gen">
+    <div class="steps">
+      <div class="card step">
+        <h3><span class="n">1</span>要做哪一種圖</h3>
+        <div class="itype" id="itype"></div>
+      </div>
+      <div class="card step">
+        <h3><span class="n">2</span>三個關鍵欄位<small id="iHint"></small></h3>
+        <div id="iFields"></div>
+      </div>
+      <div class="card step">
+        <h3><span class="n">3</span>參考素材</h3>
+        <div class="refrow"><input type="checkbox" id="iRef" checked><label for="iRef" id="iRefL"></label></div>
+        <p class="note" style="margin-top:8px">要給什麼產品／服務參考圖，或提供參考知識資訊？有參考圖，AI 才不會亂編物件長相。</p>
+      </div>
+      <div class="card step">
+        <h3><span class="n">4</span>比例與風格</h3>
+        <div class="chips" id="iRatio"></div>
+        <div class="chips" id="iStyle" style="margin-top:10px"></div>
+      </div>
+      <div class="card step">
+        <h3><span class="n">5</span>品牌配色<small>直接寫色碼，AI 最聽得懂</small></h3>
+        <div class="colors">
+          <div class="fld" style="margin:0"><label for="kHex">重點色（標題、數字）</label><div class="cpick"><input type="color" id="kPick" value="#fe8e3f" aria-label="選重點色"><input type="text" id="kHex" value="#FE8E3F" maxlength="7"></div></div>
+          <div class="fld" style="margin:0"><label for="cHex">觀念色（底色、框線）</label><div class="cpick"><input type="color" id="cPick" value="#3e4273" aria-label="選觀念色"><input type="text" id="cHex" value="#3e4273" maxlength="7"></div></div>
+        </div>
+        <div class="swatches" id="swatches"></div>
+      </div>
+    </div>
+    <div class="out" id="imgOut">
+      <div class="mock-wrap">
+        <div class="mock-cap"><b id="mockT"></b><span id="mockS"></span></div>
+        <div id="mock"></div>
+        <p class="note">版面示意，用來確認比例與配色，不是 AI 成品。</p>
+      </div>
+      <div class="out-card">
+        <div class="out-head">
+          <div class="tabs" role="tablist">
+            <button role="tab" data-it="s" aria-selected="false">一句話短指令</button>
+            <button role="tab" data-it="p" aria-selected="true">ATM 完整指令</button>
+            <button role="tab" data-it="f" aria-selected="false">修圖追問</button>
+          </div>
+          <button class="btn primary" id="imgCopy">複製指令</button>
+        </div>
+        <div class="out-body"><div id="imgP" class="prompt"></div><ul id="imgF" class="fu" hidden></ul></div>
+      </div>
+    </div>
+  </div>
+  <button class="btn navy jump" data-jump="imgOut">看示意圖與指令 ↓</button>
+</section>
+
+<!-- 猜猜關鍵字 -->
+<section data-v="guess" hidden>
+  <div class="vh">
+    <span class="pill">猜猜看做出本圖的指令有什麼關鍵字？</span>
+    <p>課堂上的三張成品圖。先看成品上有什麼，再點選你覺得「真的寫在指令裡」的關鍵字，按揭曉對答案。</p>
+  </div>
+  <div class="rounds" id="rounds"></div>
+  <div class="guess">
+    <div class="mock-wrap">
+      <div class="mock-cap"><b id="gTitle"></b><span id="gRatio"></span></div>
+      <div id="gMock"></div>
+      <ul class="seen" id="gSeen"></ul>
+    </div>
+    <div class="card">
+      <h3 style="font-size:16px">哪些字真的出現在指令裡？</h3>
+      <div class="gchips" id="gChips"></div>
+      <div class="row" style="margin-top:14px"><button class="btn primary" id="gReveal">揭曉答案</button><button class="btn" id="gReset">重來</button></div>
+      <div class="reveal" id="gOut" hidden></div>
+    </div>
+  </div>
+</section>
+
+<!-- 繪圖練習 -->
+<section data-v="practice" hidden>
+  <div class="vh">
+    <span class="pill">練習 2｜物件亮點圖像創作</span>
+    <p>用 ChatGPT 挑一種圖來做。點下面任一個圓，會直接帶你到圖像指令產生器並選好類型。</p>
+  </div>
+  <div class="prac" id="prac"></div>
+  <div class="callout" style="margin-top:16px">💡 要給什麼<b>產品／服務參考圖</b>，或提供<b>參考知識資訊</b>？先準備好再開始。</div>
+
+  <div class="card timer" style="margin-top:16px">
+    <div class="clock" id="clock" aria-live="polite">12:00</div>
+    <div style="display:grid;gap:10px">
+      <div><b>課堂計時</b><p class="note">時間到會變紅色提醒，不會發出聲音。</p></div>
+      <div class="row"><button class="btn primary" id="tStart">開始</button><button class="btn" id="tReset">重設</button>
+        <select id="tLen" class="btn" aria-label="練習時間"><option value="12">12 分鐘</option><option value="8">8 分鐘</option><option value="5">5 分鐘</option><option value="15">15 分鐘</option></select></div>
+    </div>
+  </div>
+
+  <h2 class="sub">ChatGPT 繪圖綜整 <span class="tagbox">image 2</span></h2>
+  <div class="tips">
+    <div class="card tip"><b>中文＆速度更勝一籌</b><span>中文字比較不會變亂碼，出圖速度也快。</span></div>
+    <div class="card tip"><b>進一步理解人類意圖</b><span>一句「叫好又叫座」，它會自己補上光影、徽章、版面。</span></div>
+    <div class="card tip"><b>細節、畫質、想像力 ↑</b><span>參考照裡的材質、文字、空間結構都能保留。</span></div>
+  </div>
+  <div class="two" style="margin-top:12px">
+    <div class="callout">🗂️ 目前<b>免費版一天約 2～3 張</b>，練習時先把指令想清楚再送出。</div>
+    <div class="card"><b>入口在哪？</b><p class="note">ChatGPT 左側選單 →「更多」→「圖像」。或在對話框直接上傳照片並描述要做的圖。</p></div>
+  </div>
+
+  <h2 class="sub">工具註冊與登入｜網頁版</h2>
+  <div class="tools">
+    <div class="card"><h4>ChatGPT</h4><p class="note">文案與繪圖都用它，課堂練習主力。</p><a class="btn" href="https://chatgpt.com/" target="_blank" rel="noopener">開啟 chatgpt.com ↗</a></div>
+    <div class="card"><h4>Gemini</h4><p class="note">用 Google 帳號就能登入，可交叉比較文案。</p><a class="btn" href="https://gemini.google.com/" target="_blank" rel="noopener">開啟 gemini.google.com ↗</a></div>
+    <div class="card"><h4>實作用指令表</h4><p class="note">請查看 LINE 群組，會直接貼連結；群組會同步貼指令，手機比較好複製，課後也能再使用。</p><a class="btn" href="https://twgo.io/ai904" target="_blank" rel="noopener">twgo.io/ai904 ↗</a></div>
+  </div>
+</section>
+
+<!-- 心得與收穫 -->
+<section data-v="share" hidden>
+  <div class="vh">
+    <span class="pill">AI 繪圖心得與收穫</span>
+    <p>邀請 2 位夥伴分享。先寫下來，下面會幫你整理成一段可以直接念、也可以貼到 LINE 群組的分享。內容只存在你這台裝置。</p>
+  </div>
+  <div class="share">
+    <div class="card qlist">
+      <div class="q"><h3>我與 AI 一起創作的<em>主題</em>為……</h3>
+        <div class="spark" data-for="s1"></div>
+        <div class="fld" style="margin:0"><label for="s1" class="note">主題</label><input id="s1" placeholder="例：青埔三房的網站上架宣傳圖"></div></div>
+      <div class="q"><h3>其中讓我覺得<em>有趣＆驚艷</em>的作品是……</h3>
+        <div class="fld" style="margin:0"><label for="s2" class="note">作品與原因</label><textarea id="s2" placeholder="例：只上傳一張客廳照，AI 自己補上了傍晚的暖光和『熱銷』徽章"></textarea></div></div>
+      <div class="q"><h3>過程中，我的<em>感覺</em>……<em>收穫</em>是……</h3>
+        <div class="spark" data-for="s3"></div>
+        <div class="fld" style="margin:0"><label for="s3" class="note">感覺</label><input id="s3" placeholder="例：一開始不知道怎麼下指令，後來越改越順"></div>
+        <div class="fld"><label for="s4" class="note">收穫</label><textarea id="s4" placeholder="例：以後拍物件照時會多拍幾張乾淨的角度，給 AI 當參考圖"></textarea></div></div>
+    </div>
+    <div class="out">
+      <div class="out-card">
+        <div class="out-head"><b style="padding:8px 4px">我的分享稿</b><div class="row"><button class="btn" id="shClear">清空</button><button class="btn primary" id="shCopy">複製分享</button></div></div>
+        <div class="out-body"><div id="shOut" class="prompt"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap pad"><span>著作權© 2026 AI效能實驗室 許秉軒 版權所有</span><span>範例物件與數字皆為教學示意，使用前請自行查證。</span></div></footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(()=>{
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2200)}
+function copyText(txt,msg,el){
+  const fb=()=>{if(el){const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);toast('已選取文字，請按 Ctrl/⌘ + C 複製')}else toast('無法自動複製，請手動選取')};
+  try{navigator.clipboard.writeText(txt).then(()=>toast(msg),fb)}catch(_){fb()}
+}
+const store={get(k){try{return JSON.parse(localStorage.getItem('re-'+k)||'null')}catch(_){return null}},set(k,v){try{localStorage.setItem('re-'+k,JSON.stringify(v))}catch(_){}}};
+
+/* ---------- 文案情境 ---------- */
+const SC=[
+ {id:'house',name:'物件宣傳文',d:'長庚養生村這類主打物件',
+  a:['20年經驗房屋行銷專家','樂齡生活規劃顧問','在地深耕的資深房仲店長','擅長說故事的生活風格作家'],
+  f:[{k:'obj',l:'物件／建案',v:'長庚養生村'}],
+  t:'我要撰寫{obj}的宣傳文',
+  m:[['依據「人文關懷」精神',1],['分為三段：物件亮點、擁有後的價值、如何進一步了解',1],['語氣溫暖、不浮誇，每段不超過 80 字',0],['結尾加上預約參觀的行動呼籲',0],['另外給我 3 個 20 字以內的標題',0],['最後列出需要我自己查證的資訊',0]],
+  fu:['再給我 5 個吸睛標題，分別針對子女與長輩兩種讀者','改寫成適合放在 591 物件描述的條列版本','幫我檢查有沒有誇大不實、或違反不動產廣告規範的用語']},
+ {id:'area',name:'區域宜居推廣',d:'平鎮、中壢、青埔等生活圈',
+  a:['作家洪震宇','在地生活作家','都市規劃顧問','20年經驗房屋行銷專家'],
+  f:[{k:'area',l:'區域',v:'桃園平鎮區'}],
+  t:'我要推廣{area}的宜居',
+  m:[['分析撰文主軸、亮眼大綱、相關佐證',1],['從交通、學區、生活機能、公園綠地四個面向切入',0],['寫給 30～40 歲、在雙北上班的首購家庭',0],['完成一篇 800 字部落格文章',0],['佐證數字標註「待查證」，不要自己編',1]],
+  fu:['每個佐證各需要去哪一類官方資料查證？列成表格','改寫成 150 字、適合 LINE 群組的短版','幫我想 5 張配圖的畫面，搭配文章段落']},
+ {id:'recruit',name:'青年招募見證文案',d:'吸引 20 歲以上青年加入',
+  a:['職涯規劃達人，負責吸引20歲以上青年加入房產仲介服務','人資招募主管','25 歲就當上店長的業務前輩'],
+  f:[{k:'who',l:'招募對象',v:'20歲以上青年'}],
+  t:'我要設計一份簡短有感的見證文案，對象是{who}，強調人生突破與財務成長',
+  m:[['依「情感訴求＋行動呼籲」架構撰寫三版文案風格（感性／激勵／幽默）',1],['每版 150 字以內，用第一人稱口吻',0],['不要寫出保證收入或具體月薪數字',1],['結尾附上面試報名方式的空格讓我填',0]],
+  fu:['把激勵版改成 30 秒短影音口白','替三版各配 3 個 hashtag','站在家長的角度，挑出哪一句可能讓人不放心並改寫']},
+ {id:'owner',name:'屋主開發信',d:'邀請屋主委託銷售',
+  a:['10年經驗的在地房仲，擅長和屋主建立信任','不動產行銷顧問','溫暖誠懇的社區鄰居型業務'],
+  f:[{k:'cmty',l:'社區名稱',v:'中壢某電梯社區'}],
+  t:'我要寫一封給{cmty}屋主的開發信，邀請對方委託我銷售',
+  m:[['開頭提到近期社區成交行情，數字留空給我填',1],['說明我的銷售策略三步驟',1],['語氣誠懇、不推銷，200 字以內',0],['結尾附上 LINE 與電話的空格',0]],
+  fu:['改成可以印在 A5 傳單上的版本','屋主回覆「再想想」時，我可以怎麼回？給 3 種','幫我寫一則 7 天後的追蹤訊息']},
+ {id:'follow',name:'帶看後追蹤訊息',d:'LINE 一對一跟進',
+  a:['貼心的資深房仲','購屋顧問','擅長傾聽的家庭理財規劃師'],
+  f:[{k:'cust',l:'客戶描述',v:'一對帶小孩的雙薪夫妻'},{k:'obj',l:'看過的物件',v:'青埔三房'}],
+  t:'我要寫一則帶看後的 LINE 追蹤訊息給{cust}，延續他們對{obj}的興趣',
+  m:[['回顧看屋時他們在意的 2 個重點',1],['補充一項他們沒問到的優點',1],['提出下一步：約二看或幫忙試算房貸',0],['100 字以內，口語、有溫度',1]],
+  fu:['如果客戶已讀不回 3 天，下一則怎麼寫？','改成適合傳語音的口白版本','客戶覺得總價太高，給我 3 種回應方式']},
+ {id:'video',name:'短影音腳本',d:'Reels／Shorts 60 秒',
+  a:['百萬訂閱的房產 YouTuber','短影音企劃','擅長把專業講白話的房產講師'],
+  f:[{k:'topic',l:'影片主題',v:'首購族如何用青安貸款'}],
+  t:'我要拍一支 60 秒的短影音，主題是{topic}',
+  m:[['給我 3 種前 3 秒的吸睛開場',1],['做成分鏡表：時間／畫面／口白／字幕',1],['口白口語化，像跟朋友聊天',0],['結尾行動呼籲：留言或私訊預約諮詢',0],['政策數字標註「待查證」',1]],
+  fu:['把分鏡改成我一個人拿手機就能拍的版本','幫我想影片標題與封面文字各 5 個','把同一主題拆成 3 支系列短片']}
+];
+const CS={sc:'house',a:{},af:{},m:{},v:{},custom:{}};
+SC.forEach(s=>{CS.a[s.id]=0;CS.m[s.id]=s.m.map(x=>!!x[1]);CS.v[s.id]={};s.f.forEach(f=>CS.v[s.id][f.k]=f.v)});
+const sv=store.get('copy');if(sv&&SC.some(s=>s.id===sv.sc)){CS.sc=sv.sc;for(const k of ['a','m','v'])if(sv[k])for(const id in sv[k])if(CS[k][id]!==undefined){if(k==='m'){if(Array.isArray(sv.m[id])&&sv.m[id].length===CS.m[id].length)CS.m[id]=sv.m[id]}else if(k==='v')Object.assign(CS.v[id],sv.v[id]);else if(SC.find(s=>s.id===id).a[sv.a[id]])CS.a[id]=sv.a[id]}}
+const cur=()=>SC.find(s=>s.id===CS.sc);
+function fillT(s,html){return s.t.replace(/\{(\w+)\}/g,(_,k)=>{const v=(CS.v[s.id][k]||'').trim()||s.f.find(f=>f.k===k).v;return html?`<span class="v">${esc(v)}</span>`:v})}
+function renderScen(){
+  $('#scen').innerHTML=SC.map(s=>`<button data-s="${s.id}" aria-pressed="${s.id===CS.sc}"><b>${s.name}</b><span>${s.d}</span></button>`).join('');
+  const s=cur();
+  $('#aChips').innerHTML=s.a.map((a,i)=>`<button class="chip a" data-a="${i}" aria-pressed="${i===CS.a[s.id]}">${esc(a)}</button>`).join('');
+  $('#tFields').innerHTML=s.f.map(f=>`<div class="fld${s.f.length===1?' full':''}"><label for="tf-${f.k}">${f.l}</label><input id="tf-${f.k}" data-k="${f.k}" value="${esc(CS.v[s.id][f.k])}"></div>`).join('');
+  $('#mChips').innerHTML=s.m.map((m,i)=>`<button class="chip m" data-m="${i}" aria-pressed="${CS.m[s.id][i]}">${esc(m[0])}</button>`).join('');
+  $('#aCustom').value=CS.custom.a||'';$('#mCustom').value=CS.custom.m||'';
+  updCopy();
+}
+function copyParts(){
+  const s=cur(); const A=($('#aCustom').value.trim())||s.a[CS.a[s.id]];
+  const M=s.m.filter((m,i)=>CS.m[s.id][i]).map(m=>m[0]); const extra=$('#mCustom').value.trim();
+  return {s,A,M,extra};
+}
+function updCopy(){
+  const {s,A,M,extra}=copyParts();
+  $('#tPrev').innerHTML=`<b>T 目標：</b>${fillT(s,true)}`;
+  let h=`<span class="tag a">A</span>你是<span class="v">${esc(A)}</span>，\n<span class="tag t">T</span>${fillT(s,true)}，\n<span class="tag m">M</span>`;
+  h+= M.length? M.map(esc).join('；')+'。' : '<span class="note">（還沒選方法，至少選一個吧）</span>';
+  if(extra)h+=`\n參考資料：${esc(extra)}`;
+  $('#copyP').innerHTML=h;
+  $('#copyF').innerHTML=s.fu.map(f=>`<li><span>${esc(f)}</span><button class="btn" data-cp="${esc(f)}">複製</button></li>`).join('');
+  store.set('copy',{sc:CS.sc,a:CS.a,m:CS.m,v:CS.v});
+}
+function copyPlain(){const {s,A,M,extra}=copyParts();return `你是${A}，\n${fillT(s,false)}，\n${M.length?M.join('；')+'。':''}${extra?`\n參考資料：${extra}`:''}`}
+$('#scen').addEventListener('click',e=>{const b=e.target.closest('[data-s]');if(!b)return;CS.sc=b.dataset.s;CS.custom={};renderScen()});
+$('#aChips').addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;CS.a[CS.sc]=+b.dataset.a;$('#aCustom').value='';CS.custom.a='';$$('#aChips .chip').forEach(c=>c.setAttribute('aria-pressed',c===b));updCopy()});
+$('#mChips').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(!b)return;const i=+b.dataset.m;CS.m[CS.sc][i]=!CS.m[CS.sc][i];b.setAttribute('aria-pressed',CS.m[CS.sc][i]);updCopy()});
+$('#tFields').addEventListener('input',e=>{const k=e.target.dataset.k;if(!k)return;CS.v[CS.sc][k]=e.target.value;updCopy()});
+$('#aCustom').addEventListener('input',e=>{CS.custom.a=e.target.value;updCopy()});
+$('#mCustom').addEventListener('input',e=>{CS.custom.m=e.target.value;updCopy()});
+$('#copyCopy').addEventListener('click',()=>copyText(copyPlain(),'已複製指令',$('#copyP')));
+$$('[data-ct]').forEach(b=>b.addEventListener('click',()=>{$$('[data-ct]').forEach(x=>x.setAttribute('aria-selected',x===b));$('#copyP').hidden=b.dataset.ct!=='p';$('#copyF').hidden=b.dataset.ct!=='f'}));
+document.addEventListener('click',e=>{const b=e.target.closest('[data-cp]');if(b)copyText(b.dataset.cp,'已複製追問')});
+
+/* ---------- ATM 頁三個範例 ---------- */
+const EX=[
+ {sc:'area',t:'區域推廣｜桃園平鎮',A:'你是<span class="hl">作家洪震宇</span>，',T:'我要推廣<span class="hl">桃園平鎮區</span>的宜居，',M:'分析<span class="hl">撰文主軸</span>、<span class="hl">亮眼大綱</span>、<span class="hl">相關佐證</span>',n:'借用寫《風土經濟學》《樂活國民曆》作家的視角，文章會更有在地溫度。'},
+ {sc:'house',t:'物件宣傳｜長庚養生村',A:'你是<span class="hl">20年經驗房屋行銷專家</span>，',T:'我要撰寫<span class="hl">長庚養生村</span>的宣傳文，',M:'依據「<span class="hl">人文關懷</span>」精神，分為三段：<span class="hl">物件亮點</span>、<span class="hl">擁有後的價值</span>、如何<span class="hl">進一步了解</span>',n:'先定調精神，再定段落，AI 的文章就有骨架。'},
+ {sc:'recruit',t:'人才招募｜青年見證文案',A:'你是職涯規劃達人，<span class="hl">負責</span>吸引<span class="hl">20歲</span>以上青年加入<span class="hl">房產仲介</span>服務。',T:'我要設計一份<span class="hl">簡短有感</span>的見證文案，強調人生突破與財務成長。',M:'幫我依「<span class="hl">情感訴求＋行動呼籲</span>」架構撰寫三版文案風格（<span class="hl">感性／激勵／幽默</span>）',n:'一次要三種風格，挑最適合店頭海報或 IG 的那版。'}
+];
+const strip=h=>h.replace(/<[^>]+>/g,'');
+$('#exs').innerHTML=EX.map((x,i)=>`<div class="card ex"><h3>${x.t}</h3>
+ <div class="exline"><span class="lbl a">A角色</span><span>${x.A}</span></div>
+ <div class="exline"><span class="lbl t">T目標</span><span>${x.T}</span></div>
+ <div class="exline"><span class="lbl m">M方法</span><span>${x.M}</span></div>
+ <p class="note">${x.n}</p>
+ <div class="row"><button class="btn" data-ex="${i}">複製指令</button><button class="btn primary" data-open-scen="${x.sc}">用產生器改寫</button></div></div>`).join('');
+$('#exs').addEventListener('click',e=>{const b=e.target.closest('[data-ex]');if(!b)return;const x=EX[+b.dataset.ex];copyText(strip(x.A)+'\n'+strip(x.T)+'\n'+strip(x.M),'已複製範例指令')});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-open-scen]');if(!b)return;CS.sc=b.dataset.openScen;CS.custom={};renderScen();go('copy')});
+
+/* ---------- 圖像產生器 ---------- */
+const RATIO={'1:1':[1,1,'1080×1080'],'4:5':[4,5,'1080×1350'],'5:4':[5,4,'1250×1000'],'16:9':[16,9,'1280×720'],'9:16':[9,16,'1080×1920']};
+const STY=['高貴商務','溫馨居家','清新自然','活潑可愛','極簡現代'];
+const IT=[
+ {id:'web',name:'網站上架宣傳圖',d:'物件上架、電商主圖',ratio:'5:4',style:'高貴商務',hint:'物件名稱／主要特點／議題連結',
+  f:[{k:'name',l:'物件名稱',v:'青埔高鐵特區・景觀三房'},{k:'feat',l:'主要特點（用頓號分開）',v:'步行到高鐵站、三房雙衛、邊間採光、平面車位'},{k:'issue',l:'議題連結',v:'首購族也能用青安貸款'}],
+  ref:'物件實拍照（客廳、外觀、景觀各一張）',
+  A:'擅長房地產廣告的資深平面設計師',
+  short:v=>`用你的實力，畫一張叫好又叫座的房屋網站上架宣傳圖，物件是「${v.name}」，${v.ratio}`,
+  T:v=>`我要製作「${v.name}」的網站上架宣傳圖，吸引正在找房的人點進來看`,
+  M:v=>[`主標題用物件名稱，副標扣合議題「${v.issue}」`,`用 4 個圖示條列主要特點：${v.feat}`,'右下角放「立即預約看屋」按鈕']},
+ {id:'model',name:'模特代言推廣圖',d:'網紅開箱、看房分享',ratio:'1:1',style:'活潑可愛',hint:'角色定位／動作情境／傳遞氛圍',
+  f:[{k:'role',l:'角色定位',v:'台灣甜美 YouTuber'},{k:'act',l:'動作情境',v:'在新成屋客廳張開雙手開箱介紹空間'},{k:'mood',l:'傳遞氛圍（用頓號分開）',v:'採光超好、收納空間大、小家庭首選'}],
+  ref:'社區大廳或樣品屋的實景照',
+  A:'擅長生活風格的商業攝影師兼社群行銷企劃',
+  short:v=>`用你的實力創作一張，叫好叫座的，${v.role}開箱宣傳照，${v.ratio}`,
+  T:v=>`我要製作一張${v.role}${v.act}的推廣圖，讓人想約看房`,
+  M:v=>[`人物：${v.role}，表情自然、笑容親切`,`場景保留參考照的空間與家具配置`,`畫面加上 3 個對話框文字：${v.mood}`,'人物為 AI 生成虛擬模特，不要像任何真實名人']},
+ {id:'card',name:'社群經營乾貨圖',d:'IG 知識圖卡、比較表',ratio:'1:1',style:'高貴商務',hint:'設計風格／目標平台／參考主題',
+  f:[{k:'plat',l:'目標平台',v:'IG'},{k:'topic',l:'參考主題',v:'青安貸款是什麼？與一般首購貸款差在哪'},{k:'style2',l:'設計風格補充',v:'城市天際線背景、金色細線條'}],
+  ref:'原始資訊截圖或整理好的文字資料',
+  A:'專做房產知識圖卡的資訊設計師',
+  short:v=>`完整呈現並重新排版附圖內容，給我${v.ratio}的${v.plat}圖卡，重點色使用${v.k}，觀念色使用${v.c}，${v.style}風格`,
+  T:v=>`我要把「${v.topic}」做成一張${v.plat}乾貨圖卡，讓人想收藏轉傳`,
+  M:v=>['完整呈現附圖資訊並重新排版，不可增刪數字','用比較表格呈現，每列前面加小圖示',`設計風格補充：${v.style2}`,'底部加一行「小提醒」']},
+ {id:'cover',name:'自媒體企劃封面圖',d:'YT 頻道封面、影片縮圖',ratio:'16:9',style:'高貴商務',hint:'節目名稱／內容主軸／一句標語',
+  f:[{k:'show',l:'節目名稱',v:'房產實驗室'},{k:'topics',l:'內容主軸（用頓號分開）',v:'買房攻略、看房重點、區域分析、都市規劃、房市趨勢'},{k:'slogan',l:'一句標語',v:'用數據與實驗精神，探索更好的居住未來'}],
+  ref:'本人半身形象照（正面、背景單純）',
+  A:'YouTube 頻道視覺總監',
+  short:v=>`製作符合YT影片封面尺寸，節目主題為「${v.show}」，內容主要為${v.topics}`,
+  T:v=>`我要製作「${v.show}」頻道的封面圖，讓人一眼知道這個頻道在講什麼`,
+  M:v=>['人物放左側，保留參考照的臉部與服裝',`大標題「${v.show}」，副標「${v.slogan}」`,`用一排圖示列出內容主軸：${v.topics}`,'底部加「訂閱頻道｜按讚支持｜開啟小鈴鐺」']}
+];
+const IS={t:'web',v:{},ratio:{},style:{},ref:true,k:'#FE8E3F',c:'#3e4273',tab:'p'};
+IT.forEach(t=>{IS.v[t.id]={};t.f.forEach(f=>IS.v[t.id][f.k]=f.v);IS.ratio[t.id]=t.ratio;IS.style[t.id]=t.style});
+const isv=store.get('img');if(isv&&IT.some(t=>t.id===isv.t)){IS.t=isv.t;for(const id in IS.v){if(isv.v&&isv.v[id])Object.assign(IS.v[id],isv.v[id]);if(isv.ratio&&RATIO[isv.ratio[id]])IS.ratio[id]=isv.ratio[id];if(isv.style&&STY.includes(isv.style[id]))IS.style[id]=isv.style[id]}if(/^#[0-9a-f]{6}$/i.test(isv.k||''))IS.k=isv.k;if(/^#[0-9a-f]{6}$/i.test(isv.c||''))IS.c=isv.c;IS.ref=isv.ref!==false}
+const SWS=[['課堂範例','#FE8E3F','#3e4273'],['金棕質感','#C9A063','#2B2B2B'],['森林綠','#E9B44C','#2F5D50'],['海軍藍','#F2C14E','#1F3A5F'],['玫瑰粉','#E58FA0','#5A4A5E']];
+const itC=()=>IT.find(t=>t.id===IS.t);
+function vals(){const t=itC();return Object.assign({},IS.v[t.id],{ratio:IS.ratio[t.id],style:IS.style[t.id],k:IS.k.toUpperCase(),c:IS.c})}
+const splitL=s=>s.split(/[、,，／/]/).map(x=>x.trim()).filter(Boolean);
+function mockHTML(id,v,k,c,ratio){
+  const r=RATIO[ratio]; const wide=r[0]/r[1]; const mw=wide>=1?'100%':(Math.round(100*wide*1.05))+'%';
+  let in_='';
+  const L=x=>esc(x);
+  if(id==='web'){
+    const fs=splitL(v.feat||'').slice(0,4);
+    in_=`<div class="ph" data-l="物件實拍" style="right:0;top:0;bottom:0;width:${wide>=1?44:100}%;${wide>=1?'':'height:42%;bottom:auto'}"></div>
+    <div class="seal" style="right:4%;top:5%;width:15cqw;height:15cqw;font-size:3cqw">熱銷<br>推薦</div>
+    <div class="ttl" style="left:5%;top:${wide>=1?8:45}%;width:${wide>=1?50:90}%;font-size:${wide>=1?6:7.5}cqw">${L(v.name||'物件名稱')}</div>
+    <div class="feat" style="left:5%;top:${wide>=1?40:62}%;width:${wide>=1?50:90}%;font-size:2.8cqw">${fs.map(x=>`<div>${L(x)}</div>`).join('')}</div>
+    <div class="bar" style="left:0;right:0;bottom:0;height:13%;font-size:3cqw;justify-content:space-between;padding:0 4%"><span>${L(v.issue||'')}</span><span style="background:${k};padding:.6cqw 2cqw;border-radius:99px">立即預約看屋 ›</span></div>`;
+  }else if(id==='model'){
+    const ms=splitL(v.mood||'').slice(0,3);
+    in_=`<div class="ph" data-l="場景參考照" style="inset:0"></div>
+    <div class="person" style="left:${wide>=1?30:22}%;bottom:12%;width:${wide>=1?26:46}%;height:58%"></div>
+    <div class="hand" style="left:5%;top:9%;font-size:${wide>=1?8:10}cqw">開箱啦！</div>
+    ${ms.map((m,i)=>`<div class="tag2" style="right:4%;top:${30+i*11}%;font-size:3cqw;padding:1cqw 2.4cqw">${L(m)}</div>`).join('')}
+    <div class="bar" style="left:0;right:0;bottom:0;height:12%;font-size:3.6cqw;background:${k}">${L(v.role||'')}推薦</div>`;
+  }else if(id==='card'){
+    in_=`<div class="diag" style="left:-12%;top:-8%;width:40%;height:7%"></div>
+    <div class="ttl" style="left:6%;right:6%;top:8%;text-align:center;font-size:${wide>=1?6:7.5}cqw">${L((v.topic||'').split(/[？?]/)[0]||'主題')}<em>？</em></div>
+    <div class="tbl" style="left:7%;right:7%;top:${wide>1.3?32:30}%;">
+      <div class="h"><span>比較項目</span><span>方案 A</span><span>方案 B</span></div>
+      <div><span>利率</span><span>較低</span><span>較高</span></div>
+      <div><span>年限</span><span style="color:${k};font-weight:700">最長 40 年</span><span>20-30 年</span></div>
+      <div><span>寬限期</span><span style="color:${k};font-weight:700">最長 5 年</span><span>2~3 年</span></div>
+    </div>
+    <div class="bar" style="left:7%;width:22%;bottom:5%;height:8%;border-radius:99px;font-size:2.8cqw">小提醒</div>
+    <div style="position:absolute;left:31%;right:7%;bottom:6%;font-size:2.6cqw;font-weight:700;color:#3a3530">善用政策，<span style="color:${k}">安心成家！</span></div>`;
+  }else{
+    const ts=splitL(v.topics||'').slice(0,5);
+    in_=`<div class="diag k" style="left:-14%;top:30%;width:50%;height:60%"></div>
+    <div class="diag" style="right:-18%;bottom:-24%;width:40%;height:40%"></div>
+    <div class="person" style="left:${wide>=1?6:20}%;bottom:0;width:${wide>=1?24:56}%;height:${wide>=1?88:48}%"></div>
+    <div class="ttl" style="left:${wide>=1?38:6}%;right:5%;top:${wide>=1?12:6}%;font-size:${wide>=1?8:10}cqw">${L(v.show||'節目名稱')}</div>
+    <div class="bar" style="left:${wide>=1?36:4}%;right:${wide>=1?8:4}%;top:${wide>=1?38:22}%;height:${wide>=1?7:4}%;font-size:${wide>=1?2.2:2.8}cqw;transform:skewX(-14deg)">${L(v.slogan||'')}</div>
+    <div class="icons" style="left:${wide>=1?36:4}%;right:${wide>=1?6:4}%;top:${wide>=1?52:30}%;font-size:${wide>=1?1.8:2.6}cqw">${ts.map(x=>`<span>${L(x)}</span>`).join('')}</div>
+    <div class="bar" style="left:${wide>=1?36:0}%;right:${wide>=1?14:0}%;bottom:${wide>=1?8:0}%;height:${wide>=1?9:6}%;font-size:${wide>=1?2:2.6}cqw">訂閱頻道 ｜ 按讚支持 ｜ 開啟小鈴鐺</div>`;
+  }
+  return `<div class="mock" style="--k:${k};--c:${c};aspect-ratio:${r[0]}/${r[1]};width:${mw}">${in_}</div>`;
+}
+function renderImgStatic(){
+  $('#itype').innerHTML=IT.map(t=>`<button data-t="${t.id}" aria-pressed="${t.id===IS.t}"><b>${t.name}</b><span>${t.d}・預設 ${t.ratio}</span></button>`).join('');
+  const t=itC();
+  $('#iHint').textContent=t.hint;
+  $('#iFields').innerHTML=t.f.map(f=>`<div class="fld"><label for="if-${f.k}">${f.l}</label><input id="if-${f.k}" data-k="${f.k}" value="${esc(IS.v[t.id][f.k])}"></div>`).join('');
+  $('#iRefL').innerHTML=`我會上傳參考圖：<b>${esc(t.ref)}</b>`;
+  $('#iRef').checked=IS.ref;
+  $('#iRatio').innerHTML=Object.keys(RATIO).map(r=>`<button class="chip" data-r="${r}" aria-pressed="${r===IS.ratio[t.id]}">${r}<small style="opacity:.7;font-weight:400"> ${RATIO[r][2]}</small></button>`).join('');
+  $('#iStyle').innerHTML=STY.map(s=>`<button class="chip" data-st="${s}" aria-pressed="${s===IS.style[t.id]}">${s}</button>`).join('');
+  $('#swatches').innerHTML=SWS.map((s,i)=>`<button class="sw" data-sw="${i}"><i><em style="background:${s[1]}"></em><em style="background:${s[2]}"></em></i>${s[0]}</button>`).join('');
+  $('#kHex').value=IS.k;$('#kPick').value=IS.k.toLowerCase();$('#cHex').value=IS.c;$('#cPick').value=IS.c.toLowerCase();
+  updImg();
+}
+function imgPrompt(html){
+  const t=itC(),v=vals(),r=RATIO[v.ratio];
+  const V=x=>html?`<span class="v">${esc(x)}</span>`:x;
+  const M=[`畫面比例 ${V(v.ratio)}（建議 ${r[2]} 像素）`,`${V(v.style)}風格，重點色 ${V(v.k)}、觀念色 ${V(v.c)}`].concat(t.M(v).map(x=>html?esc(x):x));
+  M.push(IS.ref?`依照我上傳的${t.ref}，保留真實外觀與空間，不要改變格局`:'我沒有參考圖，請設計擬真但不指涉真實建案的畫面，不要出現真實建案名稱或商標');
+  M.push('畫面文字一律繁體中文，字要清楚、不可有錯字');
+  if(html)return `<span class="tag a">A</span>你是${V(t.A)}，\n<span class="tag t">T</span>${esc(t.T(v))}，\n<span class="tag m">M</span>請依照以下條件：\n`+M.map((m,i)=>`${i+1}. ${m}`).join('\n');
+  return `你是${t.A}，\n${t.T(v)}，\n請依照以下條件：\n`+M.map((m,i)=>`${i+1}. ${m}`).join('\n');
+}
+const IMG_FU=['標題字改成「＿＿＿」，其他都不要動','整體色調再明亮一點，像傍晚有暖光的感覺','把右上角的徽章拿掉，畫面留白多一點','同一張圖幫我改成 9:16 限時動態版本','人物表情再自然一點，不要太像廣告'];
+function updImg(){
+  const t=itC(),v=vals();
+  $('#mock').innerHTML=mockHTML(t.id,v,v.k,v.c,v.ratio);
+  $('#mockT').textContent=t.name;$('#mockS').textContent=`${v.ratio}・${RATIO[v.ratio][2]}・${v.style}`;
+  if(IS.tab==='s'){$('#imgP').innerHTML=esc(t.short(v))+(IS.ref?`\n\n<span class="note">（記得先上傳：${esc(t.ref)}）</span>`:'')}
+  else if(IS.tab==='p'){$('#imgP').innerHTML=imgPrompt(true)}
+  $('#imgF').innerHTML=IMG_FU.map(f=>`<li><span>${esc(f)}</span><button class="btn" data-cp="${esc(f)}">複製</button></li>`).join('');
+  $('#imgP').hidden=IS.tab==='f';$('#imgF').hidden=IS.tab!=='f';
+  $('#imgCopy').hidden=IS.tab==='f';
+  store.set('img',{t:IS.t,v:IS.v,ratio:IS.ratio,style:IS.style,k:IS.k,c:IS.c,ref:IS.ref});
+}
+$('#itype').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(!b)return;IS.t=b.dataset.t;renderImgStatic()});
+$('#iFields').addEventListener('input',e=>{const k=e.target.dataset.k;if(!k)return;IS.v[IS.t][k]=e.target.value;updImg()});
+$('#iRef').addEventListener('change',e=>{IS.ref=e.target.checked;updImg()});
+$('#iRatio').addEventListener('click',e=>{const b=e.target.closest('[data-r]');if(!b)return;IS.ratio[IS.t]=b.dataset.r;$$('#iRatio .chip').forEach(c=>c.setAttribute('aria-pressed',c===b));updImg()});
+$('#iStyle').addEventListener('click',e=>{const b=e.target.closest('[data-st]');if(!b)return;IS.style[IS.t]=b.dataset.st;$$('#iStyle .chip').forEach(c=>c.setAttribute('aria-pressed',c===b));updImg()});
+$('#swatches').addEventListener('click',e=>{const b=e.target.closest('[data-sw]');if(!b)return;const s=SWS[+b.dataset.sw];IS.k=s[1];IS.c=s[2];$('#kHex').value=s[1];$('#kPick').value=s[1].toLowerCase();$('#cHex').value=s[2];$('#cPick').value=s[2].toLowerCase();updImg()});
+function bindColor(pick,hex,key){
+  $(pick).addEventListener('input',e=>{IS[key]=e.target.value.toUpperCase();$(hex).value=IS[key];updImg()});
+  $(hex).addEventListener('input',e=>{let x=e.target.value.trim();if(!x.startsWith('#'))x='#'+x;if(/^#[0-9a-f]{6}$/i.test(x)){IS[key]=x.toUpperCase();$(pick).value=x.toLowerCase();updImg()}});
+}
+bindColor('#kPick','#kHex','k');bindColor('#cPick','#cHex','c');
+$$('[data-it]').forEach(b=>b.addEventListener('click',()=>{IS.tab=b.dataset.it;$$('[data-it]').forEach(x=>x.setAttribute('aria-selected',x===b));updImg()}));
+$('#imgCopy').addEventListener('click',()=>{const t=itC();copyText(IS.tab==='s'?t.short(vals()):imgPrompt(false),'已複製圖像指令',$('#imgP'))});
+
+/* ---------- 猜猜關鍵字 ---------- */
+const GR=[
+ {t:'網站上架宣傳圖｜316 不鏽鋼保溫瓶',type:'web',ratio:'5:4',v:{name:'316不鏽鋼真空保溫瓶',feat:'長效保溫保冷、316不鏽鋼內膽、密封防漏設計、時尚質感外觀',issue:'溫度・品味・生活'},k:'#9a6a2f',c:'#4a3320',
+  seen:['金棕色光影、木紋桌面、毛巾與綠色植物','「BEST SELLER 熱銷冠軍」金色徽章','四個圓形圖示＋「立即購買」按鈕','瓶身上的 PERFECT 字樣與 Stainless steel 316'],
+  real:'（上傳一張手拿保溫瓶的實拍照）\n用你的實力，畫一張叫好又叫座的電商宣傳圖，5:4',
+  right:['叫好又叫座','電商宣傳圖','5:4','上傳實拍照'],wrong:['金色光影','BEST SELLER 徽章','木紋桌面','立即購買按鈕','316 不鏽鋼','四個圖示'],
+  why:'指令只有一句話。光影、徽章、按鈕、圖示都是 AI 依「叫好又叫座的電商宣傳圖」自己補的；「316」是從實拍照瓶身上讀到的。參考照就是最強的關鍵字。'},
+ {t:'模特代言推廣圖｜質感生活家開箱',type:'model',ratio:'1:1',v:{role:'質感生活家',mood:'CP值超高！、設計簡約時尚、超大收納空間！'},k:'#e07a92',c:'#7a5a4a',
+  seen:['挑高木格柵大廳、紙箱與泡泡紙','長髮女生張開雙手、笑容親切','粉紅手寫字「質感生活家 開箱啦！」','對話框：CP值超高、設計簡約時尚、超大收納空間、組裝超簡單'],
+  real:'（上傳一張社區大廳的實景照）\n用你的實力創作一張，叫好叫座的，台灣甜美Youtuber開箱宣傳照，1:1',
+  right:['台灣甜美Youtuber','開箱宣傳照','叫好叫座','1:1','上傳大廳照'],wrong:['質感生活家','CP值超高','粉紅手寫字','紙箱','長髮','提升居家質感'],
+  why:'「台灣甜美 YouTuber」決定了人物與氣氛，「開箱」讓 AI 自己放上紙箱、品牌名和對話框。場景完全沿用上傳的大廳照，所以物件的真實感還在。'},
+ {t:'社群經營乾貨圖｜青安貸款是什麼？',type:'card',ratio:'1:1',v:{topic:'青安貸款是什麼？'},k:'#FE8E3F',c:'#3e4273',
+  seen:['深藍＋橘色配色、城市天際線背景','比較表：利率、貸款額度、最高年限、寬限期、申請資格、申辦管道','每列前的小圖示','底部「小提醒：善用青安貸款，幫助您安心成家！」'],
+  real:'（上傳一張原本排版普通的青安貸款資訊圖）\n完整呈現並重新排版附圖內容，給我1:1的IG圖卡，重點色使用#FE8E3F，觀念色使用#3e4273，高貴商務風格',
+  right:['完整呈現並重新排版','IG圖卡','1:1','#FE8E3F','#3e4273','高貴商務風格'],wrong:['城市天際線','比較表格','小提醒','每列小圖示','金色線條'],
+  why:'表格內容全部來自上傳的原圖，所以要說「完整呈現」避免 AI 亂改數字。色碼比「藍色、橘色」精準得多，風格詞「高貴商務」讓 AI 自己加上天際線和細線條。'}
+];
+const GS={i:0,sel:new Set(),done:false};
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+let gOrder=[];
+function renderGuess(newOrder){
+  const g=GR[GS.i];
+  if(newOrder||!gOrder.length)gOrder=shuffle(g.right.concat(g.wrong));
+  $('#rounds').innerHTML=GR.map((x,i)=>`<button class="chip" data-g="${i}" aria-pressed="${i===GS.i}">第 ${i+1} 關｜${x.t.split('｜')[0]}</button>`).join('');
+  $('#gTitle').textContent=g.t;$('#gRatio').textContent=g.ratio;
+  $('#gMock').innerHTML=mockHTML(g.type,g.v,g.k,g.c,g.ratio);
+  $('#gSeen').innerHTML='<li style="list-style:none;margin-left:-18px;font-weight:700;color:var(--ink)">成品上看得到：</li>'+g.seen.map(s=>`<li>${esc(s)}</li>`).join('');
+  $('#gChips').innerHTML=gOrder.map(w=>{let cls='';if(GS.done){const ok=g.right.includes(w),on=GS.sel.has(w);cls=ok&&on?'hit':ok?'miss':on?'wrong':''}return `<button class="gchip ${cls}" data-w="${esc(w)}" aria-pressed="${GS.sel.has(w)}" ${GS.done?'disabled':''}>${esc(w)}</button>`}).join('');
+  const out=$('#gOut');
+  if(GS.done){
+    const hit=g.right.filter(w=>GS.sel.has(w)).length, wr=[...GS.sel].filter(w=>!g.right.includes(w)).length;
+    out.hidden=false;
+    out.innerHTML=`<div class="score">猜中 ${hit}／${g.right.length}${wr?`，多選 ${wr} 個`:''}</div>
+    <div class="legend2"><span><i style="border-color:var(--ok);background:var(--ok-soft)"></i>猜中</span><span><i style="border-color:var(--ok);border-style:dashed"></i>漏掉的</span><span><i style="border-color:var(--bad);background:var(--bad-soft)"></i>AI 自己補的</span></div>
+    <div><b>實際指令</b><div class="realp prompt" style="margin-top:6px">${esc(g.real)}</div></div>
+    <p>${esc(g.why)}</p>
+    <div class="row">${GS.i<GR.length-1?'<button class="btn primary" id="gNext">下一關</button>':'<button class="btn primary" data-goto="image">換你做做看</button>'}<button class="btn" id="gCopy">複製實際指令</button></div>`;
+  }else out.hidden=true;
+}
+$('#rounds').addEventListener('click',e=>{const b=e.target.closest('[data-g]');if(!b)return;GS.i=+b.dataset.g;GS.sel=new Set();GS.done=false;renderGuess(true)});
+$('#gChips').addEventListener('click',e=>{const b=e.target.closest('[data-w]');if(!b||GS.done)return;const w=b.dataset.w;GS.sel.has(w)?GS.sel.delete(w):GS.sel.add(w);b.setAttribute('aria-pressed',GS.sel.has(w))});
+$('#gReveal').addEventListener('click',()=>{if(!GS.sel.size){toast('先點選幾個你覺得有出現的關鍵字');return}GS.done=true;renderGuess(false)});
+$('#gReset').addEventListener('click',()=>{GS.sel=new Set();GS.done=false;renderGuess(true)});
+$('#gOut').addEventListener('click',e=>{if(e.target.id==='gNext'){GS.i++;GS.sel=new Set();GS.done=false;renderGuess(true)}else if(e.target.id==='gCopy'){copyText(GR[GS.i].real.split('\n').pop(),'已複製實際指令')}});
+
+/* ---------- 練習 ---------- */
+const PR=[['web','網站<br>上架','r',['物件名稱','主要特點','議題連結']],['model','模特<br>代言','o',['角色定位','動作情境','傳遞氛圍']],['card','社群<br>乾貨','g',['設計風格','目標平台','參考主題']]];
+$('#prac').innerHTML=PR.map(p=>`<button class="circ" data-pt="${p[0]}"><span class="dot ${p[2]}">${p[1]}</span><span><ul>${p[3].map(x=>`<li>${x}</li>`).join('')}</ul><small>點我開始做 →</small></span></button>`).join('');
+$('#prac').addEventListener('click',e=>{const b=e.target.closest('[data-pt]');if(!b)return;IS.t=b.dataset.pt;renderImgStatic();go('image')});
+let tLeft=720,tRun=null;
+const fmt=s=>`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+function drawClock(){$('#clock').textContent=fmt(tLeft);$('#clock').classList.toggle('done',tLeft<=0)}
+$('#tStart').addEventListener('click',()=>{
+  if(tRun){clearInterval(tRun);tRun=null;$('#tStart').textContent='繼續';return}
+  if(tLeft<=0)tLeft=+$('#tLen').value*60;
+  $('#tStart').textContent='暫停';
+  tRun=setInterval(()=>{tLeft--;drawClock();if(tLeft<=0){clearInterval(tRun);tRun=null;$('#tStart').textContent='開始';toast('時間到！請準備分享作品')}},1000);
+});
+function resetT(){clearInterval(tRun);tRun=null;tLeft=+$('#tLen').value*60;$('#tStart').textContent='開始';drawClock()}
+$('#tReset').addEventListener('click',resetT);$('#tLen').addEventListener('change',resetT);
+
+/* ---------- 心得 ---------- */
+const SP={s1:['網站上架宣傳圖','模特代言推廣圖','IG 乾貨圖卡','YT 封面圖','物件宣傳文'],s3:['驚喜','比想像中簡單','有點卡關','越改越順','停不下來']};
+$$('.spark').forEach(d=>{const id=d.dataset.for;d.innerHTML=SP[id].map(x=>`<button class="btn" data-sp="${id}">${x}</button>`).join('')});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-sp]');if(!b)return;const el=$('#'+b.dataset.sp);el.value=el.value.trim()?el.value.trim()+'、'+b.textContent:b.textContent;updShare()});
+function shareText(){
+  const v=k=>$('#'+k).value.trim();
+  const L=[];
+  L.push(`我與 AI 一起創作的主題為：${v('s1')||'＿＿＿'}。`);
+  L.push(`其中讓我覺得有趣＆驚艷的作品是：${v('s2')||'＿＿＿'}。`);
+  L.push(`過程中，我的感覺是${v('s3')||'＿＿＿'}；收穫是${v('s4')||'＿＿＿'}。`);
+  return L.join('\n');
+}
+function updShare(){$('#shOut').textContent=shareText();store.set('share',['s1','s2','s3','s4'].map(k=>$('#'+k).value))}
+const shv=store.get('share');if(Array.isArray(shv))['s1','s2','s3','s4'].forEach((k,i)=>$('#'+k).value=shv[i]||'');
+['s1','s2','s3','s4'].forEach(k=>$('#'+k).addEventListener('input',updShare));
+$('#shCopy').addEventListener('click',()=>copyText(shareText(),'已複製分享稿',$('#shOut')));
+$('#shClear').addEventListener('click',()=>{['s1','s2','s3','s4'].forEach(k=>$('#'+k).value='');updShare();toast('已清空')});
+
+/* ---------- 分頁 ---------- */
+const VIEWS=['atm','copy','image','guess','practice','share'];
+function show(v){if(!VIEWS.includes(v))v='atm';$$('[data-v]').forEach(s=>s.hidden=s.dataset.v!==v);$$('[data-go]').forEach(b=>b.setAttribute('aria-selected',b.dataset.go===v))}
+function go(v){if(location.hash.slice(1)===v)show(v);else location.hash=v;window.scrollTo({top:0,behavior:'auto'})}
+$$('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+document.addEventListener('click',e=>{const b=e.target.closest('[data-goto]');if(b)go(b.dataset.goto)});
+window.addEventListener('hashchange',()=>show(location.hash.slice(1)));
+$$('[data-jump]').forEach(b=>{const t=$('#'+b.dataset.jump);b.addEventListener('click',()=>t.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}));if(window.IntersectionObserver)new IntersectionObserver(es=>es.forEach(en=>b.classList.toggle('away',en.isIntersecting))).observe(t)});
+
+renderScen();renderImgStatic();renderGuess(true);drawClock();updShare();show(location.hash.slice(1));
+})();
+</script>
+</body>
+</html>
