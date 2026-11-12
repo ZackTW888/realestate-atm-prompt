@@ -6,200 +6,204 @@
 <style>body{margin:0}[hidden]{display:none!important}</style>
 <title>AI 房仲指令工坊</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="1119 桃園不動產仲介課程：用 ATM（角色／目標／方法）寫出房仲文案指令與社群圖像指令，含互動產生器、猜關鍵字、課堂練習與心得分享">
+<meta name="description" content="1119 桃園不動產仲介課程：用 ATM（角色／目標／方法）寫出房仲文案指令與社群圖像指令，課後用按鈕完成心得分享稿與 AI 示意圖指令">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=Noto+Sans+TC:wght@400;500;700&family=Nunito:wght@600;700;800&display=swap">
 <style>
-/* Layout: 投影片同款（白底＋藍色斜帶＋奶茶金膠囊標題）；產生器左欄步驟、右欄黏住的輸出；手機上下堆疊 */
+/* Layout: 依 AI效能實驗室 CIS v1.0 —— 效能紫主橫幅（文字在左、開口弧在右）、雲白＋晨霧紫大面積留白、火花黃只給行動按鈕、清新青只做圖形；產生器左欄步驟、右欄黏住的輸出 */
 :root{
-  --bg:#f6f5f1; --panel:#ffffff; --ink:#24253a; --muted:#62647a; --line:#e3dfd6; --well:#f2efe8;
-  --navy:#3e4273; --band:#556a9c; --on-dark:#ffffff;
-  --tan:#a89170; --on-tan:#ffffff; --tan-soft:#f4efe6; --tan-ink:#7c6646;
-  --org:#ef8c45; --org-ink:#bf5f1b; --org-soft:#fdeee2; --blue:#1f4e9c;
-  --cream:#fdf6d6; --cream-line:#efd98a; --gold:#f2c14e;
-  --a:#a85e55; --a-line:#d29a92; --t:#857a2b; --t-line:#cdbf72; --m:#7b5ca0; --m-line:#b99bd0;
-  --ok:#2f7d4f; --ok-soft:#e5f3ea; --bad:#b4392f; --bad-soft:#fbe8e6;
-  --f-disp:"LXGW WenKai TC","Noto Sans TC","PingFang TC","Microsoft JhengHei",serif;
-  --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --bg:#ffffff; --mist:#efeaf7; --panel:#ffffff; --ink:#2e2640; --muted:#615a72; --line:#e4dfee; --well:#f6f3fb;
+  --purple:#603e8d; --purple-80:#806599; --purple-40:#bfb2d1; --on-purple:#ffffff;
+  --yellow:#ffc94a; --on-yellow:#2e2640; --teal:#36c2b4;
+  --tag-a:#603e8d; --tag-t:#2e2640; --tag-m:#2e2640;
+  --ok:#2c7a5f; --bad:#b4392f;
+  --f-disp:"Nunito","Huninn","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --f-body:"Nunito","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
   --f-mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#15161f; --panel:#1f2030; --ink:#ececf3; --muted:#a7a9bc; --line:#35374b; --well:#1a1b27;
-  --navy:#3e4273; --band:#44578a; --on-dark:#ffffff;
-  --tan:#8c7a5d; --on-tan:#ffffff; --tan-soft:#2b271f; --tan-ink:#dcc7a0;
-  --org:#f0a060; --org-ink:#f3ac70; --org-soft:#382a1c; --blue:#9db8ef;
-  --cream:#2c291b; --cream-line:#5e5430; --gold:#d9ad45;
-  --a:#ec9f95; --a-line:#8e5d57; --t:#dccd7c; --t-line:#7d7440; --m:#c8acec; --m-line:#6f5a8c;
-  --ok:#7fd3a0; --ok-soft:#1d3327; --bad:#f19a90; --bad-soft:#3a2120;
+  --bg:#1b1626; --mist:#262038; --panel:#221c30; --ink:#efeaf7; --muted:#b4abc6; --line:#3a3150; --well:#1f1a2c;
+  --purple:#b9a3dc; --purple-80:#a48cc9; --purple-40:#5a4a78; --on-purple:#ffffff;
+  --yellow:#ffc94a; --on-yellow:#2e2640; --teal:#36c2b4;
+  --tag-a:#cdb9ef; --tag-t:#2e2640; --tag-m:#2e2640;
+  --ok:#7fd3b0; --bad:#f19a90;
   color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#15161f; --panel:#1f2030; --ink:#ececf3; --muted:#a7a9bc; --line:#35374b; --well:#1a1b27;
-  --navy:#3e4273; --band:#44578a; --on-dark:#ffffff;
-  --tan:#8c7a5d; --on-tan:#ffffff; --tan-soft:#2b271f; --tan-ink:#dcc7a0;
-  --org:#f0a060; --org-ink:#f3ac70; --org-soft:#382a1c; --blue:#9db8ef;
-  --cream:#2c291b; --cream-line:#5e5430; --gold:#d9ad45;
-  --a:#ec9f95; --a-line:#8e5d57; --t:#dccd7c; --t-line:#7d7440; --m:#c8acec; --m-line:#6f5a8c;
-  --ok:#7fd3a0; --ok-soft:#1d3327; --bad:#f19a90; --bad-soft:#3a2120;
+  --bg:#1b1626; --mist:#262038; --panel:#221c30; --ink:#efeaf7; --muted:#b4abc6; --line:#3a3150; --well:#1f1a2c;
+  --purple:#b9a3dc; --purple-80:#a48cc9; --purple-40:#5a4a78; --on-purple:#ffffff;
+  --yellow:#ffc94a; --on-yellow:#2e2640; --teal:#36c2b4;
+  --tag-a:#cdb9ef; --tag-t:#2e2640; --tag-m:#2e2640;
+  --ok:#7fd3b0; --bad:#f19a90;
   color-scheme:dark}
 
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.65}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.7}
 .pad{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.wrap{max-width:1240px;margin:0 auto}
-h1,h2,h3,h4{text-wrap:balance;margin:0}
+.wrap{max-width:1200px;margin:0 auto}
+h1,h2,h3,h4{text-wrap:balance;margin:0;line-height:1.35}
 p{margin:0}
 button,input,select,textarea{font:inherit;color:inherit}
 button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-:focus-visible{outline:2px solid var(--org);outline-offset:2px}
-a{color:var(--blue)}
+:focus-visible{outline:2px solid var(--purple);outline-offset:2px}
+a{color:var(--purple)}
 
-/* 標頭：白底＋斜帶（投影片版型） */
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--panel)}
-.mast{position:relative;overflow:hidden;background:var(--panel);padding-block:44px 28px;border-bottom:1px solid var(--line)}
-.mast::before,.mast::after{content:"";position:absolute;height:64px;width:520px;background:var(--band);transform:rotate(-21deg)}
-.mast::before{left:-200px;top:-40px}
-.mast::after{right:-200px;bottom:-14px}
-.mast-in{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px 28px;align-items:center}
-.hash{font-family:var(--f-disp);font-size:clamp(17px,2.2vw,21px);color:var(--navy);letter-spacing:.12em}
-:root[data-theme="dark"] .hash{color:var(--ink)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hash{color:var(--ink)}}
-.mast h1{display:inline-block;margin-top:8px;font-family:var(--f-disp);font-weight:700;font-size:clamp(28px,5vw,46px);letter-spacing:.1em;line-height:1.25;background:var(--tan);color:var(--on-tan);padding:6px 30px;border-radius:999px}
-.mast p{margin-top:12px;max-width:60ch;color:var(--muted)}
-.keys{display:grid;gap:8px}
-.key{display:flex;align-items:center;gap:10px;background:var(--panel);padding:4px 0}
-.key b{flex:none;font-size:16px;font-weight:700;padding:3px 10px;border-radius:9px;border:2.5px solid;background:var(--panel);color:var(--ink);min-width:74px;text-align:center}
-.key.a b{border-color:var(--a-line)}.key.t b{border-color:var(--t-line)}.key.m b{border-color:var(--m-line)}
-.key span{font-size:13.5px;font-weight:500;color:var(--muted)}
+/* 主橫幅：效能紫底（固定品牌色，兩種主題相同） */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:#603e8d}
+.hero{background:#603e8d;color:#fff;position:relative;overflow:hidden}
+.hero-in{display:grid;grid-template-columns:minmax(0,55fr) minmax(0,45fr);gap:24px;align-items:center;padding-block:40px 36px;position:relative}
+.brandline{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;letter-spacing:.04em}
+.brandline .dot{width:6px;height:6px;border-radius:50%;background:#ffc94a}
+.eyebrow{margin-top:18px;color:#ffc94a;font-weight:700;letter-spacing:.08em;font-size:14px}
+.hero h1{font-family:var(--f-disp);font-weight:700;font-size:clamp(34px,5.4vw,56px);letter-spacing:.04em;line-height:1.2;margin-top:6px}
+.hero p.lead{margin-top:12px;max-width:34em;color:#efeaf7;font-size:16.5px}
+.hero .tagline{margin-top:18px;font-size:14px;color:#efeaf7;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.hero .tagline b{color:#ffc94a;font-family:var(--f-disp)}
+.hero-art{justify-self:center;width:min(100%,300px)}
+.hero-art svg{display:block;width:100%;height:auto}
+.rhythm{position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:16px;display:flex;gap:10px}
+.rhythm i{display:block;width:44px;height:7px;border-radius:7px;background:#efeaf7;opacity:.55;transform:rotate(-37deg)}
+.rhythm i:nth-child(2){background:#36c2b4;opacity:1}
 
 .nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:25;background:var(--panel);border-bottom:1px solid var(--line)}
-.nav .wrap{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.nav .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
 .nav .wrap::-webkit-scrollbar{display:none}
-.nav button{flex:none;background:none;border:0;border-bottom:3px solid transparent;padding:12px 14px 10px;cursor:pointer;font-size:14.5px;color:var(--muted);white-space:nowrap}
-.nav button[aria-selected="true"]{color:var(--ink);font-weight:700;border-bottom-color:var(--org)}
-main{padding-block:26px 72px}
-.vh{margin-bottom:20px;display:grid;gap:10px;justify-items:start}
-.pill{display:inline-block;font-family:var(--f-disp);font-weight:700;font-size:clamp(20px,2.8vw,26px);letter-spacing:.12em;background:var(--tan);color:var(--on-tan);padding:4px 24px;border-radius:999px}
-.vh p{color:var(--muted);max-width:72ch}
-.tagbox{display:inline-block;border:2px dashed var(--org);color:var(--org-ink);font-family:var(--f-disp);font-weight:700;padding:1px 10px;font-size:15px;margin-left:8px;vertical-align:middle}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;min-width:0}
+.nav button{flex:none;background:none;border:0;border-bottom:3px solid transparent;padding:13px 14px 11px;cursor:pointer;font-size:15px;color:var(--muted);white-space:nowrap;font-weight:500}
+.nav button b{font-family:"Nunito",sans-serif;font-weight:800;margin-right:6px;color:var(--purple-40)}
+.nav button[aria-selected="true"]{color:var(--purple);font-weight:700;border-bottom-color:var(--purple)}
+.nav button[aria-selected="true"] b{color:var(--purple)}
+main{padding-block:32px 80px}
+
+/* 章節標題：青色編號＋紫色標題（CIS 版式） */
+.vh{margin-bottom:22px;display:grid;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.vh h2{font-family:var(--f-disp);font-size:clamp(26px,3.4vw,40px);font-weight:700;color:var(--purple);letter-spacing:.03em;display:flex;align-items:baseline;gap:14px}
+.vh h2 .no{font-family:"Nunito",sans-serif;font-weight:800;color:var(--teal)}
+.vh p{color:var(--muted);max-width:68ch}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;min-width:0}
+.card.mist{background:var(--mist);border-color:transparent}
 .note{font-size:13px;color:var(--muted)}
-.callout{background:var(--cream);border:1.5px solid var(--cream-line);border-radius:12px;padding:12px 16px;color:var(--ink);font-weight:500}
-.callout b{color:var(--blue)}
+.callout{background:var(--mist);border-left:5px solid var(--yellow);border-radius:0 12px 12px 0;padding:12px 16px;color:var(--ink)}
+.callout b{color:var(--purple)}
+.spark{display:inline-block;width:.95em;height:.95em;vertical-align:-.1em;flex:none}
 
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid var(--line);background:var(--panel);border-radius:10px;padding:7px 14px;cursor:pointer;font-size:14px;font-weight:700;line-height:1.3;text-decoration:none;color:var(--ink)}
-.btn:hover{border-color:var(--org)}
-.btn.primary{background:var(--org);border-color:var(--org);color:#fff}
-:root[data-theme="dark"] .btn.primary{color:#1b1206}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.primary{color:#1b1206}}
-.btn.navy{background:var(--navy);border-color:var(--navy);color:var(--on-dark)}
-.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid var(--purple);background:transparent;color:var(--purple);border-radius:999px;padding:8px 18px;cursor:pointer;font-size:14.5px;font-weight:700;line-height:1.3;text-decoration:none}
+.btn:hover{background:var(--mist)}
+.btn.primary{background:var(--yellow);border-color:var(--yellow);color:var(--on-yellow)}
+.btn.primary:hover{filter:brightness(.96)}
+.btn.small{padding:4px 12px;font-size:13px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 
-/* ATM 架構頁 */
-.atm3{display:grid;gap:14px}
-.atmrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center}
-.lbl{font-size:19px;font-weight:700;padding:6px 14px;border-radius:12px;border:3px solid;background:var(--panel);min-width:104px;text-align:center}
-.lbl.a{border-color:var(--a-line)}.lbl.t{border-color:var(--t-line)}.lbl.m{border-color:var(--m-line)}
-.atmrow p{font-size:clamp(16px,2vw,20px);font-weight:700;color:var(--muted);letter-spacing:.04em}
-.vs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:22px}
-.vs h3{font-size:17px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.badge{font-size:12.5px;font-weight:700;padding:2px 10px;border-radius:999px}
-.badge.bad{background:var(--bad-soft);color:var(--bad)}.badge.ok{background:var(--ok-soft);color:var(--ok)}
-.bubble{margin-top:10px;background:var(--well);border-radius:16px;padding:10px 14px;font-weight:500;width:fit-content;max-width:100%}
-.aiout{margin-top:10px;border-left:3px solid var(--line);padding-left:12px;color:var(--muted);font-size:14px}
+/* 01 ATM */
+.atm3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.atmc{display:grid;gap:8px;align-content:start}
+.atmc .big{font-family:"Nunito",sans-serif;font-weight:800;font-size:48px;line-height:1;color:var(--purple)}
+.atmc h3{font-family:var(--f-disp);font-size:22px;color:var(--purple)}
+.atmc p{color:var(--ink)}
+.atmc .q{font-size:14px;color:var(--muted)}
+.lbl{display:inline-block;font-size:13px;font-weight:700;padding:2px 10px;border-radius:999px;line-height:1.5;white-space:nowrap}
+.lbl.a{background:var(--purple);color:#fff}
+:root[data-theme="dark"] .lbl.a{color:#2e2640}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .lbl.a{color:#2e2640}}
+.lbl.t{background:var(--yellow);color:#2e2640}
+.lbl.m{background:var(--teal);color:#2e2640}
+.vs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:20px}
+.vs h3{font-size:18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:var(--ink)}
+.badge{font-size:12.5px;font-weight:700;padding:2px 12px;border-radius:999px;border:1.5px solid}
+.badge.bad{color:var(--muted);border-color:var(--line)}
+.badge.ok{color:var(--purple);border-color:var(--purple)}
+.bubble{margin-top:12px;background:var(--well);border-radius:14px;padding:10px 14px;font-weight:500;width:fit-content;max-width:100%}
+.aiout{margin-top:12px;border-left:3px solid var(--line);padding-left:12px;color:var(--muted);font-size:14.5px}
 .aiout b{color:var(--ink)}
-.exs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:22px}
+.exs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:14px}
 .ex{display:grid;gap:10px;align-content:start}
-.ex h3{font-size:16px}
-.exline{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;font-weight:700;color:var(--blue);line-height:1.55}
-.exline .lbl{font-size:13px;min-width:0;padding:1px 8px;border-width:2px;border-radius:8px;color:var(--ink)}
-.hl{color:var(--org-ink)}
-.ex .row{margin-top:4px}
-.sub{font-size:18px;font-weight:700;margin:30px 0 4px;display:flex;align-items:center;gap:10px}
-.sub::before{content:"";width:6px;height:20px;border-radius:3px;background:var(--org)}
+.ex h3{font-size:17px;color:var(--purple);font-family:var(--f-disp)}
+.exline{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;font-weight:500;line-height:1.6}
+.hl{color:var(--purple);font-weight:700;background:linear-gradient(transparent 68%,rgba(255,201,74,.55) 68%)}
+.sub{font-family:var(--f-disp);font-size:24px;font-weight:700;color:var(--purple);margin:40px 0 4px}
 
-/* 產生器共用 */
-.gen{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:20px;align-items:start}
+/* 產生器 */
+.gen{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:22px;align-items:start}
 .steps{display:grid;gap:14px}
-.step h3{font-size:15.5px;display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.step h3 .n{flex:none;width:24px;height:24px;border-radius:50%;background:var(--navy);color:var(--on-dark);display:grid;place-items:center;font-size:13px}
-.step h3 small{font-weight:500;color:var(--muted);font-size:12.5px}
+.step h3{font-size:16px;display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.step h3 .n{flex:none;width:28px;height:28px;border-radius:50%;background:var(--purple);color:var(--on-purple);display:grid;place-items:center;font-size:14px;font-family:"Nunito",sans-serif;font-weight:800}
+:root[data-theme="dark"] .step h3 .n{color:#2e2640}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .step h3 .n{color:#2e2640}}
+.step h3 small{font-weight:500;color:var(--muted);font-size:13px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{border:1.5px solid var(--line);background:var(--panel);border-radius:999px;padding:6px 13px;cursor:pointer;font-size:14px;text-align:left;line-height:1.4}
-.chip:hover{border-color:var(--org)}
-.chip[aria-pressed="true"]{background:var(--org-soft);border-color:var(--org);color:var(--org-ink);font-weight:700}
-.chip.a[aria-pressed="true"]{border-color:var(--a-line);background:var(--panel);color:var(--a);box-shadow:inset 0 0 0 1.5px var(--a-line)}
-.chip.m{border-radius:10px}
-.chip.m[aria-pressed="true"]{border-color:var(--m-line);background:var(--panel);color:var(--m);box-shadow:inset 0 0 0 1.5px var(--m-line)}
-.chip.m[aria-pressed="true"]::before{content:"✓ "}
-.scen{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.scen button{border:1.5px solid var(--line);background:var(--panel);border-radius:12px;padding:10px 12px;cursor:pointer;text-align:left;display:grid;gap:2px}
-.scen button b{font-size:14.5px}
-.scen button span{font-size:12.5px;color:var(--muted);line-height:1.4}
-.scen button:hover{border-color:var(--org)}
-.scen button[aria-pressed="true"]{border-color:var(--navy);box-shadow:inset 0 0 0 1.5px var(--navy);background:var(--tan-soft)}
+.chip{border:1.5px solid var(--line);background:var(--panel);border-radius:999px;padding:6px 14px;cursor:pointer;font-size:14px;text-align:left;line-height:1.45}
+.chip:hover{border-color:var(--purple-40)}
+.chip[aria-pressed="true"]{background:var(--mist);border-color:var(--purple);color:var(--purple);font-weight:700}
+.chip.m{border-radius:12px}
+.chip.m[aria-pressed="true"]::before{content:"✓ ";color:var(--teal);font-weight:800}
+.scen,.itype{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.itype{grid-template-columns:repeat(2,minmax(0,1fr))}
+.scen button,.itype button{border:1.5px solid var(--line);background:var(--panel);border-radius:12px;padding:10px 12px;cursor:pointer;text-align:left;display:grid;gap:2px}
+.scen button b,.itype button b{font-size:15px}
+.scen button span,.itype button span{font-size:12.5px;color:var(--muted);line-height:1.45}
+.scen button:hover,.itype button:hover{border-color:var(--purple-40)}
+.scen button[aria-pressed="true"],.itype button[aria-pressed="true"]{border-color:var(--purple);background:var(--mist)}
+.scen button[aria-pressed="true"] b,.itype button[aria-pressed="true"] b{color:var(--purple)}
 .fld{display:grid;gap:4px;margin-top:10px}
 .fld label{font-size:13px;font-weight:700;color:var(--muted)}
-.fld input,.fld textarea,.fld select{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:8px 11px;background:var(--panel);font-size:14.5px}
-.fld textarea{resize:vertical;min-height:64px;line-height:1.55}
-.fld input:focus,.fld textarea:focus{border-color:var(--org);outline:none}
+.fld input,.fld textarea,.fld select{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--panel);font-size:15px}
+.fld textarea{resize:vertical;min-height:64px;line-height:1.6}
+.fld input:focus,.fld textarea:focus{border-color:var(--purple);outline:none}
 .flds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}
 .flds .full{grid-column:1/-1}
-.tprev{margin-top:12px;padding:10px 12px;border-radius:10px;background:var(--well);font-size:14px}
-.tprev b{color:var(--t)}
+.tprev{margin-top:12px;padding:10px 12px;border-radius:10px;background:var(--well);font-size:14.5px}
 
-.out{position:sticky;top:calc(env(safe-area-inset-top,0px) + 60px);display:grid;gap:12px}
+.out{position:sticky;top:calc(env(safe-area-inset-top,0px) + 64px);display:grid;gap:14px}
 .out-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;min-width:0}
-.out-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px 0 12px;flex-wrap:wrap}
-.tabs{display:flex;gap:2px}
+.out-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 14px 0;flex-wrap:wrap}
+.tabs{display:flex;gap:2px;flex-wrap:wrap}
 .tabs button{border:0;background:none;padding:8px 12px;border-radius:10px 10px 0 0;cursor:pointer;font-size:14px;color:var(--muted);font-weight:700}
-.tabs button[aria-selected="true"]{background:var(--well);color:var(--ink)}
-.out-body{background:var(--well);padding:16px;margin:0 12px 12px;border-radius:0 12px 12px 12px;min-height:180px}
-.prompt{white-space:pre-wrap;word-break:break-word;font-size:15px;line-height:1.75}
-.prompt .tag{display:inline-block;font-size:12px;font-weight:700;padding:0 7px;border-radius:6px;border:2px solid;margin-right:6px;vertical-align:1px;background:var(--panel)}
-.prompt .tag.a{border-color:var(--a-line);color:var(--a)}.prompt .tag.t{border-color:var(--t-line);color:var(--t)}.prompt .tag.m{border-color:var(--m-line);color:var(--m)}
-.prompt .v{color:var(--org-ink);font-weight:700}
+.tabs button[aria-selected="true"]{background:var(--mist);color:var(--purple)}
+.out-body{background:var(--mist);padding:16px;margin:0 14px 14px;border-radius:0 12px 12px 12px;min-height:160px}
+.prompt{white-space:pre-wrap;word-break:break-word;font-size:15.5px;line-height:1.8}
+.prompt .tag{display:inline-block;font-size:12px;font-weight:800;font-family:"Nunito",sans-serif;padding:0 8px;border-radius:999px;margin-right:6px;vertical-align:1px}
+.prompt .tag.a{background:var(--purple);color:#fff}
+:root[data-theme="dark"] .prompt .tag.a{color:#2e2640}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .prompt .tag.a{color:#2e2640}}
+.prompt .tag.t{background:var(--yellow);color:#2e2640}.prompt .tag.m{background:var(--teal);color:#2e2640}
+.prompt .v{color:var(--purple);font-weight:700}
 .fu{display:grid;gap:8px;margin:0;padding:0;list-style:none}
-.fu li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:14px}
-.fu li button{font-size:12.5px;padding:4px 10px}
-.check{display:grid;gap:6px;font-size:13.5px;margin:0;padding-left:18px}
+.fu li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--panel);border-radius:10px;padding:8px 12px;font-size:14.5px}
+.ticks{display:grid;gap:8px;font-size:14px;margin:0;padding:0;list-style:none}
+.ticks li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;align-items:start}
+.ticks li svg{width:20px;height:12px;margin-top:6px}
 .jump{display:none}
 
 /* 圖像產生器 */
-.itype{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.itype button{border:1.5px solid var(--line);background:var(--panel);border-radius:12px;padding:10px 12px;cursor:pointer;text-align:left;display:grid;gap:2px}
-.itype button b{font-size:14.5px}
-.itype button span{font-size:12.5px;color:var(--muted)}
-.itype button[aria-pressed="true"]{border-color:var(--navy);box-shadow:inset 0 0 0 1.5px var(--navy);background:var(--tan-soft)}
 .colors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .cpick{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:10px;padding:6px 8px}
 .cpick input[type=color]{width:34px;height:30px;border:0;padding:0;background:none;cursor:pointer;flex:none}
 .cpick input[type=text]{border:0;width:100%;min-width:0;font-family:var(--f-mono);font-size:14px;background:transparent;padding:4px}
 .cpick input[type=text]:focus{outline:none}
-.swatches{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.swatches{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .sw{border:1.5px solid var(--line);border-radius:999px;padding:3px 10px 3px 4px;background:var(--panel);cursor:pointer;font-size:12.5px;display:flex;align-items:center;gap:6px}
 .sw i{display:flex;border-radius:999px;overflow:hidden}
 .sw i em{width:14px;height:18px;display:block}
-.refrow{display:flex;gap:10px;align-items:flex-start;background:var(--cream);border:1.5px solid var(--cream-line);border-radius:12px;padding:10px 12px}
-.refrow input{margin-top:5px;width:18px;height:18px;accent-color:var(--org);flex:none}
-.refrow label{font-size:14px;cursor:pointer}
+.refrow{display:flex;gap:10px;align-items:flex-start;background:var(--mist);border-radius:12px;padding:10px 12px}
+.refrow input{margin-top:6px;width:18px;height:18px;accent-color:#603e8d;flex:none}
+.refrow label{font-size:14.5px;cursor:pointer}
 
-/* 示意圖（畫面模擬，固定淺色當作一張圖） */
-.mock-wrap{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:8px}
-.mock-cap{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--muted);flex-wrap:wrap}
-.mock{--k:#FE8E3F;--c:#3e4273;position:relative;width:100%;max-width:100%;margin:0 auto;overflow:hidden;border-radius:8px;background:#f3efe8;color:#2a2a35;container-type:inline-size;font-family:var(--f-body)}
+/* 版面示意（當作一張圖，固定淺色） */
+.mock-wrap{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:8px}
+.mock-cap{display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.mock-cap b{color:var(--purple)}
+.mock{--k:#FE8E3F;--c:#3e4273;position:relative;width:100%;max-width:100%;margin:0 auto;overflow:hidden;border-radius:8px;background:#f3efe8;color:#2a2a35;container-type:inline-size;font-family:"Noto Sans TC",sans-serif}
 .mock *{box-sizing:border-box}
-.mock .ph{position:absolute;background:linear-gradient(160deg,#d9cfc0,#b9ab95 55%,#8f816c);}
+.mock .ph{position:absolute;background:linear-gradient(160deg,#d9cfc0,#b9ab95 55%,#8f816c)}
 .mock .ph::after{content:attr(data-l);position:absolute;inset:auto 0 6% 0;text-align:center;font-size:3cqw;color:rgba(255,255,255,.85);letter-spacing:.1em}
-.mock .ttl{position:absolute;font-weight:900;line-height:1.15;color:var(--c)}
+.mock .ttl{position:absolute;font-weight:700;line-height:1.15;color:var(--c)}
 .mock .ttl em{font-style:normal;color:var(--k)}
 .mock .bar{position:absolute;background:var(--c);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;letter-spacing:.08em}
 .mock .feat{position:absolute;display:grid;gap:2.2cqw}
 .mock .feat div{display:flex;align-items:center;gap:1.6cqw;font-weight:700;color:#3a3530}
 .mock .feat div::before{content:"";flex:none;width:5cqw;height:5cqw;border-radius:50%;border:.7cqw solid var(--k);background:#fff}
 .mock .tag2{position:absolute;background:#fff;border-radius:999px;font-weight:700;color:#3a3530;box-shadow:0 .5cqw 1.5cqw rgba(0,0,0,.15);white-space:nowrap}
-.mock .seal{position:absolute;border-radius:50%;background:var(--k);color:#fff;display:grid;place-items:center;text-align:center;font-weight:900;line-height:1.1}
+.mock .seal{position:absolute;border-radius:50%;background:var(--k);color:#fff;display:grid;place-items:center;text-align:center;font-weight:700;line-height:1.1}
 .mock .person{position:absolute}
 .mock .person::before{content:"";position:absolute;left:30%;width:40%;aspect-ratio:1;border-radius:50%;background:#e9c9ad;top:0}
 .mock .person::after{content:"";position:absolute;left:5%;right:5%;top:36%;bottom:0;border-radius:45% 45% 6% 6%;background:var(--c)}
@@ -210,133 +214,123 @@ main{padding-block:26px 72px}
 .mock .tbl span:first-child{border-left:0;font-weight:700}
 .mock .tbl .h span{background:var(--c);color:#fff;font-weight:700}
 .mock .tbl .h span:nth-child(2){background:var(--k)}
-.mock .diag{position:absolute;background:var(--c);transform:rotate(-24deg)}
+.mock .diag{position:absolute;background:var(--c);transform:rotate(-37deg)}
 .mock .diag.k{background:var(--k)}
 .mock .icons{position:absolute;display:flex;justify-content:space-between;gap:1cqw}
 .mock .icons span{flex:1;text-align:center;font-weight:700;color:#3a3530;display:grid;gap:.8cqw;justify-items:center}
 .mock .icons span::before{content:"";width:6cqw;height:6cqw;border-radius:50%;border:.5cqw solid var(--k);background:#fff}
-.mock .hand{position:absolute;font-family:var(--f-disp);font-weight:700;color:#fff;-webkit-text-stroke:.35cqw var(--k);paint-order:stroke fill;transform:rotate(-6deg);line-height:1.1}
+.mock .hand{position:absolute;font-family:"Huninn",sans-serif;font-weight:700;color:#fff;-webkit-text-stroke:.35cqw var(--k);paint-order:stroke fill;transform:rotate(-6deg);line-height:1.1}
 
-/* 猜關鍵字 */
-.guess{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:20px;align-items:start}
-.rounds{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
-.seen{margin:10px 0 0;padding-left:18px;font-size:14px;color:var(--muted);display:grid;gap:2px}
-.gchips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.gchip{border:1.5px solid var(--line);background:var(--panel);border-radius:10px;padding:7px 12px;cursor:pointer;font-size:14px;font-weight:500}
-.gchip[aria-pressed="true"]{border-color:var(--navy);background:var(--tan-soft);font-weight:700}
-.gchip.hit{border-color:var(--ok);background:var(--ok-soft);color:var(--ok);font-weight:700}
-.gchip.miss{border-style:dashed;border-color:var(--ok);color:var(--ok)}
-.gchip.wrong{border-color:var(--bad);background:var(--bad-soft);color:var(--bad);text-decoration:line-through}
-.gchip:disabled{cursor:default}
-.reveal{margin-top:14px;display:grid;gap:10px}
-.realp{background:var(--well);border-radius:12px;padding:12px 14px;font-weight:700}
-.score{font-family:var(--f-disp);font-size:20px;font-weight:700;color:var(--org-ink)}
-.legend2{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
-.legend2 span{display:flex;align-items:center;gap:5px}
-.legend2 i{width:14px;height:14px;border-radius:4px;border:1.5px solid}
+/* 04 心得與收穫 */
+.share{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.95fr);gap:22px;align-items:start}
+.qs{display:grid;gap:14px}
+.q{display:grid;gap:12px}
+.q h3{font-family:var(--f-disp);font-size:20px;color:var(--ink);display:flex;gap:12px;align-items:baseline}
+.q h3 .qn{font-family:"Nunito",sans-serif;font-weight:800;color:var(--teal);font-size:18px}
+.q h3 em{font-style:normal;color:var(--purple)}
+.q .hint{font-size:13px;color:var(--muted);margin-top:-6px}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.opt{border:1.5px solid var(--line);background:var(--panel);border-radius:12px;padding:11px 14px;cursor:pointer;text-align:left;font-size:15px;line-height:1.45;display:flex;gap:10px;align-items:center;min-height:52px}
+.opt::before{content:"";flex:none;width:18px;height:18px;border-radius:50%;border:2px solid var(--purple-40);background:var(--panel)}
+.opt.multi::before{border-radius:5px}
+.opt:hover{border-color:var(--purple-40)}
+.opt[aria-pressed="true"]{border-color:var(--purple);background:var(--mist);color:var(--purple);font-weight:700}
+.opt[aria-pressed="true"]::before{background:var(--purple);border-color:var(--purple);box-shadow:inset 0 0 0 3px var(--panel)}
+.opt.multi[aria-pressed="true"]::before{background:var(--teal);border-color:var(--teal);box-shadow:none}
+.result{display:grid;gap:14px}
+.scard{border-radius:14px;overflow:hidden;background:#603e8d;color:#fff;position:relative}
+.scard .frame{position:relative;aspect-ratio:4/5;width:100%;background:#efeaf7;overflow:hidden}
+.scard .frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.scard .ph2{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:14px;padding:24px;text-align:center;color:#2e2640}
+.scard .ph2 svg{width:min(62%,240px);height:auto}
+.scard .ph2 p{font-size:13.5px;color:#615a72;max-width:26em}
+.scard .ph2 b{color:#603e8d}
+.scard .cap{padding:16px 18px;display:grid;gap:6px}
+.scard .cap .t{font-family:var(--f-disp);font-size:20px;font-weight:700;line-height:1.35}
+.scard .cap .s{color:#ffc94a;font-weight:700;font-size:14px}
+.scard .cap .b{font-size:12.5px;color:#efeaf7;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.upl{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.upl input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 
-/* 練習 */
-.prac{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-.circ{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--panel);cursor:pointer;text-align:left}
-.circ:hover{border-color:var(--org)}
-.circ .dot{width:92px;height:92px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-disp);font-weight:700;font-size:21px;line-height:1.2;text-align:center;color:#4a4540}
-.circ .dot.r{background:#e3bcb6}.circ .dot.o{background:#e2c4a2}.circ .dot.g{background:#dcd8ad}
-.circ ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
-.circ li{border:2px solid var(--org);padding:1px 8px;font-weight:700;font-size:14px;width:fit-content;color:var(--ink)}
-.circ small{display:block;margin-top:6px;color:var(--muted);font-size:12.5px}
-.timer{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:center}
-.clock{font-family:var(--f-mono);font-size:clamp(40px,7vw,60px);font-weight:700;font-variant-numeric:tabular-nums;color:var(--navy);line-height:1;border:3px dashed var(--org);padding:10px 18px;border-radius:12px}
-:root[data-theme="dark"] .clock{color:var(--ink)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .clock{color:var(--ink)}}
-.clock.done{color:var(--bad);border-color:var(--bad)}
-.tips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.tip{display:grid;gap:4px;align-content:start}
-.tip b{font-size:17px;color:var(--blue)}
-.tip span{font-size:13.5px;color:var(--muted)}
-.tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.tools .card{display:grid;gap:6px;align-content:start}
-.tools h4{font-size:16px}
-.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-
-/* 心得 */
-.share{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
-.q{display:grid;gap:6px}
-.q h3{font-size:18px;font-family:var(--f-disp);letter-spacing:.06em}
-.q h3 em{font-style:normal;color:var(--tan-ink)}
-.qlist{display:grid;gap:16px}
-.spark{display:flex;flex-wrap:wrap;gap:6px}
-.spark button{font-size:12.5px;padding:3px 10px}
-
-footer{border-top:1px solid var(--line);background:var(--panel);padding-block:18px;font-size:13px;color:var(--muted)}
-footer .wrap{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:var(--navy);color:var(--on-dark);padding:10px 18px;border-radius:999px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:.25s;z-index:50;max-width:calc(100% - 32px);text-align:center}
+footer{background:var(--mist);padding-block:20px;font-size:13px;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+footer b{color:var(--purple);font-family:var(--f-disp)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:#2e2640;color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:.25s;z-index:50;max-width:calc(100% - 32px);text-align:center}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 
 @media (max-width:980px){
-  .gen,.guess,.share{grid-template-columns:minmax(0,1fr)}
+  .gen,.share{grid-template-columns:minmax(0,1fr)}
   .out{position:static}
-  .exs,.prac,.tips,.tools{grid-template-columns:minmax(0,1fr)}
-  .jump{display:flex;position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+  .exs,.atm3{grid-template-columns:minmax(0,1fr)}
+  .jump{display:flex;position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;box-shadow:0 4px 14px rgba(46,38,64,.25)}
   .jump.away{display:none}
 }
 @media (max-width:720px){
-  .mast-in{grid-template-columns:minmax(0,1fr)}
-  .vs,.two{grid-template-columns:minmax(0,1fr)}
+  .hero-in{grid-template-columns:minmax(0,1fr);padding-block:28px 40px}
+  .hero-art{display:none}
+  .vs,.flds{grid-template-columns:minmax(0,1fr)}
   .scen{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .flds{grid-template-columns:minmax(0,1fr)}
-  .atmrow{grid-template-columns:minmax(0,1fr);gap:6px}
-  .lbl{justify-self:start}
-  .mast h1{padding:6px 20px}
 }
-@media (max-width:420px){.itype,.colors{grid-template-columns:minmax(0,1fr)}.scen{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:440px){.itype,.colors,.opts,.scen{grid-template-columns:minmax(0,1fr)}}
 @media (prefers-reduced-motion:reduce){.toast{transition:none}}
 </style>
 </head>
 <body>
 
-<header class="mast">
-  <div class="wrap pad mast-in">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-spark" viewBox="-20 -20 40 40"><path d="M0-19Q0 0 19 0Q0 0 0 19Q0 0-19 0Q0 0 0-19Z" fill="#ffc94a"/></symbol>
+    <symbol id="i-tick" viewBox="0 0 60 34"><path d="M2 14C6 30 26 34 58 2C30 22 14 26 2 14Z" fill="#36c2b4"/></symbol>
+  </defs>
+</svg>
+
+<header class="hero">
+  <div class="wrap pad hero-in">
     <div>
-      <div class="hash">#人機協作指令技巧 ・ 1119 桃園不動產仲介課程</div>
+      <div class="brandline"><span>AI效能實驗室｜秉軒老師</span><span class="dot"></span><span>企業內訓</span></div>
+      <div class="eyebrow">1119 桃園不動產仲介課程</div>
       <h1>AI 房仲指令工坊</h1>
-      <p>把「寫一篇文章」升級成會成交的指令。用 ATM 三步驟寫物件文案、區域推廣、招募文案，再用同一套邏輯做出網站上架圖、開箱圖、IG 乾貨圖卡與 YT 封面。</p>
+      <p class="lead">今天下課，你就能用 AI 寫好第一篇物件文案、做出第一張社群圖。從你最常做的一件事開始。</p>
+      <div class="tagline"><b>是你，讓 AI 更強大</b><span>You Make AI Stronger.</span></div>
     </div>
-    <div class="keys" aria-label="ATM 指令架構">
-      <div class="key a"><b>A 角色</b><span>請 AI 扮演什麼專家／達人？</span></div>
-      <div class="key t"><b>T 目標</b><span>你期待達成什麼任務／目的？</span></div>
-      <div class="key m"><b>M 方法</b><span>給什麼資料／條件讓 AI 做得更好？</span></div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 220 220">
+        <path d="M186.3 85.9A80 80 0 1 1 131.4 32.9" fill="none" stroke="#806599" stroke-width="9" stroke-linecap="round"/>
+        <use href="#i-spark" x="160" y="18" width="40" height="40"/>
+        <text x="110" y="120" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="800" font-size="50" fill="#fff" letter-spacing="4">ATM</text>
+        <text x="110" y="148" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="13" fill="#efeaf7" letter-spacing="2">角色・目標・方法</text>
+        <use href="#i-tick" x="74" y="158" width="72" height="40"/>
+      </svg>
     </div>
+    <div class="rhythm" aria-hidden="true"><i></i><i></i><i></i></div>
   </div>
 </header>
 
 <nav class="nav" aria-label="頁面">
   <div class="wrap pad" role="tablist">
-    <button role="tab" data-go="atm" aria-selected="true">ATM 架構</button>
-    <button role="tab" data-go="copy" aria-selected="false">文案指令產生器</button>
-    <button role="tab" data-go="image" aria-selected="false">圖像指令產生器</button>
-    <button role="tab" data-go="guess" aria-selected="false">猜猜關鍵字</button>
-    <button role="tab" data-go="practice" aria-selected="false">繪圖練習</button>
-    <button role="tab" data-go="share" aria-selected="false">心得與收穫</button>
+    <button role="tab" data-go="atm" aria-selected="true"><b>01</b>ATM 架構</button>
+    <button role="tab" data-go="copy" aria-selected="false"><b>02</b>文案指令</button>
+    <button role="tab" data-go="image" aria-selected="false"><b>03</b>圖像指令</button>
+    <button role="tab" data-go="share" aria-selected="false"><b>04</b>心得與收穫</button>
   </div>
 </nav>
 
 <main class="wrap pad">
 
-<!-- ATM 架構 -->
 <section data-v="atm">
   <div class="vh">
-    <span class="pill">ATM 指令架構</span>
+    <h2><span class="no">01</span>ATM 指令架構</h2>
     <p>AI 不是不會寫，是不知道你要什麼。每次下指令前，先把這三件事講清楚。</p>
   </div>
-  <div class="card atm3">
-    <div class="atmrow"><span class="lbl a">A 角色</span><p>☕ 請 AI 扮演什麼專家／高手／達人？</p></div>
-    <div class="atmrow"><span class="lbl t">T 目標</span><p>🧑‍💻 你期待達成什麼事情／任務／目的？</p></div>
-    <div class="atmrow"><span class="lbl m">M 方法</span><p>🤖 有什麼資料／條件，讓 AI 做得更好？</p></div>
+  <div class="atm3">
+    <div class="card mist atmc"><span class="big">A</span><h3>角色</h3><p>請 AI 扮演什麼專家、高手、達人？</p><span class="q">例：20 年經驗房屋行銷專家</span></div>
+    <div class="card mist atmc"><span class="big">T</span><h3>目標</h3><p>你期待達成什麼事情、任務、目的？</p><span class="q">例：撰寫長庚養生村的宣傳文</span></div>
+    <div class="card mist atmc"><span class="big">M</span><h3>方法</h3><p>有什麼資料、條件，讓 AI 做得更好？</p><span class="q">例：分三段：亮點、價值、如何了解</span></div>
   </div>
 
   <div class="vs">
     <div class="card">
-      <h3><span class="badge bad">無效指令</span>寫一篇文章<span class="tagbox">泡一杯拿鐵</span></h3>
+      <h3><span class="badge bad">無效指令</span>寫一篇文章</h3>
       <p class="note" style="margin-top:6px">就像只跟同事說「幫我泡一杯拿鐵」：冰的熱的？幾分糖？誰要喝？對方只能猜。</p>
       <div class="bubble">寫一篇文章</div>
       <div class="aiout"><b>〈慢一點，才看得見方向〉</b><br>有時候，我們以為「快」就是效率。但其實，快只是讓焦慮有了更漂亮的包裝……<br><span class="note">AI 交出一篇和房子、客戶都無關的心靈散文。</span></div>
@@ -345,20 +339,19 @@ footer .wrap{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
       <h3><span class="badge ok">有效指令</span>用 ATM 說清楚</h3>
       <div class="bubble">你是 20 年經驗房屋行銷專家，我要撰寫長庚養生村的宣傳文，依據「人文關懷」精神，分為三段：物件亮點、擁有後的價值、如何進一步了解。</div>
       <div class="aiout">AI 知道<b>用誰的口吻</b>、<b>寫給哪個物件</b>、<b>分幾段寫什麼</b>，第一版就能拿來修。</div>
-      <div class="row" style="margin-top:12px"><button class="btn primary" data-open-scen="house">在產生器打開這個例子</button></div>
+      <div class="row" style="margin-top:14px"><button class="btn primary" data-open-scen="house">在產生器打開這個例子</button></div>
     </div>
   </div>
 
   <h2 class="sub">課堂三個房仲範例</h2>
-  <p class="note">藍字是骨架，橘字是換成你自己的物件、區域、對象的地方。</p>
+  <p class="note">畫底線的字，換成你自己的物件、區域、對象就能用。</p>
   <div class="exs" id="exs"></div>
 </section>
 
-<!-- 文案指令產生器 -->
 <section data-v="copy" hidden>
   <div class="vh">
-    <span class="pill">文案指令產生器</span>
-    <p>選情境，再依序點選 A、T、M。右邊會即時組好指令，複製貼到 ChatGPT 或 Gemini 就能用。橘字都可以改成你手上的物件。</p>
+    <h2><span class="no">02</span>文案指令產生器</h2>
+    <p>選情境，再依序點選 A、T、M。右邊會即時組好指令，複製貼到 ChatGPT 或 Gemini 就能用。</p>
   </div>
   <div class="gen">
     <div class="steps">
@@ -394,24 +387,23 @@ footer .wrap{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
         <div class="out-body"><div id="copyP" class="prompt"></div><ul id="copyF" class="fu" hidden></ul></div>
       </div>
       <div class="card">
-        <h4 style="font-size:14.5px;margin-bottom:6px">刊登前檢查</h4>
-        <ul class="check">
-          <li>廣告內容與事實相符，並註明經紀業名稱。</li>
-          <li>坪數、價格、距離、成交行情等數字，一律自己查證後再填。</li>
-          <li>不寫「保證增值」「穩賺」「保證月入」這類承諾字眼。</li>
-          <li>客戶姓名、電話等個資不要貼進 AI。</li>
+        <h4 style="font-size:15px;margin-bottom:8px;color:var(--purple)">刊登前檢查</h4>
+        <ul class="ticks">
+          <li><svg aria-hidden="true"><use href="#i-tick"/></svg>廣告內容與事實相符，並註明經紀業名稱。</li>
+          <li><svg aria-hidden="true"><use href="#i-tick"/></svg>坪數、價格、距離、成交行情等數字，自己查證後再填。</li>
+          <li><svg aria-hidden="true"><use href="#i-tick"/></svg>不寫「保證增值」「穩賺」「保證月入」這類承諾。</li>
+          <li><svg aria-hidden="true"><use href="#i-tick"/></svg>客戶姓名、電話等個資不要貼進 AI。</li>
         </ul>
       </div>
     </div>
   </div>
-  <button class="btn navy jump" data-jump="copyOut">看產出的指令 ↓</button>
+  <button class="btn primary jump" data-jump="copyOut">看產出的指令 ↓</button>
 </section>
 
-<!-- 圖像指令產生器 -->
 <section data-v="image" hidden>
   <div class="vh">
-    <span class="pill">圖像指令產生器</span>
-    <p>四種房仲最常用的社群圖。填三個關鍵欄位、選比例與顏色，右邊會給你兩種指令：課堂示範的「一句話短指令」，以及更好控的「ATM 完整指令」。</p>
+    <h2><span class="no">03</span>圖像指令產生器</h2>
+    <p>四種房仲最常用的社群圖。填三個關鍵欄位、選比例與顏色，右邊給你課堂示範的「一句話短指令」，以及更好控的「ATM 完整指令」。</p>
   </div>
   <div class="gen">
     <div class="steps">
@@ -461,97 +453,57 @@ footer .wrap{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
       </div>
     </div>
   </div>
-  <button class="btn navy jump" data-jump="imgOut">看示意圖與指令 ↓</button>
+  <button class="btn primary jump" data-jump="imgOut">看示意圖與指令 ↓</button>
 </section>
 
-<!-- 猜猜關鍵字 -->
-<section data-v="guess" hidden>
-  <div class="vh">
-    <span class="pill">猜猜看做出本圖的指令有什麼關鍵字？</span>
-    <p>課堂上的三張成品圖。先看成品上有什麼，再點選你覺得「真的寫在指令裡」的關鍵字，按揭曉對答案。</p>
-  </div>
-  <div class="rounds" id="rounds"></div>
-  <div class="guess">
-    <div class="mock-wrap">
-      <div class="mock-cap"><b id="gTitle"></b><span id="gRatio"></span></div>
-      <div id="gMock"></div>
-      <ul class="seen" id="gSeen"></ul>
-    </div>
-    <div class="card">
-      <h3 style="font-size:16px">哪些字真的出現在指令裡？</h3>
-      <div class="gchips" id="gChips"></div>
-      <div class="row" style="margin-top:14px"><button class="btn primary" id="gReveal">揭曉答案</button><button class="btn" id="gReset">重來</button></div>
-      <div class="reveal" id="gOut" hidden></div>
-    </div>
-  </div>
-</section>
-
-<!-- 繪圖練習 -->
-<section data-v="practice" hidden>
-  <div class="vh">
-    <span class="pill">練習 2｜物件亮點圖像創作</span>
-    <p>用 ChatGPT 挑一種圖來做。點下面任一個圓，會直接帶你到圖像指令產生器並選好類型。</p>
-  </div>
-  <div class="prac" id="prac"></div>
-  <div class="callout" style="margin-top:16px">💡 要給什麼<b>產品／服務參考圖</b>，或提供<b>參考知識資訊</b>？先準備好再開始。</div>
-
-  <div class="card timer" style="margin-top:16px">
-    <div class="clock" id="clock" aria-live="polite">12:00</div>
-    <div style="display:grid;gap:10px">
-      <div><b>課堂計時</b><p class="note">時間到會變紅色提醒，不會發出聲音。</p></div>
-      <div class="row"><button class="btn primary" id="tStart">開始</button><button class="btn" id="tReset">重設</button>
-        <select id="tLen" class="btn" aria-label="練習時間"><option value="12">12 分鐘</option><option value="8">8 分鐘</option><option value="5">5 分鐘</option><option value="15">15 分鐘</option></select></div>
-    </div>
-  </div>
-
-  <h2 class="sub">ChatGPT 繪圖綜整 <span class="tagbox">image 2</span></h2>
-  <div class="tips">
-    <div class="card tip"><b>中文＆速度更勝一籌</b><span>中文字比較不會變亂碼，出圖速度也快。</span></div>
-    <div class="card tip"><b>進一步理解人類意圖</b><span>一句「叫好又叫座」，它會自己補上光影、徽章、版面。</span></div>
-    <div class="card tip"><b>細節、畫質、想像力 ↑</b><span>參考照裡的材質、文字、空間結構都能保留。</span></div>
-  </div>
-  <div class="two" style="margin-top:12px">
-    <div class="callout">🗂️ 目前<b>免費版一天約 2～3 張</b>，練習時先把指令想清楚再送出。</div>
-    <div class="card"><b>入口在哪？</b><p class="note">ChatGPT 左側選單 →「更多」→「圖像」。或在對話框直接上傳照片並描述要做的圖。</p></div>
-  </div>
-
-  <h2 class="sub">工具註冊與登入｜網頁版</h2>
-  <div class="tools">
-    <div class="card"><h4>ChatGPT</h4><p class="note">文案與繪圖都用它，課堂練習主力。</p><a class="btn" href="https://chatgpt.com/" target="_blank" rel="noopener">開啟 chatgpt.com ↗</a></div>
-    <div class="card"><h4>Gemini</h4><p class="note">用 Google 帳號就能登入，可交叉比較文案。</p><a class="btn" href="https://gemini.google.com/" target="_blank" rel="noopener">開啟 gemini.google.com ↗</a></div>
-    <div class="card"><h4>實作用指令表</h4><p class="note">請查看 LINE 群組，會直接貼連結；群組會同步貼指令，手機比較好複製，課後也能再使用。</p><a class="btn" href="https://twgo.io/ai904" target="_blank" rel="noopener">twgo.io/ai904 ↗</a></div>
-  </div>
-</section>
-
-<!-- 心得與收穫 -->
 <section data-v="share" hidden>
   <div class="vh">
-    <span class="pill">AI 繪圖心得與收穫</span>
-    <p>邀請 2 位夥伴分享。先寫下來，下面會幫你整理成一段可以直接念、也可以貼到 LINE 群組的分享。內容只存在你這台裝置。</p>
+    <h2><span class="no">04</span>AI 繪圖心得與收穫</h2>
+    <p>點選最接近你的答案，不用打字。右邊會同時產出分享稿，和一段把「今天的你」畫成寫實照片的指令。</p>
   </div>
   <div class="share">
-    <div class="card qlist">
-      <div class="q"><h3>我與 AI 一起創作的<em>主題</em>為……</h3>
-        <div class="spark" data-for="s1"></div>
-        <div class="fld" style="margin:0"><label for="s1" class="note">主題</label><input id="s1" placeholder="例：青埔三房的網站上架宣傳圖"></div></div>
-      <div class="q"><h3>其中讓我覺得<em>有趣＆驚艷</em>的作品是……</h3>
-        <div class="fld" style="margin:0"><label for="s2" class="note">作品與原因</label><textarea id="s2" placeholder="例：只上傳一張客廳照，AI 自己補上了傍晚的暖光和『熱銷』徽章"></textarea></div></div>
-      <div class="q"><h3>過程中，我的<em>感覺</em>……<em>收穫</em>是……</h3>
-        <div class="spark" data-for="s3"></div>
-        <div class="fld" style="margin:0"><label for="s3" class="note">感覺</label><input id="s3" placeholder="例：一開始不知道怎麼下指令，後來越改越順"></div>
-        <div class="fld"><label for="s4" class="note">收穫</label><textarea id="s4" placeholder="例：以後拍物件照時會多拍幾張乾淨的角度，給 AI 當參考圖"></textarea></div></div>
-    </div>
-    <div class="out">
+    <div class="qs" id="qs"></div>
+    <div class="out result" id="shareOut">
+      <div class="scard">
+        <div class="frame" id="sFrame">
+          <div class="ph2" id="sPh">
+            <svg viewBox="0 0 220 220" aria-hidden="true">
+              <path d="M186.3 85.9A80 80 0 1 1 131.4 32.9" fill="none" stroke="#603e8d" stroke-width="9" stroke-linecap="round"/>
+              <use href="#i-spark" x="160" y="18" width="40" height="40"/>
+              <circle cx="110" cy="92" r="26" fill="#bfb2d1"/>
+              <path d="M62 178c0-30 21-50 48-50s48 20 48 50z" fill="#bfb2d1"/>
+            </svg>
+            <p><b>寫實 AI 示意圖放這裡</b><br>複製下方「示意圖指令」到 ChatGPT 生成，再按「放入我的 AI 圖」。</p>
+          </div>
+        </div>
+        <div class="cap">
+          <div class="t" id="sCapT"></div>
+          <div class="s" id="sCapS"></div>
+          <div class="b"><span>AI效能實驗室｜秉軒老師</span><span>1119 桃園不動產仲介課程</span></div>
+        </div>
+      </div>
+      <div class="upl">
+        <label class="btn" for="sFile">放入我的 AI 圖</label><input type="file" id="sFile" accept="image/*">
+        <button class="btn" id="sFileClear" hidden>移除圖片</button>
+        <a class="btn" href="https://chatgpt.com/" target="_blank" rel="noopener">開啟 ChatGPT ↗</a>
+      </div>
       <div class="out-card">
-        <div class="out-head"><b style="padding:8px 4px">我的分享稿</b><div class="row"><button class="btn" id="shClear">清空</button><button class="btn primary" id="shCopy">複製分享</button></div></div>
-        <div class="out-body"><div id="shOut" class="prompt"></div></div>
+        <div class="out-head">
+          <div class="tabs" role="tablist">
+            <button role="tab" data-st2="t" aria-selected="true">分享稿</button>
+            <button role="tab" data-st2="p" aria-selected="false">示意圖指令</button>
+          </div>
+          <button class="btn primary" id="shCopy">複製分享稿</button>
+        </div>
+        <div class="out-body"><div id="shOut" class="prompt"></div><div id="shImg" class="prompt" hidden></div></div>
       </div>
     </div>
   </div>
+  <button class="btn primary jump" data-jump="shareOut">看分享稿與示意圖 ↓</button>
 </section>
 </main>
 
-<footer><div class="wrap pad"><span>著作權© 2026 AI效能實驗室 許秉軒 版權所有</span><span>範例物件與數字皆為教學示意，使用前請自行查證。</span></div></footer>
+<footer><div class="wrap pad"><span><b>AI效能實驗室</b>　著作權© 2026 AI效能實驗室 許秉軒 版權所有</span><span>範例物件與數字皆為教學示意，使用前請自行查證。</span></div></footer>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -565,7 +517,6 @@ function copyText(txt,msg,el){
 }
 const store={get(k){try{return JSON.parse(localStorage.getItem('re-'+k)||'null')}catch(_){return null}},set(k,v){try{localStorage.setItem('re-'+k,JSON.stringify(v))}catch(_){}}};
 
-/* ---------- 文案情境 ---------- */
 const SC=[
  {id:'house',name:'物件宣傳文',d:'長庚養生村這類主打物件',
   a:['20年經驗房屋行銷專家','樂齡生活規劃顧問','在地深耕的資深房仲店長','擅長說故事的生活風格作家'],
@@ -696,7 +647,7 @@ const IT=[
 const IS={t:'web',v:{},ratio:{},style:{},ref:true,k:'#FE8E3F',c:'#3e4273',tab:'p'};
 IT.forEach(t=>{IS.v[t.id]={};t.f.forEach(f=>IS.v[t.id][f.k]=f.v);IS.ratio[t.id]=t.ratio;IS.style[t.id]=t.style});
 const isv=store.get('img');if(isv&&IT.some(t=>t.id===isv.t)){IS.t=isv.t;for(const id in IS.v){if(isv.v&&isv.v[id])Object.assign(IS.v[id],isv.v[id]);if(isv.ratio&&RATIO[isv.ratio[id]])IS.ratio[id]=isv.ratio[id];if(isv.style&&STY.includes(isv.style[id]))IS.style[id]=isv.style[id]}if(/^#[0-9a-f]{6}$/i.test(isv.k||''))IS.k=isv.k;if(/^#[0-9a-f]{6}$/i.test(isv.c||''))IS.c=isv.c;IS.ref=isv.ref!==false}
-const SWS=[['課堂範例','#FE8E3F','#3e4273'],['金棕質感','#C9A063','#2B2B2B'],['森林綠','#E9B44C','#2F5D50'],['海軍藍','#F2C14E','#1F3A5F'],['玫瑰粉','#E58FA0','#5A4A5E']];
+const SWS=[['課堂範例','#FE8E3F','#3e4273'],['AI效能實驗室','#FFC94A','#603E8D'],['金棕質感','#C9A063','#2B2B2B'],['森林綠','#E9B44C','#2F5D50'],['海軍藍','#F2C14E','#1F3A5F'],['玫瑰粉','#E58FA0','#5A4A5E']];
 const itC=()=>IT.find(t=>t.id===IS.t);
 function vals(){const t=itC();return Object.assign({},IS.v[t.id],{ratio:IS.ratio[t.id],style:IS.style[t.id],k:IS.k.toUpperCase(),c:IS.c})}
 const splitL=s=>s.split(/[、,，／/]/).map(x=>x.trim()).filter(Boolean);
@@ -789,96 +740,77 @@ bindColor('#kPick','#kHex','k');bindColor('#cPick','#cHex','c');
 $$('[data-it]').forEach(b=>b.addEventListener('click',()=>{IS.tab=b.dataset.it;$$('[data-it]').forEach(x=>x.setAttribute('aria-selected',x===b));updImg()}));
 $('#imgCopy').addEventListener('click',()=>{const t=itC();copyText(IS.tab==='s'?t.short(vals()):imgPrompt(false),'已複製圖像指令',$('#imgP'))});
 
-/* ---------- 猜猜關鍵字 ---------- */
-const GR=[
- {t:'網站上架宣傳圖｜316 不鏽鋼保溫瓶',type:'web',ratio:'5:4',v:{name:'316不鏽鋼真空保溫瓶',feat:'長效保溫保冷、316不鏽鋼內膽、密封防漏設計、時尚質感外觀',issue:'溫度・品味・生活'},k:'#9a6a2f',c:'#4a3320',
-  seen:['金棕色光影、木紋桌面、毛巾與綠色植物','「BEST SELLER 熱銷冠軍」金色徽章','四個圓形圖示＋「立即購買」按鈕','瓶身上的 PERFECT 字樣與 Stainless steel 316'],
-  real:'（上傳一張手拿保溫瓶的實拍照）\n用你的實力，畫一張叫好又叫座的電商宣傳圖，5:4',
-  right:['叫好又叫座','電商宣傳圖','5:4','上傳實拍照'],wrong:['金色光影','BEST SELLER 徽章','木紋桌面','立即購買按鈕','316 不鏽鋼','四個圖示'],
-  why:'指令只有一句話。光影、徽章、按鈕、圖示都是 AI 依「叫好又叫座的電商宣傳圖」自己補的；「316」是從實拍照瓶身上讀到的。參考照就是最強的關鍵字。'},
- {t:'模特代言推廣圖｜質感生活家開箱',type:'model',ratio:'1:1',v:{role:'質感生活家',mood:'CP值超高！、設計簡約時尚、超大收納空間！'},k:'#e07a92',c:'#7a5a4a',
-  seen:['挑高木格柵大廳、紙箱與泡泡紙','長髮女生張開雙手、笑容親切','粉紅手寫字「質感生活家 開箱啦！」','對話框：CP值超高、設計簡約時尚、超大收納空間、組裝超簡單'],
-  real:'（上傳一張社區大廳的實景照）\n用你的實力創作一張，叫好叫座的，台灣甜美Youtuber開箱宣傳照，1:1',
-  right:['台灣甜美Youtuber','開箱宣傳照','叫好叫座','1:1','上傳大廳照'],wrong:['質感生活家','CP值超高','粉紅手寫字','紙箱','長髮','提升居家質感'],
-  why:'「台灣甜美 YouTuber」決定了人物與氣氛，「開箱」讓 AI 自己放上紙箱、品牌名和對話框。場景完全沿用上傳的大廳照，所以物件的真實感還在。'},
- {t:'社群經營乾貨圖｜青安貸款是什麼？',type:'card',ratio:'1:1',v:{topic:'青安貸款是什麼？'},k:'#FE8E3F',c:'#3e4273',
-  seen:['深藍＋橘色配色、城市天際線背景','比較表：利率、貸款額度、最高年限、寬限期、申請資格、申辦管道','每列前的小圖示','底部「小提醒：善用青安貸款，幫助您安心成家！」'],
-  real:'（上傳一張原本排版普通的青安貸款資訊圖）\n完整呈現並重新排版附圖內容，給我1:1的IG圖卡，重點色使用#FE8E3F，觀念色使用#3e4273，高貴商務風格',
-  right:['完整呈現並重新排版','IG圖卡','1:1','#FE8E3F','#3e4273','高貴商務風格'],wrong:['城市天際線','比較表格','小提醒','每列小圖示','金色線條'],
-  why:'表格內容全部來自上傳的原圖，所以要說「完整呈現」避免 AI 亂改數字。色碼比「藍色、橘色」精準得多，風格詞「高貴商務」讓 AI 自己加上天際線和細線條。'}
+
+/* ---------- 心得與收穫 ---------- */
+const QS=[
+ {id:'q1',multi:false,h:'我與 AI 一起創作的<em>主題</em>為……',hint:'選一個',
+  o:['網站上架宣傳圖','模特代言推廣圖','IG 乾貨圖卡','YT 頻道封面','物件宣傳文','區域推廣文','青年招募文案']},
+ {id:'q2',multi:true,h:'其中讓我覺得<em>有趣＆驚艷</em>的是……',hint:'最多選兩個',
+  o:['一句話就做出廣告等級的圖','參考照被保留得很真實','中文字幾乎沒有錯字','色碼配色抓得超準','AI 自己補上光影和質感','三種文案風格一次到位']},
+ {id:'q3',multi:false,h:'過程中，我的<em>感覺</em>……',hint:'選一個',
+  o:['驚喜','比想像中簡單','一開始卡關，越改越順','停不下來','很有成就感']},
+ {id:'q4',multi:true,h:'我的<em>收穫</em>是……',hint:'最多選兩個',
+  o:['指令要先講清楚角色、目標、方法','參考圖比形容詞更有用','色碼比「藍色、橘色」更精準','一次只改一個地方','明天就能用在手上的物件','省下找設計的時間和預算']}
 ];
-const GS={i:0,sel:new Set(),done:false};
-function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-let gOrder=[];
-function renderGuess(newOrder){
-  const g=GR[GS.i];
-  if(newOrder||!gOrder.length)gOrder=shuffle(g.right.concat(g.wrong));
-  $('#rounds').innerHTML=GR.map((x,i)=>`<button class="chip" data-g="${i}" aria-pressed="${i===GS.i}">第 ${i+1} 關｜${x.t.split('｜')[0]}</button>`).join('');
-  $('#gTitle').textContent=g.t;$('#gRatio').textContent=g.ratio;
-  $('#gMock').innerHTML=mockHTML(g.type,g.v,g.k,g.c,g.ratio);
-  $('#gSeen').innerHTML='<li style="list-style:none;margin-left:-18px;font-weight:700;color:var(--ink)">成品上看得到：</li>'+g.seen.map(s=>`<li>${esc(s)}</li>`).join('');
-  $('#gChips').innerHTML=gOrder.map(w=>{let cls='';if(GS.done){const ok=g.right.includes(w),on=GS.sel.has(w);cls=ok&&on?'hit':ok?'miss':on?'wrong':''}return `<button class="gchip ${cls}" data-w="${esc(w)}" aria-pressed="${GS.sel.has(w)}" ${GS.done?'disabled':''}>${esc(w)}</button>`}).join('');
-  const out=$('#gOut');
-  if(GS.done){
-    const hit=g.right.filter(w=>GS.sel.has(w)).length, wr=[...GS.sel].filter(w=>!g.right.includes(w)).length;
-    out.hidden=false;
-    out.innerHTML=`<div class="score">猜中 ${hit}／${g.right.length}${wr?`，多選 ${wr} 個`:''}</div>
-    <div class="legend2"><span><i style="border-color:var(--ok);background:var(--ok-soft)"></i>猜中</span><span><i style="border-color:var(--ok);border-style:dashed"></i>漏掉的</span><span><i style="border-color:var(--bad);background:var(--bad-soft)"></i>AI 自己補的</span></div>
-    <div><b>實際指令</b><div class="realp prompt" style="margin-top:6px">${esc(g.real)}</div></div>
-    <p>${esc(g.why)}</p>
-    <div class="row">${GS.i<GR.length-1?'<button class="btn primary" id="gNext">下一關</button>':'<button class="btn primary" data-goto="image">換你做做看</button>'}<button class="btn" id="gCopy">複製實際指令</button></div>`;
-  }else out.hidden=true;
+const SCENE={'網站上架宣傳圖':'在明亮的房仲門市裡，拿著平板向同事展示剛用 AI 做好的物件上架宣傳圖','模特代言推廣圖':'在社區挑高大廳，舉著手機自拍開箱，熱情介紹公設空間','IG 乾貨圖卡':'在會議桌前和兩位同事圍著筆電，討論剛做好的 IG 知識圖卡','YT 頻道封面':'在門市一角架好手機腳架與補光燈，正對鏡頭錄製房產影片','物件宣傳文':'坐在筆電前，螢幕上是 AI 對話視窗，正在完成物件宣傳文','區域推廣文':'站在桃園住宅區的公園旁，拿著平板記錄周邊生活機能','青年招募文案':'在門市晨會中，對著一群年輕新人熱情分享入行故事'};
+const FACE={'驚喜':'驚喜地睜大眼睛、露出大大的笑容','比想像中簡單':'輕鬆自信地微笑','一開始卡關，越改越順':'握拳比出加油手勢，表情興奮','停不下來':'專注投入、嘴角上揚','很有成就感':'和同事開心擊掌'};
+const SLOGAN={'指令要先講清楚角色、目標、方法':'ATM 說清楚，AI 就聽懂','參考圖比形容詞更有用':'一張好照片勝過十個形容詞','色碼比「藍色、橘色」更精準':'色碼一下，品牌就對了','一次只改一個地方':'一次改一點，越改越好','明天就能用在手上的物件':'明天就用在我的物件上','省下找設計的時間和預算':'省下時間，多帶一組客戶'};
+const SA={q1:[],q2:[],q3:[],q4:[]};
+const ssv=store.get('share2');if(ssv)for(const q of QS)if(Array.isArray(ssv[q.id]))SA[q.id]=ssv[q.id].filter(x=>q.o.includes(x)).slice(0,q.multi?2:1);
+let own=(ssv&&typeof ssv.own==='string')?ssv.own:'';
+let shTab='t', upImg=null;
+function renderQs(){
+  $('#qs').innerHTML=QS.map((q,i)=>`<div class="card q"><h3><span class="qn">Q${i+1}</span><span>${q.h}</span></h3><p class="hint">${q.hint}</p>
+   <div class="opts">${q.o.map(o=>`<button class="opt${q.multi?' multi':''}" data-q="${q.id}" data-o="${esc(o)}" aria-pressed="${SA[q.id].includes(o)}">${esc(o)}</button>`).join('')}</div>
+   ${i===QS.length-1?`<div class="fld" style="margin-top:2px"><label for="sOwn">想補一句自己的話（選填）</label><input id="sOwn" maxlength="60" placeholder="例：下週就拿青埔那間來試試看" value="${esc(own)}"></div>`:''}</div>`).join('');
 }
-$('#rounds').addEventListener('click',e=>{const b=e.target.closest('[data-g]');if(!b)return;GS.i=+b.dataset.g;GS.sel=new Set();GS.done=false;renderGuess(true)});
-$('#gChips').addEventListener('click',e=>{const b=e.target.closest('[data-w]');if(!b||GS.done)return;const w=b.dataset.w;GS.sel.has(w)?GS.sel.delete(w):GS.sel.add(w);b.setAttribute('aria-pressed',GS.sel.has(w))});
-$('#gReveal').addEventListener('click',()=>{if(!GS.sel.size){toast('先點選幾個你覺得有出現的關鍵字');return}GS.done=true;renderGuess(false)});
-$('#gReset').addEventListener('click',()=>{GS.sel=new Set();GS.done=false;renderGuess(true)});
-$('#gOut').addEventListener('click',e=>{if(e.target.id==='gNext'){GS.i++;GS.sel=new Set();GS.done=false;renderGuess(true)}else if(e.target.id==='gCopy'){copyText(GR[GS.i].real.split('\n').pop(),'已複製實際指令')}});
-
-/* ---------- 練習 ---------- */
-const PR=[['web','網站<br>上架','r',['物件名稱','主要特點','議題連結']],['model','模特<br>代言','o',['角色定位','動作情境','傳遞氛圍']],['card','社群<br>乾貨','g',['設計風格','目標平台','參考主題']]];
-$('#prac').innerHTML=PR.map(p=>`<button class="circ" data-pt="${p[0]}"><span class="dot ${p[2]}">${p[1]}</span><span><ul>${p[3].map(x=>`<li>${x}</li>`).join('')}</ul><small>點我開始做 →</small></span></button>`).join('');
-$('#prac').addEventListener('click',e=>{const b=e.target.closest('[data-pt]');if(!b)return;IS.t=b.dataset.pt;renderImgStatic();go('image')});
-let tLeft=720,tRun=null;
-const fmt=s=>`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
-function drawClock(){$('#clock').textContent=fmt(tLeft);$('#clock').classList.toggle('done',tLeft<=0)}
-$('#tStart').addEventListener('click',()=>{
-  if(tRun){clearInterval(tRun);tRun=null;$('#tStart').textContent='繼續';return}
-  if(tLeft<=0)tLeft=+$('#tLen').value*60;
-  $('#tStart').textContent='暫停';
-  tRun=setInterval(()=>{tLeft--;drawClock();if(tLeft<=0){clearInterval(tRun);tRun=null;$('#tStart').textContent='開始';toast('時間到！請準備分享作品')}},1000);
-});
-function resetT(){clearInterval(tRun);tRun=null;tLeft=+$('#tLen').value*60;$('#tStart').textContent='開始';drawClock()}
-$('#tReset').addEventListener('click',resetT);$('#tLen').addEventListener('change',resetT);
-
-/* ---------- 心得 ---------- */
-const SP={s1:['網站上架宣傳圖','模特代言推廣圖','IG 乾貨圖卡','YT 封面圖','物件宣傳文'],s3:['驚喜','比想像中簡單','有點卡關','越改越順','停不下來']};
-$$('.spark').forEach(d=>{const id=d.dataset.for;d.innerHTML=SP[id].map(x=>`<button class="btn" data-sp="${id}">${x}</button>`).join('')});
-document.addEventListener('click',e=>{const b=e.target.closest('[data-sp]');if(!b)return;const el=$('#'+b.dataset.sp);el.value=el.value.trim()?el.value.trim()+'、'+b.textContent:b.textContent;updShare()});
+const join=(a,sep)=>a.length?a.join(sep):'';
 function shareText(){
-  const v=k=>$('#'+k).value.trim();
-  const L=[];
-  L.push(`我與 AI 一起創作的主題為：${v('s1')||'＿＿＿'}。`);
-  L.push(`其中讓我覺得有趣＆驚艷的作品是：${v('s2')||'＿＿＿'}。`);
-  L.push(`過程中，我的感覺是${v('s3')||'＿＿＿'}；收穫是${v('s4')||'＿＿＿'}。`);
-  return L.join('\n');
+  const q1=SA.q1[0]||'＿＿＿',q2=join(SA.q2,'、')||'＿＿＿',q3=SA.q3[0]||'＿＿＿',q4=join(SA.q4,'；也學到')||'＿＿＿';
+  return `我與 AI 一起創作的主題為「${q1}」。\n其中讓我覺得有趣＆驚艷的是：${q2}。\n過程中，我的感覺是${q3}；收穫是${q4}。${own.trim()?`\n${own.trim()}`:''}`;
 }
-function updShare(){$('#shOut').textContent=shareText();store.set('share',['s1','s2','s3','s4'].map(k=>$('#'+k).value))}
-const shv=store.get('share');if(Array.isArray(shv))['s1','s2','s3','s4'].forEach((k,i)=>$('#'+k).value=shv[i]||'');
-['s1','s2','s3','s4'].forEach(k=>$('#'+k).addEventListener('input',updShare));
-$('#shCopy').addEventListener('click',()=>copyText(shareText(),'已複製分享稿',$('#shOut')));
-$('#shClear').addEventListener('click',()=>{['s1','s2','s3','s4'].forEach(k=>$('#'+k).value='');updShare();toast('已清空')});
+function imgPromptShare(){
+  const q1=SA.q1[0]||'網站上架宣傳圖',q3=SA.q3[0]||'驚喜',q4=SA.q4[0];
+  const slogan=q4?SLOGAN[q4]:'是你，讓 AI 更強大';
+  const M=['寫實攝影風格，自然膚色、自然光，不加濾鏡與光暈特效',
+   `人物：一位 25～35 歲的台灣華人房仲業務，穿白襯衫與深色西裝外套、配戴名牌，${FACE[q3]}`,
+   `場景：${SCENE[q1]}`,
+   '背景是桃園的房仲門市，有物件看板、綠色植物與溫暖的午後陽光，畫面乾淨不雜亂',
+   `畫面一角加上一行繁體中文手寫字：「${slogan}」，字要清楚、不可錯字`,
+   '比例 4:5（1080×1350），適合貼到 LINE 群組或 IG',
+   '不要出現任何真實品牌、建案名稱或商標，人物不要像任何真實名人'];
+  return {slogan,text:`你是擅長職場紀實的商業攝影師，\n我要一張寫實照片，呈現台灣房仲業務熱血工作的瞬間，記錄我今天用 AI 做「${q1}」的心得，\n請依照以下條件：\n`+M.map((m,i)=>`${i+1}. ${m}`).join('\n')};
+}
+function updShare(){
+  $('#shOut').textContent=shareText();
+  const ip=imgPromptShare();
+  $('#shImg').innerHTML=esc(ip.text).replace(/^你是/,'<span class="tag a">A</span>你是').replace(/\n我要/,'\n<span class="tag t">T</span>我要').replace(/\n請依照/,'\n<span class="tag m">M</span>請依照');
+  $('#sCapT').textContent=SA.q1[0]?`我用 AI 做了「${SA.q1[0]}」`:'我用 AI 做了＿＿＿';
+  $('#sCapS').textContent=`✦ ${ip.slogan}`;
+  $('#shOut').hidden=shTab!=='t';$('#shImg').hidden=shTab!=='p';
+  $('#shCopy').textContent=shTab==='t'?'複製分享稿':'複製示意圖指令';
+  store.set('share2',Object.assign({own},SA));
+}
+$('#qs').addEventListener('click',e=>{const b=e.target.closest('[data-q]');if(!b)return;const q=QS.find(x=>x.id===b.dataset.q),o=b.dataset.o,arr=SA[q.id];
+  if(q.multi){const i=arr.indexOf(o);if(i>=0)arr.splice(i,1);else{if(arr.length>=2){toast('最多選兩個，先取消一個再選');return}arr.push(o)}}
+  else SA[q.id]=arr[0]===o?[]:[o];
+  $$(`#qs [data-q="${q.id}"]`).forEach(x=>x.setAttribute('aria-pressed',SA[q.id].includes(x.dataset.o)));updShare()});
+$('#qs').addEventListener('input',e=>{if(e.target.id==='sOwn'){own=e.target.value;updShare()}});
+$$('[data-st2]').forEach(b=>b.addEventListener('click',()=>{shTab=b.dataset.st2;$$('[data-st2]').forEach(x=>x.setAttribute('aria-selected',x===b));updShare()}));
+$('#shCopy').addEventListener('click',()=>{if(shTab==='t'){if(!SA.q1.length){toast('先回答 Q1 主題');return}copyText(shareText(),'已複製分享稿',$('#shOut'))}else copyText(imgPromptShare().text,'已複製示意圖指令，貼到 ChatGPT 生成',$('#shImg'))});
+$('#sFile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;if(!/^image\//.test(f.type)){toast('請選擇圖片檔');return}
+  const r=new FileReader();r.onload=()=>{upImg=r.result;let img=$('#sFrame img');if(!img){img=document.createElement('img');img.alt='我的 AI 示意圖';$('#sFrame').appendChild(img)}img.src=upImg;$('#sPh').hidden=true;$('#sFileClear').hidden=false;toast('已放入你的 AI 圖')};r.readAsDataURL(f);e.target.value=''});
+$('#sFileClear').addEventListener('click',()=>{const img=$('#sFrame img');if(img)img.remove();upImg=null;$('#sPh').hidden=false;$('#sFileClear').hidden=true});
 
 /* ---------- 分頁 ---------- */
-const VIEWS=['atm','copy','image','guess','practice','share'];
+const VIEWS=['atm','copy','image','share'];
 function show(v){if(!VIEWS.includes(v))v='atm';$$('[data-v]').forEach(s=>s.hidden=s.dataset.v!==v);$$('[data-go]').forEach(b=>b.setAttribute('aria-selected',b.dataset.go===v))}
 function go(v){if(location.hash.slice(1)===v)show(v);else location.hash=v;window.scrollTo({top:0,behavior:'auto'})}
 $$('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
-document.addEventListener('click',e=>{const b=e.target.closest('[data-goto]');if(b)go(b.dataset.goto)});
 window.addEventListener('hashchange',()=>show(location.hash.slice(1)));
 $$('[data-jump]').forEach(b=>{const t=$('#'+b.dataset.jump);b.addEventListener('click',()=>t.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}));if(window.IntersectionObserver)new IntersectionObserver(es=>es.forEach(en=>b.classList.toggle('away',en.isIntersecting))).observe(t)});
 
-renderScen();renderImgStatic();renderGuess(true);drawClock();updShare();show(location.hash.slice(1));
+renderScen();renderImgStatic();renderQs();updShare();show(location.hash.slice(1));
 })();
 </script>
 </body>
