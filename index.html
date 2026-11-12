@@ -176,6 +176,15 @@ main{padding-block:32px 80px}
 .ticks li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;align-items:start}
 .ticks li svg{width:20px;height:12px;margin-top:6px}
 .jump{display:none}
+.lab{font-size:13.5px;font-weight:700;color:var(--muted);margin-bottom:8px}
+.fld5+.fld5{margin-top:16px}
+.fu li.sup{grid-template-columns:minmax(0,1fr) auto;align-items:start}
+.fu li.sup div:first-child{display:grid;gap:2px}
+.fu li.sup b{color:var(--purple)}
+.fu li.sup span{font-size:13.5px;color:var(--muted)}
+.celeb{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
+.celeb .lab{display:flex;gap:6px;align-items:center}
+.chip small{font-weight:400;opacity:.75}
 
 /* 圖像產生器 */
 .colors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
@@ -406,7 +415,7 @@ footer b{color:var(--purple);font-family:var(--f-disp)}
       <div class="card step">
         <h3><span class="n">4</span>M 方法<small>可複選，越具體越好</small></h3>
         <div class="chips" id="mChips"></div>
-        <div class="fld"><label for="mCustom">補充資料或條件（選填）</label><textarea id="mCustom" placeholder="例：屋齡 8 年、26 坪、兩房一廳、近捷運 A19；屋主急售可議價"></textarea></div>
+        <div class="fld"><label for="mCustom">補充資料或條件（選填，可從右邊「應補充資料」套用範例）</label><textarea id="mCustom" placeholder="例：屋齡 8 年、26 坪、兩房一廳、近捷運 A19；屋主急售可議價"></textarea></div>
       </div>
     </div>
     <div class="out" id="copyOut">
@@ -415,10 +424,11 @@ footer b{color:var(--purple);font-family:var(--f-disp)}
           <div class="tabs" role="tablist">
             <button role="tab" data-ct="p" aria-selected="true">ATM 指令</button>
             <button role="tab" data-ct="f" aria-selected="false">建議追問</button>
+            <button role="tab" data-ct="n" aria-selected="false">應補充資料</button>
           </div>
           <button class="btn primary" id="copyCopy">複製指令</button>
         </div>
-        <div class="out-body"><div id="copyP" class="prompt"></div><ul id="copyF" class="fu" hidden></ul></div>
+        <div class="out-body"><div id="copyP" class="prompt"></div><ul id="copyF" class="fu" hidden></ul><ul id="copyN" class="fu" hidden></ul></div>
       </div>
       <div class="card">
         <h4 style="font-size:15px;margin-bottom:8px;color:var(--purple)">刊登前檢查</h4>
@@ -453,11 +463,14 @@ footer b{color:var(--purple);font-family:var(--f-disp)}
         <h3><span class="n">3</span>參考素材</h3>
         <div class="refrow"><input type="checkbox" id="iRef" checked><label for="iRef" id="iRefL"></label></div>
         <p class="note" style="margin-top:8px">要給什麼產品／服務參考圖，或提供參考知識資訊？有參考圖，AI 才不會亂編物件長相。</p>
+        <div class="fld"><label for="iExtra">補充資料（選填，可從右邊「應補充資料」套用範例）</label><textarea id="iExtra" placeholder="例：34 坪、3 房 2 廳 2 衛、總價 1,680 萬"></textarea></div>
       </div>
       <div class="card step">
-        <h3><span class="n">4</span>比例與風格</h3>
-        <div class="chips" id="iRatio"></div>
-        <div class="chips" id="iStyle" style="margin-top:10px"></div>
+        <h3><span class="n">4</span>輸出規格<small>要放在哪裡？尺寸會自動帶入</small></h3>
+        <div class="chips" id="iOut"></div>
+        <div class="chips" id="iRatio" style="margin-top:10px" hidden></div>
+        <div class="lab" style="margin-top:14px">畫面風格</div>
+        <div class="chips" id="iStyle"></div>
       </div>
       <div class="card step">
         <h3><span class="n">5</span>品牌配色<small>直接寫色碼，AI 最聽得懂</small></h3>
@@ -480,10 +493,11 @@ footer b{color:var(--purple);font-family:var(--f-disp)}
             <button role="tab" data-it="s" aria-selected="false">一句話短指令</button>
             <button role="tab" data-it="p" aria-selected="true">ATM 完整指令</button>
             <button role="tab" data-it="f" aria-selected="false">修圖追問</button>
+            <button role="tab" data-it="n" aria-selected="false">應補充資料</button>
           </div>
           <button class="btn primary" id="imgCopy">複製指令</button>
         </div>
-        <div class="out-body"><div id="imgP" class="prompt"></div><ul id="imgF" class="fu" hidden></ul></div>
+        <div class="out-body"><div id="imgP" class="prompt"></div><ul id="imgF" class="fu" hidden></ul><ul id="imgN" class="fu" hidden></ul></div>
       </div>
     </div>
   </div>
@@ -589,9 +603,26 @@ const SC=[
   m:[['給我 3 種前 3 秒的吸睛開場',1],['做成分鏡表：時間／畫面／口白／字幕',1],['口白口語化，像跟朋友聊天',0],['結尾行動呼籲：留言或私訊預約諮詢',0],['政策數字標註「待查證」',1]],
   fu:['把分鏡改成我一個人拿手機就能拍的版本','幫我想影片標題與封面文字各 5 個','把同一主題拆成 3 支系列短片']}
 ];
+const CEL={
+ house:[['達文西','把藝術美感與工程細節融合'],['賈伯斯','用極簡語言說出產品價值'],['安藤忠雄','用光影與清水模說空間的故事']],
+ area:[['吳念真','用庶民故事寫出土地的溫度'],['李安','用細膩鏡頭拍出生活感'],['蔡明亮','用慢節奏看見城市日常']],
+ recruit:[['林書豪','逆境中不放棄的奮鬥精神'],['稻盛和夫','利他經營與工作哲學'],['嚴長壽','把服務業做成一輩子的志業']],
+ owner:[['巴菲特','用數字說明長期價值'],['王永慶','勤儉務實、把細節做到位'],['卡內基','真誠讚美、贏得信任的說服力']],
+ follow:[['霍華‧舒茲','打造讓人想再來的服務體驗'],['蔡康永','溫柔又有分寸的說話方式'],['華特‧迪士尼','把每個細節變成驚喜的待客之道']],
+ video:[['MrBeast','開場 3 秒抓住注意力'],['李安','用畫面說故事'],['黃仁勳','把複雜科技講得簡單又有感染力']]
+};
+const SUP={
+ house:[['物件基本資料','34 坪、3 房 2 廳 2 衛、屋齡 5 年、12 樓／15 樓、平面車位'],['周邊生活機能','步行 5 分鐘到全聯、10 分鐘到國小、對面就是公園'],['交通','開車 8 分鐘上國道 1 號、公車直達桃園火車站'],['目標客群','想給爸媽安心養老的子女、重視醫療照護的退休族'],['價格與聯絡方式','總價 1,280 萬（可議）、預約專線與 LINE ID']],
+ area:[['交通數據','到中壢火車站車程約 15 分鐘（待查證）'],['學區資訊','鄰近國小、國中的名稱與步行距離'],['公共建設','近期開通或規劃中的道路、公園、運動中心'],['房價區間','新成屋每坪約 xx 萬、中古屋約 xx 萬（查實價登錄）'],['在地故事','老街小吃、社區活動、帶看時聽到的住戶心聲']],
+ recruit:[['公司與團隊特色','桃園在地 20 年、新人師徒制、每週教育訓練'],['真實新人故事','25 歲從餐飲業轉職，第一年完成 6 件成交（需本人同意）'],['福利與制度','底薪＋獎金制度說明（不寫保證收入）'],['面試資訊','報名表單連結、面試時間與門市地址'],['品牌語氣','像學長姐分享，不像徵才廣告']],
+ owner:[['社區成交行情','近半年同社區 3 筆成交，每坪約 xx 萬（實價登錄）'],['你的銷售實績','過去一年在本區成交 12 件、平均 45 天售出'],['行銷管道','591、FB 社團、店頭、LINE 社群同步曝光'],['屋主可能的顧慮','擔心價格被砍、不想太常帶看'],['聯絡方式','LINE ID、電話、門市地址']],
+ follow:[['客戶在意的點','擔心西曬、問了學區和停車'],['物件補充優點','社區有健身房、管理費每坪 60 元'],['客戶家庭狀況','雙薪、小孩 3 歲、預算 1,500 萬內'],['下一步提議','週六上午二看、幫忙試算 30 年房貸'],['你的語氣','親切但不催促，像朋友提醒']],
+ video:[['政策重點數字','貸款額度、利率、年限（以財政部最新公告為準）'],['目標觀眾','25～35 歲在桃園工作的首購族'],['拍攝條件','一個人、手機直拍、在門市或物件現場'],['你的人設','講話直接、愛用數字的在地房仲'],['結尾行動','留言「青安」就私訊試算表']]
+};
+const allA=s=>s.a.map(x=>({t:x})).concat(CEL[s.id].map(c=>({t:`${c[0]}，借重你「${c[1]}」的長處`,n:c[0],f:c[1]})));
 const CS={sc:'house',a:{},af:{},m:{},v:{},custom:{}};
 SC.forEach(s=>{CS.a[s.id]=0;CS.m[s.id]=s.m.map(x=>!!x[1]);CS.v[s.id]={};s.f.forEach(f=>CS.v[s.id][f.k]=f.v)});
-const sv=store.get('copy');if(sv&&SC.some(s=>s.id===sv.sc)){CS.sc=sv.sc;for(const k of ['a','m','v'])if(sv[k])for(const id in sv[k])if(CS[k][id]!==undefined){if(k==='m'){if(Array.isArray(sv.m[id])&&sv.m[id].length===CS.m[id].length)CS.m[id]=sv.m[id]}else if(k==='v')Object.assign(CS.v[id],sv.v[id]);else if(SC.find(s=>s.id===id).a[sv.a[id]])CS.a[id]=sv.a[id]}}
+const sv=store.get('copy');if(sv&&SC.some(s=>s.id===sv.sc)){CS.sc=sv.sc;for(const k of ['a','m','v'])if(sv[k])for(const id in sv[k])if(CS[k][id]!==undefined){if(k==='m'){if(Array.isArray(sv.m[id])&&sv.m[id].length===CS.m[id].length)CS.m[id]=sv.m[id]}else if(k==='v')Object.assign(CS.v[id],sv.v[id]);else if(allA(SC.find(s=>s.id===id))[sv.a[id]])CS.a[id]=sv.a[id]}}
 const cur=()=>SC.find(s=>s.id===CS.sc);
 const quick=f=>f.o?`<div class="quick"><span>桃園快選</span>${f.o.map(x=>`<button type="button" class="chip q" data-qk="${f.k}" data-qv="${esc(x)}">${esc(x)}</button>`).join('')}</div>`:'';
 function pickQuick(box,e,setv){const b=e.target.closest('[data-qk]');if(!b)return;const inp=box.querySelector(`input[data-k="${b.dataset.qk}"]`);inp.value=b.dataset.qv;setv(b.dataset.qk,b.dataset.qv)}
@@ -599,14 +630,15 @@ function fillT(s,html){return s.t.replace(/\{(\w+)\}/g,(_,k)=>{const v=(CS.v[s.i
 function renderScen(){
   $('#scen').innerHTML=SC.map(s=>`<button data-s="${s.id}" aria-pressed="${s.id===CS.sc}"><b>${s.name}</b><span>${s.d}</span></button>`).join('');
   const s=cur();
-  $('#aChips').innerHTML=s.a.map((a,i)=>`<button class="chip a" data-a="${i}" aria-pressed="${i===CS.a[s.id]}">${esc(a)}</button>`).join('');
+  $('#aChips').innerHTML=s.a.map((a,i)=>`<button class="chip a" data-a="${i}" aria-pressed="${i===CS.a[s.id]}">${esc(a)}</button>`).join('')
+   +`<div class="celeb" style="width:100%"><div class="lab"><svg class="spark" aria-hidden="true"><use href="#i-spark"/></svg>領域卓越人士：借重他最強的那一面</div><div class="chips">${CEL[s.id].map((c,j)=>`<button class="chip a" data-a="${s.a.length+j}" aria-pressed="${s.a.length+j===CS.a[s.id]}">${esc(c[0])}<small>｜${esc(c[1])}</small></button>`).join('')}</div></div>`;
   $('#tFields').innerHTML=s.f.map(f=>`<div class="fld${(s.f.length===1||f.o)?' full':''}"><label for="tf-${f.k}">${f.l}</label><input id="tf-${f.k}" data-k="${f.k}" value="${esc(CS.v[s.id][f.k])}">${quick(f)}</div>`).join('');
   $('#mChips').innerHTML=s.m.map((m,i)=>`<button class="chip m" data-m="${i}" aria-pressed="${CS.m[s.id][i]}">${esc(m[0])}</button>`).join('');
   $('#aCustom').value=CS.custom.a||'';$('#mCustom').value=CS.custom.m||'';
   updCopy();
 }
 function copyParts(){
-  const s=cur(); const A=($('#aCustom').value.trim())||s.a[CS.a[s.id]];
+  const s=cur(); const A=($('#aCustom').value.trim())||(allA(s)[CS.a[s.id]]||allA(s)[0]).t;
   const M=s.m.filter((m,i)=>CS.m[s.id][i]).map(m=>m[0]); const extra=$('#mCustom').value.trim();
   return {s,A,M,extra};
 }
@@ -617,7 +649,8 @@ function updCopy(){
   h+= M.length? M.map(esc).join('；')+'。' : '<span class="note">（還沒選方法，至少選一個吧）</span>';
   if(extra)h+=`\n參考資料：${esc(extra)}`;
   $('#copyP').innerHTML=h;
-  $('#copyF').innerHTML=s.fu.map(f=>`<li><span>${esc(f)}</span><button class="btn" data-cp="${esc(f)}">複製</button></li>`).join('');
+  $('#copyF').innerHTML=s.fu.map(f=>`<li><span>${esc(f)}</span><button class="btn small" data-cp="${esc(f)}">複製</button></li>`).join('');
+  $('#copyN').innerHTML=supList(SUP[s.id],'copy');
   store.set('copy',{sc:CS.sc,a:CS.a,m:CS.m,v:CS.v});
 }
 function copyPlain(){const {s,A,M,extra}=copyParts();return `你是${A}，\n${fillT(s,false)}，\n${M.length?M.join('；')+'。':''}${extra?`\n參考資料：${extra}`:''}`}
@@ -629,7 +662,7 @@ $('#tFields').addEventListener('input',e=>{const k=e.target.dataset.k;if(!k)retu
 $('#aCustom').addEventListener('input',e=>{CS.custom.a=e.target.value;updCopy()});
 $('#mCustom').addEventListener('input',e=>{CS.custom.m=e.target.value;updCopy()});
 $('#copyCopy').addEventListener('click',()=>copyText(copyPlain(),'已複製指令',$('#copyP')));
-$$('[data-ct]').forEach(b=>b.addEventListener('click',()=>{$$('[data-ct]').forEach(x=>x.setAttribute('aria-selected',x===b));$('#copyP').hidden=b.dataset.ct!=='p';$('#copyF').hidden=b.dataset.ct!=='f'}));
+$$('[data-ct]').forEach(b=>b.addEventListener('click',()=>{$$('[data-ct]').forEach(x=>x.setAttribute('aria-selected',x===b));const c=b.dataset.ct;$('#copyP').hidden=c!=='p';$('#copyF').hidden=c!=='f';$('#copyN').hidden=c!=='n';$('#copyCopy').hidden=c!=='p'}));
 document.addEventListener('click',e=>{const b=e.target.closest('[data-cp]');if(b)copyText(b.dataset.cp,'已複製追問')});
 
 /* ---------- ATM 頁三個範例 ---------- */
@@ -649,124 +682,172 @@ $('#exs').addEventListener('click',e=>{const b=e.target.closest('[data-ex]');if(
 document.addEventListener('click',e=>{const b=e.target.closest('[data-open-scen]');if(!b)return;CS.sc=b.dataset.openScen;CS.custom={};renderScen();go('copy')});
 
 /* ---------- 圖像產生器 ---------- */
-const RATIO={'1:1':[1,1,'1080×1080'],'4:5':[4,5,'1080×1350'],'5:4':[5,4,'1250×1000'],'16:9':[16,9,'1280×720'],'9:16':[9,16,'1080×1920']};
+const RATIO={'1:1':[1,1,'1080×1080'],'4:5':[4,5,'1080×1350'],'5:4':[5,4,'1250×1000'],'3:4':[3,4,'1080×1440'],'16:9':[16,9,'1280×720'],'9:16':[9,16,'1080×1920']};
+const OUT=[
+ {id:'ig45',n:'IG 貼文（直式）',rl:'4:5',r:[4,5],px:'1080×1350'},
+ {id:'ig11',n:'IG 貼文（方形）',rl:'1:1',r:[1,1],px:'1080×1080'},
+ {id:'story',n:'IG／FB 限時動態',rl:'9:16',r:[9,16],px:'1080×1920'},
+ {id:'fb',n:'FB 連結分享圖',rl:'1.91:1',r:[1.91,1],px:'1200×630'},
+ {id:'fbcover',n:'FB 粉專封面',rl:'2.63:1',r:[1640,624],px:'1640×624'},
+ {id:'line',n:'LINE 官方圖文訊息',rl:'1:1',r:[1,1],px:'1040×1040'},
+ {id:'linemenu',n:'LINE 官方圖文選單',rl:'約 3:2',r:[2500,1686],px:'2500×1686'},
+ {id:'web',n:'物件網站主圖（591 等）',rl:'5:4',r:[5,4],px:'1250×1000'},
+ {id:'yt',n:'YouTube 縮圖',rl:'16:9',r:[16,9],px:'1280×720'},
+ {id:'poster',n:'A4 海報／店頭 DM',rl:'A4 直式',r:[210,297],px:'2480×3508（300dpi）',print:1},
+ {id:'board',n:'戶外看板橫幅',rl:'3:1',r:[3,1],px:'3600×1200（150dpi）',print:1},
+ {id:'other',n:'其他（自訂比例）'}
+];
 const STY=['高貴商務','溫馨居家','清新自然','活潑可愛','極簡現代'];
 const IT=[
- {id:'web',name:'網站上架宣傳圖',d:'物件上架、電商主圖',ratio:'5:4',style:'高貴商務',hint:'物件名稱／主要特點／議題連結',
-  f:[{k:'name',l:'物件名稱',v:'青埔高鐵特區・景觀三房',o:['青埔高鐵特區・景觀三房','藝文特區・電梯兩房','小檜溪重劃區・新成屋','南崁台茂商圈・三房平車','八德擴大重劃區・透天','平鎮學區・三房華廈']},{k:'feat',l:'主要特點（用頓號分開）',v:'步行到高鐵站、三房雙衛、邊間採光、平面車位'},{k:'issue',l:'議題連結',v:'首購族也能用青安貸款'}],
+ {id:'web',name:'網站上架宣傳圖',d:'物件上架、電商主圖',out:'web',style:'高貴商務',hint:'物件名稱／主要特點／議題連結',
+  f:[{k:'name',l:'物件名稱',o:['青埔高鐵特區・景觀三房','藝文特區・電梯兩房','小檜溪重劃區・新成屋','南崁台茂商圈・三房平車']},
+     {k:'feat',l:'主要特點',o:['步行到高鐵站、三房雙衛、邊間採光、平面車位','近捷運站、雙學區、公園第一排、低公設比','新成屋、全新裝潢、管理完善、近商圈','透天自住兼收租、前院停車、重劃區增值']},
+     {k:'issue',l:'議題連結',o:['首購族也能用青安貸款','捷運綠線帶動的通勤生活','雙北移居桃園的生活圈','產業園區帶來的就業人口']}],
   ref:'物件實拍照（客廳、外觀、景觀各一張）',
   A:'擅長房地產廣告的資深平面設計師',
   short:v=>`用你的實力，畫一張叫好又叫座的房屋網站上架宣傳圖，物件是「${v.name}」，${v.ratio}`,
-  T:v=>`我要製作「${v.name}」的網站上架宣傳圖，吸引正在找房的人點進來看`,
+  T:v=>`我要製作「${v.name}」的宣傳圖，吸引正在找房的人點進來看`,
   M:v=>[`主標題用物件名稱，副標扣合議題「${v.issue}」`,`用 4 個圖示條列主要特點：${v.feat}`,'右下角放「立即預約看屋」按鈕']},
- {id:'model',name:'模特代言推廣圖',d:'網紅開箱、看房分享',ratio:'1:1',style:'活潑可愛',hint:'角色定位／動作情境／傳遞氛圍',
-  f:[{k:'role',l:'角色定位',v:'台灣甜美 YouTuber'},{k:'act',l:'動作情境',v:'在新成屋客廳張開雙手開箱介紹空間'},{k:'mood',l:'傳遞氛圍（用頓號分開）',v:'採光超好、收納空間大、小家庭首選'}],
+ {id:'model',name:'模特代言推廣圖',d:'網紅開箱、看房分享',out:'ig11',style:'活潑可愛',hint:'角色定位／動作情境／傳遞氛圍',
+  f:[{k:'role',l:'角色定位',o:['台灣甜美 YouTuber','親切的資深房仲店長','年輕小家庭爸媽','退休樂齡夫妻']},
+     {k:'act',l:'動作情境',o:['在新成屋客廳張開雙手開箱介紹空間','在社區挑高大廳拿著手機自拍開箱','在廚房中島前比讚介紹收納','在陽台指向窗外景觀']},
+     {k:'mood',l:'傳遞氛圍',o:['採光超好、收納空間大、小家庭首選','CP值超高、交通方便、生活機能好','質感生活、安靜社區、管理完善','公園第一排、學區優、適合養小孩']}],
   ref:'社區大廳或樣品屋的實景照',
   A:'擅長生活風格的商業攝影師兼社群行銷企劃',
   short:v=>`用你的實力創作一張，叫好叫座的，${v.role}開箱宣傳照，${v.ratio}`,
   T:v=>`我要製作一張${v.role}${v.act}的推廣圖，讓人想約看房`,
-  M:v=>[`人物：${v.role}，表情自然、笑容親切`,`場景保留參考照的空間與家具配置`,`畫面加上 3 個對話框文字：${v.mood}`,'人物為 AI 生成虛擬模特，不要像任何真實名人']},
- {id:'card',name:'社群經營乾貨圖',d:'IG 知識圖卡、比較表',ratio:'1:1',style:'高貴商務',hint:'設計風格／目標平台／參考主題',
-  f:[{k:'plat',l:'目標平台',v:'IG'},{k:'topic',l:'參考主題',v:'青安貸款是什麼？與一般首購貸款差在哪'},{k:'style2',l:'設計風格補充',v:'城市天際線背景、金色細線條'}],
+  M:v=>[`人物：${v.role}，表情自然、笑容親切`,'場景保留參考照的空間與家具配置',`畫面加上 3 個對話框文字：${v.mood}`,'人物為 AI 生成虛擬模特，不要像任何真實名人']},
+ {id:'card',name:'社群經營乾貨圖',d:'知識圖卡、比較表',out:'ig11',style:'高貴商務',hint:'參考主題／呈現方式／設計風格',
+  f:[{k:'topic',l:'參考主題',o:['青安貸款是什麼？與一般首購貸款差在哪','買房自備款怎麼抓？','房屋稅、地價稅一次看懂','桃園各區房價怎麼比？']},
+     {k:'layout',l:'呈現方式',o:['比較表格，每列前面加小圖示','三步驟流程圖','Q&A 問答卡','重點條列＋大數字']},
+     {k:'style2',l:'設計風格補充',o:['城市天際線背景、金色細線條','手繪插畫、溫暖米色調','極簡留白、大字標題','俐落色塊、扁平圖示']}],
   ref:'原始資訊截圖或整理好的文字資料',
   A:'專做房產知識圖卡的資訊設計師',
-  short:v=>`完整呈現並重新排版附圖內容，給我${v.ratio}的${v.plat}圖卡，重點色使用${v.k}，觀念色使用${v.c}，${v.style}風格`,
-  T:v=>`我要把「${v.topic}」做成一張${v.plat}乾貨圖卡，讓人想收藏轉傳`,
-  M:v=>['完整呈現附圖資訊並重新排版，不可增刪數字','用比較表格呈現，每列前面加小圖示',`設計風格補充：${v.style2}`,'底部加一行「小提醒」']},
- {id:'cover',name:'自媒體企劃封面圖',d:'YT 頻道封面、影片縮圖',ratio:'16:9',style:'高貴商務',hint:'節目名稱／內容主軸／一句標語',
-  f:[{k:'show',l:'節目名稱',v:'房產實驗室'},{k:'topics',l:'內容主軸（用頓號分開）',v:'買房攻略、看房重點、區域分析、都市規劃、房市趨勢'},{k:'slogan',l:'一句標語',v:'用數據與實驗精神，探索更好的居住未來'}],
+  short:v=>`完整呈現並重新排版附圖內容，給我${v.ratio}的${v.dest}圖卡，重點色使用${v.k}，觀念色使用${v.c}，${v.style}風格`,
+  T:v=>`我要把「${v.topic}」做成一張${v.dest}乾貨圖卡，讓人想收藏轉傳`,
+  M:v=>['完整呈現附圖資訊並重新排版，不可增刪數字',`呈現方式：${v.layout}`,`設計風格補充：${v.style2}`,'底部加一行「小提醒」']},
+ {id:'cover',name:'自媒體企劃封面圖',d:'YT 縮圖、粉專封面',out:'yt',style:'高貴商務',hint:'節目名稱／內容主軸／一句標語',
+  f:[{k:'show',l:'節目名稱',o:['房產實驗室','桃園買房攻略','房仲的一天','青埔生活家']},
+     {k:'topics',l:'內容主軸',o:['買房攻略、看房重點、區域分析、都市規劃、房市趨勢','物件開箱、社區介紹、生活機能','首購教學、貸款試算、稅費說明','房仲日常、成交故事、客戶見證']},
+     {k:'slogan',l:'一句標語',o:['用數據與實驗精神，探索更好的居住未來','你的桃園買房好夥伴','看懂房子，也看懂生活','每週一間，帶你看遍桃園']}],
   ref:'本人半身形象照（正面、背景單純）',
-  A:'YouTube 頻道視覺總監',
-  short:v=>`製作符合YT影片封面尺寸，節目主題為「${v.show}」，內容主要為${v.topics}`,
+  A:'社群頻道視覺總監',
+  short:v=>`製作符合${v.dest}尺寸的封面，節目主題為「${v.show}」，內容主要為${v.topics}`,
   T:v=>`我要製作「${v.show}」頻道的封面圖，讓人一眼知道這個頻道在講什麼`,
   M:v=>['人物放左側，保留參考照的臉部與服裝',`大標題「${v.show}」，副標「${v.slogan}」`,`用一排圖示列出內容主軸：${v.topics}`,'底部加「訂閱頻道｜按讚支持｜開啟小鈴鐺」']}
 ];
-const IS={t:'web',v:{},ratio:{},style:{},ref:true,k:'#FE8E3F',c:'#3e4273',tab:'p'};
-IT.forEach(t=>{IS.v[t.id]={};t.f.forEach(f=>IS.v[t.id][f.k]=f.v);IS.ratio[t.id]=t.ratio;IS.style[t.id]=t.style});
-const isv=store.get('img');if(isv&&IT.some(t=>t.id===isv.t)){IS.t=isv.t;for(const id in IS.v){if(isv.v&&isv.v[id])Object.assign(IS.v[id],isv.v[id]);if(isv.ratio&&RATIO[isv.ratio[id]])IS.ratio[id]=isv.ratio[id];if(isv.style&&STY.includes(isv.style[id]))IS.style[id]=isv.style[id]}if(/^#[0-9a-f]{6}$/i.test(isv.k||''))IS.k=isv.k;if(/^#[0-9a-f]{6}$/i.test(isv.c||''))IS.c=isv.c;IS.ref=isv.ref!==false}
-const SWS=[['課堂範例','#FE8E3F','#3e4273'],['AI效能實驗室','#FFC94A','#603E8D'],['金棕質感','#C9A063','#2B2B2B'],['森林綠','#E9B44C','#2F5D50'],['海軍藍','#F2C14E','#1F3A5F'],['玫瑰粉','#E58FA0','#5A4A5E']];
+const IMG_SUP={
+ web:[['物件實拍照','客廳、外觀、景觀各 1 張，白天自然光、畫面不要有人'],['物件數據','34 坪、3 房 2 廳 2 衛、12 樓／22 樓、平面車位'],['價格與賣點排序','總價 1,680 萬；最想強調「步行到高鐵站」'],['店家資訊','店名、經紀業名稱、預約專線放右下角']],
+ model:[['場景照片','社區大廳或樣品屋，構圖留出人物位置'],['人物設定','30 歲女生、長髮、白色針織上衣，AI 虛擬人物'],['對話框文字','「採光超好！」「收納超大！」「小家庭首選！」每句 8 字內'],['肖像提醒','若改用真人照片，要先取得本人肖像授權']],
+ card:[['原始資訊','財政部或銀行官網的政策說明截圖'],['重點數字','最長 40 年、寬限期 5 年（以最新公告為準）'],['品牌元素','店名、Logo、LINE 官方帳號 ID'],['頁數','單張，或 IG 輪播 5 頁（封面＋3 頁內容＋行動呼籲）']],
+ cover:[['本人形象照','正面半身、淺色背景、光線均勻'],['頻道資訊','每週三更新、頻道名稱放大'],['品牌色','主色 #3e4273、強調色 #FE8E3F'],['人物位置','放左側，視線朝向右邊的標題']]
+};
+const ioth=new Set();
+const IS={t:'web',v:{},out:{},ratio:{},style:{},ref:true,k:'#FE8E3F',c:'#3e4273',tab:'p',extra:{}};
+IT.forEach(t=>{IS.v[t.id]={};t.f.forEach(f=>IS.v[t.id][f.k]=f.o[0]);IS.out[t.id]=t.out;IS.ratio[t.id]='1:1';IS.style[t.id]=t.style;IS.extra[t.id]=''});
+const isv=store.get('img2');if(isv&&IT.some(t=>t.id===isv.t)){IS.t=isv.t;for(const id in IS.v){if(isv.v&&isv.v[id])Object.assign(IS.v[id],isv.v[id]);if(isv.out&&OUT.some(o=>o.id===isv.out[id]))IS.out[id]=isv.out[id];if(isv.ratio&&RATIO[isv.ratio[id]])IS.ratio[id]=isv.ratio[id];if(isv.style&&STY.includes(isv.style[id]))IS.style[id]=isv.style[id];if(isv.extra&&typeof isv.extra[id]==='string')IS.extra[id]=isv.extra[id]}if(/^#[0-9a-f]{6}$/i.test(isv.k||''))IS.k=isv.k;if(/^#[0-9a-f]{6}$/i.test(isv.c||''))IS.c=isv.c;IS.ref=isv.ref!==false}
+const SWS=[['課堂範例','#FE8E3F','#3e4273'],['金棕質感','#C9A063','#2B2B2B'],['森林綠','#E9B44C','#2F5D50'],['海軍藍','#F2C14E','#1F3A5F'],['玫瑰粉','#E58FA0','#5A4A5E'],['磚紅復古','#C8553D','#3D2C2E'],['薄荷清新','#3FB8AF','#2F4858'],['暖陽橘','#F28C28','#5B3A29'],['莫蘭迪','#B5838D','#6D6875'],['湖水藍','#4EA8DE','#1D3557']];
 const itC=()=>IT.find(t=>t.id===IS.t);
-function vals(){const t=itC();return Object.assign({},IS.v[t.id],{ratio:IS.ratio[t.id],style:IS.style[t.id],k:IS.k.toUpperCase(),c:IS.c})}
+function outInfo(){const o=OUT.find(x=>x.id===IS.out[IS.t]);if(o.id!=='other')return o;const r=RATIO[IS.ratio[IS.t]];return {id:'other',n:'自訂輸出',rl:IS.ratio[IS.t],r:[r[0],r[1]],px:r[2]}}
+function vals(){const t=itC(),o=outInfo();return Object.assign({},IS.v[t.id],{ratio:o.rl,dest:o.n,px:o.px,r:o.r,print:!!o.print,style:IS.style[t.id],k:IS.k.toUpperCase(),c:IS.c})}
 const splitL=s=>s.split(/[、,，／/]/).map(x=>x.trim()).filter(Boolean);
-function mockHTML(id,v,k,c,ratio){
-  const r=RATIO[ratio]; const wide=r[0]/r[1]; const mw=wide>=1?'100%':(Math.round(100*wide*1.05))+'%';
+function mockHTML(id,v,k,c,r){
+  const wide=r[0]/r[1]; const mw=wide>=1?'100%':(Math.round(100*wide*1.05))+'%';
   let in_='';
   const L=x=>esc(x);
   if(id==='web'){
     const fs=splitL(v.feat||'').slice(0,4);
     in_=`<div class="ph" data-l="物件實拍" style="right:0;top:0;bottom:0;width:${wide>=1?44:100}%;${wide>=1?'':'height:42%;bottom:auto'}"></div>
     <div class="seal" style="right:4%;top:5%;width:15cqw;height:15cqw;font-size:3cqw">熱銷<br>推薦</div>
-    <div class="ttl" style="left:5%;top:${wide>=1?8:45}%;width:${wide>=1?50:90}%;font-size:${wide>=1?6:7.5}cqw">${L(v.name||'物件名稱')}</div>
-    <div class="feat" style="left:5%;top:${wide>=1?40:62}%;width:${wide>=1?50:90}%;font-size:2.8cqw">${fs.map(x=>`<div>${L(x)}</div>`).join('')}</div>
-    <div class="bar" style="left:0;right:0;bottom:0;height:13%;font-size:3cqw;justify-content:space-between;padding:0 4%"><span>${L(v.issue||'')}</span><span style="background:${k};padding:.6cqw 2cqw;border-radius:99px">立即預約看屋 ›</span></div>`;
+    <div class="ttl" style="left:5%;top:${wide>=1?8:45}%;width:${wide>=1?50:90}%;font-size:${wide>2?4:wide>=1?6:7.5}cqw">${L(v.name||'物件名稱')}</div>
+    <div class="feat" style="left:5%;top:${wide>2?36:wide>=1?40:62}%;width:${wide>=1?50:90}%;font-size:${wide>2?2:2.8}cqw">${fs.map(x=>`<div>${L(x)}</div>`).join('')}</div>
+    <div class="bar" style="left:0;right:0;bottom:0;height:13%;font-size:${wide>2?2:3}cqw;justify-content:space-between;padding:0 4%"><span>${L(v.issue||'')}</span><span style="background:${k};padding:.6cqw 2cqw;border-radius:99px">立即預約看屋 ›</span></div>`;
   }else if(id==='model'){
     const ms=splitL(v.mood||'').slice(0,3);
     in_=`<div class="ph" data-l="場景參考照" style="inset:0"></div>
-    <div class="person" style="left:${wide>=1?30:22}%;bottom:12%;width:${wide>=1?26:46}%;height:58%"></div>
-    <div class="hand" style="left:5%;top:9%;font-size:${wide>=1?8:10}cqw">開箱啦！</div>
-    ${ms.map((m,i)=>`<div class="tag2" style="right:4%;top:${30+i*11}%;font-size:3cqw;padding:1cqw 2.4cqw">${L(m)}</div>`).join('')}
-    <div class="bar" style="left:0;right:0;bottom:0;height:12%;font-size:3.6cqw;background:${k}">${L(v.role||'')}推薦</div>`;
+    <div class="person" style="left:${wide>=1?30:22}%;bottom:12%;width:${wide>2?14:wide>=1?26:46}%;height:58%"></div>
+    <div class="hand" style="left:5%;top:9%;font-size:${wide>2?5:wide>=1?8:10}cqw">開箱啦！</div>
+    ${ms.map((m,i)=>`<div class="tag2" style="right:4%;top:${(wide>2?20:30)+i*(wide>2?20:11)}%;font-size:${wide>2?2:3}cqw;padding:1cqw 2.4cqw">${L(m)}</div>`).join('')}
+    <div class="bar" style="left:0;right:0;bottom:0;height:12%;font-size:${wide>2?2.4:3.6}cqw;background:${k}">${L(v.role||'')}推薦</div>`;
   }else if(id==='card'){
     in_=`<div class="diag" style="left:-12%;top:-8%;width:40%;height:7%"></div>
-    <div class="ttl" style="left:6%;right:6%;top:8%;text-align:center;font-size:${wide>=1?6:7.5}cqw">${L((v.topic||'').split(/[？?]/)[0]||'主題')}<em>？</em></div>
-    <div class="tbl" style="left:7%;right:7%;top:${wide>1.3?32:30}%;">
+    <div class="ttl" style="left:6%;right:6%;top:8%;text-align:center;font-size:${wide>2?3.6:wide>=1?6:7.5}cqw">${L((v.topic||'').split(/[？?]/)[0]||'主題')}<em>？</em></div>
+    <div class="tbl" style="left:${wide>2?25:7}%;right:${wide>2?25:7}%;top:${wide>1.3?32:30}%;">
       <div class="h"><span>比較項目</span><span>方案 A</span><span>方案 B</span></div>
       <div><span>利率</span><span>較低</span><span>較高</span></div>
       <div><span>年限</span><span style="color:${k};font-weight:700">最長 40 年</span><span>20-30 年</span></div>
-      <div><span>寬限期</span><span style="color:${k};font-weight:700">最長 5 年</span><span>2~3 年</span></div>
+      ${wide>2?'':`<div><span>寬限期</span><span style="color:${k};font-weight:700">最長 5 年</span><span>2~3 年</span></div>`}
     </div>
-    <div class="bar" style="left:7%;width:22%;bottom:5%;height:8%;border-radius:99px;font-size:2.8cqw">小提醒</div>
-    <div style="position:absolute;left:31%;right:7%;bottom:6%;font-size:2.6cqw;font-weight:700;color:#3a3530">善用政策，<span style="color:${k}">安心成家！</span></div>`;
+    <div class="bar" style="left:7%;width:22%;bottom:5%;height:8%;border-radius:99px;font-size:${wide>2?1.6:2.8}cqw">小提醒</div>
+    <div style="position:absolute;left:31%;right:7%;bottom:6%;font-size:${wide>2?1.6:2.6}cqw;font-weight:700;color:#3a3530">善用政策，<span style="color:${k}">安心成家！</span></div>`;
   }else{
     const ts=splitL(v.topics||'').slice(0,5);
     in_=`<div class="diag k" style="left:-14%;top:30%;width:50%;height:60%"></div>
     <div class="diag" style="right:-18%;bottom:-24%;width:40%;height:40%"></div>
-    <div class="person" style="left:${wide>=1?6:20}%;bottom:0;width:${wide>=1?24:56}%;height:${wide>=1?88:48}%"></div>
-    <div class="ttl" style="left:${wide>=1?38:6}%;right:5%;top:${wide>=1?12:6}%;font-size:${wide>=1?8:10}cqw">${L(v.show||'節目名稱')}</div>
-    <div class="bar" style="left:${wide>=1?36:4}%;right:${wide>=1?8:4}%;top:${wide>=1?38:22}%;height:${wide>=1?7:4}%;font-size:${wide>=1?2.2:2.8}cqw;transform:skewX(-14deg)">${L(v.slogan||'')}</div>
-    <div class="icons" style="left:${wide>=1?36:4}%;right:${wide>=1?6:4}%;top:${wide>=1?52:30}%;font-size:${wide>=1?1.8:2.6}cqw">${ts.map(x=>`<span>${L(x)}</span>`).join('')}</div>
-    <div class="bar" style="left:${wide>=1?36:0}%;right:${wide>=1?14:0}%;bottom:${wide>=1?8:0}%;height:${wide>=1?9:6}%;font-size:${wide>=1?2:2.6}cqw">訂閱頻道 ｜ 按讚支持 ｜ 開啟小鈴鐺</div>`;
+    <div class="person" style="left:${wide>=1?6:20}%;bottom:0;width:${wide>2?14:wide>=1?24:56}%;height:${wide>=1?88:48}%"></div>
+    <div class="ttl" style="left:${wide>=1?38:6}%;right:5%;top:${wide>=1?12:6}%;font-size:${wide>2?5:wide>=1?8:10}cqw">${L(v.show||'節目名稱')}</div>
+    <div class="bar" style="left:${wide>=1?36:4}%;right:${wide>=1?8:4}%;top:${wide>=1?40:22}%;height:${wide>=1?8:4}%;font-size:${wide>2?1.5:wide>=1?2.2:2.8}cqw;transform:skewX(-14deg)">${L(v.slogan||'')}</div>
+    <div class="icons" style="left:${wide>=1?36:4}%;right:${wide>=1?6:4}%;top:${wide>=1?55:30}%;font-size:${wide>2?1.2:wide>=1?1.8:2.6}cqw">${ts.map(x=>`<span>${L(x)}</span>`).join('')}</div>
+    <div class="bar" style="left:${wide>=1?36:0}%;right:${wide>=1?14:0}%;bottom:${wide>=1?6:0}%;height:${wide>=1?9:6}%;font-size:${wide>2?1.4:wide>=1?2:2.6}cqw">訂閱頻道 ｜ 按讚支持 ｜ 開啟小鈴鐺</div>`;
   }
   return `<div class="mock" style="--k:${k};--c:${c};aspect-ratio:${r[0]}/${r[1]};width:${mw}">${in_}</div>`;
 }
+function isOther(t,f){return ioth.has(t.id+'.'+f.k)||!f.o.includes(IS.v[t.id][f.k])}
+function renderIFields(){
+  const t=itC();
+  $('#iFields').innerHTML=t.f.map(f=>{const oth=isOther(t,f);return `<div class="fld5"><div class="lab">${f.l}</div><div class="opts">${f.o.map(o=>`<button type="button" class="opt" data-fk="${f.k}" data-fv="${esc(o)}" aria-pressed="${!oth&&IS.v[t.id][f.k]===o}">${esc(o)}</button>`).join('')}<button type="button" class="opt" data-fk="${f.k}" data-fo="1" aria-pressed="${oth}">其他（自己填）</button></div>
+   <div class="fld" ${oth?'':'hidden'} style="margin-top:8px"><label for="if-${f.k}">自己填「${f.l}」</label><input id="if-${f.k}" data-k="${f.k}" value="${oth?esc(IS.v[t.id][f.k]):''}" placeholder="例：${esc(f.o[0])}"></div></div>`}).join('');
+}
 function renderImgStatic(){
-  $('#itype').innerHTML=IT.map(t=>`<button data-t="${t.id}" aria-pressed="${t.id===IS.t}"><b>${t.name}</b><span>${t.d}・預設 ${t.ratio}</span></button>`).join('');
+  $('#itype').innerHTML=IT.map(t=>`<button data-t="${t.id}" aria-pressed="${t.id===IS.t}"><b>${t.name}</b><span>${t.d}</span></button>`).join('');
   const t=itC();
   $('#iHint').textContent=t.hint;
-  $('#iFields').innerHTML=t.f.map(f=>`<div class="fld"><label for="if-${f.k}">${f.l}</label><input id="if-${f.k}" data-k="${f.k}" value="${esc(IS.v[t.id][f.k])}">${quick(f)}</div>`).join('');
+  renderIFields();
   $('#iRefL').innerHTML=`我會上傳參考圖：<b>${esc(t.ref)}</b>`;
-  $('#iRef').checked=IS.ref;
-  $('#iRatio').innerHTML=Object.keys(RATIO).map(r=>`<button class="chip" data-r="${r}" aria-pressed="${r===IS.ratio[t.id]}">${r}<small style="opacity:.7;font-weight:400"> ${RATIO[r][2]}</small></button>`).join('');
+  $('#iRef').checked=IS.ref;$('#iExtra').value=IS.extra[t.id];
+  $('#iOut').innerHTML=OUT.map(o=>`<button class="chip" data-o="${o.id}" aria-pressed="${o.id===IS.out[t.id]}">${o.n}${o.px?`<small style="opacity:.7;font-weight:400"> ${o.rl}</small>`:''}</button>`).join('');
+  $('#iRatio').hidden=IS.out[t.id]!=='other';
+  $('#iRatio').innerHTML='<span class="note" style="width:100%">自訂比例：</span>'+Object.keys(RATIO).map(r=>`<button class="chip" data-r="${r}" aria-pressed="${r===IS.ratio[t.id]}">${r}<small style="opacity:.7;font-weight:400"> ${RATIO[r][2]}</small></button>`).join('');
   $('#iStyle').innerHTML=STY.map(s=>`<button class="chip" data-st="${s}" aria-pressed="${s===IS.style[t.id]}">${s}</button>`).join('');
   $('#swatches').innerHTML=SWS.map((s,i)=>`<button class="sw" data-sw="${i}"><i><em style="background:${s[1]}"></em><em style="background:${s[2]}"></em></i>${s[0]}</button>`).join('');
   $('#kHex').value=IS.k;$('#kPick').value=IS.k.toLowerCase();$('#cHex').value=IS.c;$('#cPick').value=IS.c.toLowerCase();
   updImg();
 }
 function imgPrompt(html){
-  const t=itC(),v=vals(),r=RATIO[v.ratio];
+  const t=itC(),v=vals();
   const V=x=>html?`<span class="v">${esc(x)}</span>`:x;
-  const M=[`畫面比例 ${V(v.ratio)}（建議 ${r[2]} 像素）`,`${V(v.style)}風格，重點色 ${V(v.k)}、觀念色 ${V(v.c)}`].concat(t.M(v).map(x=>html?esc(x):x));
+  const M=[`輸出用途：${V(v.dest)}，比例 ${V(v.ratio)}，尺寸 ${V(v.px)}`];
+  if(v.print)M.push('印刷用：四周預留 3mm 出血，重要文字離邊緣 5mm 以上，色彩以 CMYK 列印為準');
+  M.push(`${V(v.style)}風格，重點色 ${V(v.k)}、觀念色 ${V(v.c)}`);
+  t.M(v).forEach(x=>M.push(html?esc(x):x));
   M.push(IS.ref?`依照我上傳的${t.ref}，保留真實外觀與空間，不要改變格局`:'我沒有參考圖，請設計擬真但不指涉真實建案的畫面，不要出現真實建案名稱或商標');
+  const ex=IS.extra[t.id].trim(); if(ex)M.push(`補充資料：${html?esc(ex):ex}`);
   M.push('畫面文字一律繁體中文，字要清楚、不可有錯字');
   if(html)return `<span class="tag a">A</span>你是${V(t.A)}，\n<span class="tag t">T</span>${esc(t.T(v))}，\n<span class="tag m">M</span>請依照以下條件：\n`+M.map((m,i)=>`${i+1}. ${m}`).join('\n');
   return `你是${t.A}，\n${t.T(v)}，\n請依照以下條件：\n`+M.map((m,i)=>`${i+1}. ${m}`).join('\n');
 }
 const IMG_FU=['標題字改成「＿＿＿」，其他都不要動','整體色調再明亮一點，像傍晚有暖光的感覺','把右上角的徽章拿掉，畫面留白多一點','同一張圖幫我改成 9:16 限時動態版本','人物表情再自然一點，不要太像廣告'];
+function supList(items,kind){return items.map((s,i)=>`<li class="sup"><div><b>${esc(s[0])}</b><span>範例：${esc(s[1])}</span></div><div class="row"><button class="btn small" data-sup="${kind}" data-i="${i}">套用到指令</button></div></li>`).join('')}
 function updImg(){
   const t=itC(),v=vals();
-  $('#mock').innerHTML=mockHTML(t.id,v,v.k,v.c,v.ratio);
-  $('#mockT').textContent=t.name;$('#mockS').textContent=`${v.ratio}・${RATIO[v.ratio][2]}・${v.style}`;
+  $('#mock').innerHTML=mockHTML(t.id,v,v.k,v.c,v.r);
+  $('#mockT').textContent=t.name;$('#mockS').textContent=`${v.dest}・${v.px}・${v.style}`;
   if(IS.tab==='s'){$('#imgP').innerHTML=esc(t.short(v))+(IS.ref?`\n\n<span class="note">（記得先上傳：${esc(t.ref)}）</span>`:'')}
   else if(IS.tab==='p'){$('#imgP').innerHTML=imgPrompt(true)}
-  $('#imgF').innerHTML=IMG_FU.map(f=>`<li><span>${esc(f)}</span><button class="btn" data-cp="${esc(f)}">複製</button></li>`).join('');
-  $('#imgP').hidden=IS.tab==='f';$('#imgF').hidden=IS.tab!=='f';
-  $('#imgCopy').hidden=IS.tab==='f';
-  store.set('img',{t:IS.t,v:IS.v,ratio:IS.ratio,style:IS.style,k:IS.k,c:IS.c,ref:IS.ref});
+  $('#imgF').innerHTML=IMG_FU.map(f=>`<li><span>${esc(f)}</span><button class="btn small" data-cp="${esc(f)}">複製</button></li>`).join('');
+  $('#imgN').innerHTML=supList(IMG_SUP[t.id],'img');
+  $('#imgP').hidden=!(IS.tab==='s'||IS.tab==='p');$('#imgF').hidden=IS.tab!=='f';$('#imgN').hidden=IS.tab!=='n';
+  $('#imgCopy').hidden=!(IS.tab==='s'||IS.tab==='p');
+  store.set('img2',{t:IS.t,v:IS.v,out:IS.out,ratio:IS.ratio,style:IS.style,k:IS.k,c:IS.c,ref:IS.ref,extra:IS.extra});
 }
 $('#itype').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(!b)return;IS.t=b.dataset.t;renderImgStatic()});
-$('#iFields').addEventListener('click',e=>pickQuick($('#iFields'),e,(k,v)=>{IS.v[IS.t][k]=v;updImg()}));
+$('#iFields').addEventListener('click',e=>{const b=e.target.closest('[data-fk]');if(!b)return;const t=itC(),k=b.dataset.fk,key=t.id+'.'+k;
+  if(b.dataset.fo){ioth.add(key);if(t.f.find(f=>f.k===k).o.includes(IS.v[t.id][k]))IS.v[t.id][k]='';renderIFields();updImg();const inp=$('#if-'+k);if(inp)inp.focus();return}
+  ioth.delete(key);IS.v[t.id][k]=b.dataset.fv;renderIFields();updImg()});
 $('#iFields').addEventListener('input',e=>{const k=e.target.dataset.k;if(!k)return;IS.v[IS.t][k]=e.target.value;updImg()});
 $('#iRef').addEventListener('change',e=>{IS.ref=e.target.checked;updImg()});
+$('#iExtra').addEventListener('input',e=>{IS.extra[IS.t]=e.target.value;updImg()});
+$('#iOut').addEventListener('click',e=>{const b=e.target.closest('[data-o]');if(!b)return;IS.out[IS.t]=b.dataset.o;$$('#iOut .chip').forEach(c=>c.setAttribute('aria-pressed',c===b));$('#iRatio').hidden=b.dataset.o!=='other';updImg()});
 $('#iRatio').addEventListener('click',e=>{const b=e.target.closest('[data-r]');if(!b)return;IS.ratio[IS.t]=b.dataset.r;$$('#iRatio .chip').forEach(c=>c.setAttribute('aria-pressed',c===b));updImg()});
 $('#iStyle').addEventListener('click',e=>{const b=e.target.closest('[data-st]');if(!b)return;IS.style[IS.t]=b.dataset.st;$$('#iStyle .chip').forEach(c=>c.setAttribute('aria-pressed',c===b));updImg()});
 $('#swatches').addEventListener('click',e=>{const b=e.target.closest('[data-sw]');if(!b)return;const s=SWS[+b.dataset.sw];IS.k=s[1];IS.c=s[2];$('#kHex').value=s[1];$('#kPick').value=s[1].toLowerCase();$('#cHex').value=s[2];$('#cPick').value=s[2].toLowerCase();updImg()});
@@ -777,6 +858,11 @@ function bindColor(pick,hex,key){
 bindColor('#kPick','#kHex','k');bindColor('#cPick','#cHex','c');
 $$('[data-it]').forEach(b=>b.addEventListener('click',()=>{IS.tab=b.dataset.it;$$('[data-it]').forEach(x=>x.setAttribute('aria-selected',x===b));updImg()}));
 $('#imgCopy').addEventListener('click',()=>{const t=itC();copyText(IS.tab==='s'?t.short(vals()):imgPrompt(false),'已複製圖像指令',$('#imgP'))});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-sup]');if(!b)return;
+  if(b.dataset.sup==='img'){const s=IMG_SUP[IS.t][+b.dataset.i],line=`${s[0]}：${s[1]}`,ta=$('#iExtra');ta.value=ta.value.trim()?ta.value.trim()+'\n'+line:line;IS.extra[IS.t]=ta.value;updImg();toast('已加進「補充資料」，記得改成你的真實內容')}
+  else{const s=SUP[CS.sc][+b.dataset.i],line=`${s[0]}：${s[1]}`,ta=$('#mCustom');ta.value=ta.value.trim()?ta.value.trim()+'\n'+line:line;CS.custom.m=ta.value;updCopy();toast('已加進「補充資料」，記得改成你的真實內容')}
+});
+
 
 
 /* ---------- 心得與收穫 ---------- */
