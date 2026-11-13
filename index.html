@@ -178,6 +178,11 @@ main{padding-block:20px 72px}
 .fu li.sup span{font-size:13.5px;color:var(--muted)}
 .celeb{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
 .celeb .lab{display:flex;gap:6px;align-items:center}
+.prompt .addl{background:rgba(255,201,74,.35);border-radius:4px;box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:0 2px}
+.prompt.flash{animation:fl 1.2s ease}
+@keyframes fl{0%{box-shadow:0 0 0 3px var(--yellow)}100%{box-shadow:0 0 0 0 transparent}}
+.btn.done{border-color:var(--teal);color:var(--ink);cursor:default;opacity:.85}
+@media (prefers-reduced-motion:reduce){.prompt.flash{animation:none}}
 .chip small{font-weight:400;opacity:.75}
 
 /* 圖像產生器 */
@@ -633,13 +638,13 @@ function updCopy(){
   $('#tPrev').innerHTML=`<b>T 目標：</b>${fillT(s,true)}`;
   let h=`<span class="tag a">A</span>你是<span class="v">${esc(A)}</span>，\n<span class="tag t">T</span>${fillT(s,true)}，\n<span class="tag m">M</span>`;
   h+= M.length? M.map(esc).join('；')+'。' : '<span class="note">（還沒選方法，至少選一個吧）</span>';
-  if(extra)h+=`\n參考資料：${esc(extra)}`;
+  if(extra)h+=`\n<span class="addl">補充資料：${esc(extra)}</span>`;
   $('#copyP').innerHTML=h;
   $('#copyF').innerHTML=s.fu.map(f=>`<li><span>${esc(f)}</span><button class="btn small" data-cp="${esc(f)}">複製</button></li>`).join('');
-  $('#copyN').innerHTML=supList(SUP[s.id],'copy');
+  $('#copyN').innerHTML=supList(SUP[s.id],'copy',$('#mCustom').value);
   store.set('copy',{sc:CS.sc,a:CS.a,m:CS.m,v:CS.v});
 }
-function copyPlain(){const {s,A,M,extra}=copyParts();return `你是${A}，\n${fillT(s,false)}，\n${M.length?M.join('；')+'。':''}${extra?`\n參考資料：${extra}`:''}`}
+function copyPlain(){const {s,A,M,extra}=copyParts();return `你是${A}，\n${fillT(s,false)}，\n${M.length?M.join('；')+'。':''}${extra?`\n補充資料：${extra}`:''}`}
 $('#scen').addEventListener('click',e=>{const b=e.target.closest('[data-s]');if(!b)return;CS.sc=b.dataset.s;CS.custom={};renderScen()});
 $('#aChips').addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;CS.a[CS.sc]=+b.dataset.a;$('#aCustom').value='';CS.custom.a='';$$('#aChips .chip').forEach(c=>c.setAttribute('aria-pressed',c===b));updCopy()});
 $('#mChips').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(!b)return;const i=+b.dataset.m;CS.m[CS.sc][i]=!CS.m[CS.sc][i];b.setAttribute('aria-pressed',CS.m[CS.sc][i]);updCopy()});
@@ -807,13 +812,14 @@ function imgPrompt(html){
   M.push(`${V(v.style)}風格，重點色 ${V(v.k)}、觀念色 ${V(v.c)}`);
   t.M(v).forEach(x=>M.push(html?esc(x):x));
   M.push(IS.ref?`依照我上傳的${t.ref}，保留真實外觀與空間，不要改變格局`:'我沒有參考圖，請設計擬真但不指涉真實建案的畫面，不要出現真實建案名稱或商標');
-  const ex=IS.extra[t.id].trim(); if(ex)M.push(`補充資料：${html?esc(ex):ex}`);
+  const ex=IS.extra[t.id].trim(); if(ex)M.push(html?`<span class="addl">補充資料：${esc(ex)}</span>`:`補充資料：${ex}`);
   M.push('畫面文字一律繁體中文，字要清楚、不可有錯字');
   if(html)return `<span class="tag a">A</span>你是${V(t.A)}，\n<span class="tag t">T</span>${esc(t.T(v))}，\n<span class="tag m">M</span>請依照以下條件：\n`+M.map((m,i)=>`${i+1}. ${m}`).join('\n');
   return `你是${t.A}，\n${t.T(v)}，\n請依照以下條件：\n`+M.map((m,i)=>`${i+1}. ${m}`).join('\n');
 }
 const IMG_FU=['標題字改成「＿＿＿」，其他都不要動','整體色調再明亮一點，像傍晚有暖光的感覺','把右上角的徽章拿掉，畫面留白多一點','同一張圖幫我改成 9:16 限時動態版本','人物表情再自然一點，不要太像廣告'];
-function supList(items,kind){return items.map((s,i)=>`<li class="sup"><div><b>${esc(s[0])}</b><span>範例：${esc(s[1])}</span></div><div class="row"><button class="btn small" data-sup="${kind}" data-i="${i}">套用到指令</button></div></li>`).join('')}
+function supList(items,kind,curTxt){return items.map((s,i)=>{const on=(curTxt||'').includes(`${s[0]}：`);return `<li class="sup"><div><b>${esc(s[0])}</b><span>範例：${esc(s[1])}</span></div><div class="row"><button class="btn small${on?' done':''}" data-sup="${kind}" data-i="${i}" ${on?'disabled':''}>${on?'✓ 已加入指令':'套用到指令'}</button></div></li>`}).join('')}
+function flashOut(el){el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash');const n=el.querySelector('.addl');if(n)n.scrollIntoView({block:'nearest'})}
 function updImg(){
   const t=itC(),v=vals();
   $('#mock').innerHTML=mockHTML(t.id,v,v.k,v.c,v.r);
@@ -821,7 +827,7 @@ function updImg(){
   if(IS.tab==='s'){$('#imgP').innerHTML=esc(t.short(v))+(IS.ref?`\n\n<span class="note">（記得先上傳：${esc(t.ref)}）</span>`:'')}
   else if(IS.tab==='p'){$('#imgP').innerHTML=imgPrompt(true)}
   $('#imgF').innerHTML=IMG_FU.map(f=>`<li><span>${esc(f)}</span><button class="btn small" data-cp="${esc(f)}">複製</button></li>`).join('');
-  $('#imgN').innerHTML=supList(IMG_SUP[t.id],'img');
+  $('#imgN').innerHTML=supList(IMG_SUP[t.id],'img',IS.extra[t.id]);
   $('#imgP').hidden=!(IS.tab==='s'||IS.tab==='p');$('#imgF').hidden=IS.tab!=='f';$('#imgN').hidden=IS.tab!=='n';
   $('#imgCopy').hidden=!(IS.tab==='s'||IS.tab==='p');
   store.set('img2',{t:IS.t,v:IS.v,out:IS.out,ratio:IS.ratio,style:IS.style,k:IS.k,c:IS.c,ref:IS.ref,extra:IS.extra});
@@ -845,8 +851,8 @@ bindColor('#kPick','#kHex','k');bindColor('#cPick','#cHex','c');
 $$('[data-it]').forEach(b=>b.addEventListener('click',()=>{IS.tab=b.dataset.it;$$('[data-it]').forEach(x=>x.setAttribute('aria-selected',x===b));updImg()}));
 $('#imgCopy').addEventListener('click',()=>{const t=itC();copyText(IS.tab==='s'?t.short(vals()):imgPrompt(false),'已複製圖像指令',$('#imgP'))});
 document.addEventListener('click',e=>{const b=e.target.closest('[data-sup]');if(!b)return;
-  if(b.dataset.sup==='img'){const s=IMG_SUP[IS.t][+b.dataset.i],line=`${s[0]}：${s[1]}`,ta=$('#iExtra');ta.value=ta.value.trim()?ta.value.trim()+'\n'+line:line;IS.extra[IS.t]=ta.value;updImg();toast('已加進「補充資料」，記得改成你的真實內容')}
-  else{const s=SUP[CS.sc][+b.dataset.i],line=`${s[0]}：${s[1]}`,ta=$('#mCustom');ta.value=ta.value.trim()?ta.value.trim()+'\n'+line:line;CS.custom.m=ta.value;updCopy();toast('已加進「補充資料」，記得改成你的真實內容')}
+  if(b.dataset.sup==='img'){const s=IMG_SUP[IS.t][+b.dataset.i],line=`${s[0]}：${s[1]}`,ta=$('#iExtra');ta.value=ta.value.trim()?ta.value.trim()+'\n'+line:line;IS.extra[IS.t]=ta.value;IS.tab='p';$$('[data-it]').forEach(x=>x.setAttribute('aria-selected',x.dataset.it==='p'));updImg();flashOut($('#imgP'));toast('已加入 ATM 指令的 M 方法，記得改成你的真實內容')}
+  else{const s=SUP[CS.sc][+b.dataset.i],line=`${s[0]}：${s[1]}`,ta=$('#mCustom');ta.value=ta.value.trim()?ta.value.trim()+'\n'+line:line;CS.custom.m=ta.value;updCopy();$('[data-ct="p"]').click();flashOut($('#copyP'));toast('已加入 ATM 指令的 M 方法，記得改成你的真實內容')}
 });
 
 
