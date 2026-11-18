@@ -250,17 +250,10 @@ main{padding-block:20px 72px}
 .opt[aria-pressed="true"]::before{background:var(--purple);border-color:var(--purple);box-shadow:inset 0 0 0 3px var(--panel)}
 .opt.multi[aria-pressed="true"]::before{background:var(--teal);border-color:var(--teal);box-shadow:none}
 .result{display:grid;gap:14px}
-.scard{border-radius:14px;overflow:hidden;background:#603e8d;color:#fff;position:relative}
-.scard .frame{position:relative;aspect-ratio:4/5;width:100%;max-height:52vh;margin:0 auto;background:#efeaf7;overflow:hidden}
-.scard .frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.scard .ph2{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:14px;padding:24px;text-align:center;color:#2e2640}
-.scard .ph2 svg{width:min(62%,240px);height:auto}
-.scard .ph2 p{font-size:13.5px;color:#615a72;max-width:26em}
-.scard .ph2 b{color:#603e8d}
-.scard .cap{padding:16px 18px;display:grid;gap:6px}
-.scard .cap .t{font-family:var(--f-disp);font-size:20px;font-weight:700;line-height:1.35}
-.scard .cap .s{color:#ffc94a;font-weight:700;font-size:14px}
-.scard .cap .b{font-size:12.5px;color:#efeaf7;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.ccard{display:grid;place-items:center}
+.ccard img{display:block;height:min(68vh,720px);aspect-ratio:9/16;width:auto;max-width:100%;object-fit:contain;border-radius:14px;box-shadow:0 6px 24px rgba(46,38,64,.18);background:#efeaf7}
+.seg{display:inline-flex;gap:6px}
+.seg .btn[aria-pressed="true"]{background:var(--purple);border-color:var(--purple);color:#fff}
 .upl{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .upl input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 
@@ -498,34 +491,25 @@ footer b{color:var(--purple);font-family:var(--f-disp)}
 <section data-v="share" hidden>
   <div class="vh">
     <h2><span class="no">04</span>AI 繪圖心得與收穫</h2>
-    <p>點選最接近你的答案，不用打字。右邊會同時產出分享稿，和一段把「今天的你」畫成寫實照片的指令。</p>
+    <p>點選最接近你的答案，不用打字。右邊會即時組出一張 9:16 心得圖卡（可放入你自己的作品），並附上分享稿與寫實示意圖指令。</p>
   </div>
   <div class="share">
     <div class="qs" id="qs"></div>
     <div class="out result" id="shareOut">
-      <div class="scard">
-        <div class="frame" id="sFrame">
-          <div class="ph2" id="sPh">
-            <svg viewBox="0 0 220 220" aria-hidden="true">
-              <path d="M186.3 85.9A80 80 0 1 1 131.4 32.9" fill="none" stroke="#603e8d" stroke-width="9" stroke-linecap="round"/>
-              <use href="#i-spark" x="160" y="18" width="40" height="40"/>
-              <circle cx="110" cy="92" r="26" fill="#bfb2d1"/>
-              <path d="M62 178c0-30 21-50 48-50s48 20 48 50z" fill="#bfb2d1"/>
-            </svg>
-            <p><b>寫實 AI 示意圖放這裡</b><br>複製下方「示意圖指令」到 ChatGPT 生成，再按「放入我的 AI 圖」。</p>
-          </div>
-        </div>
-        <div class="cap">
-          <div class="t" id="sCapT"></div>
-          <div class="s" id="sCapS"></div>
-          <div class="b"><span>AI效能實驗室｜秉軒老師</span><span>1119 桃園不動產仲介課程</span></div>
-        </div>
+      <div class="ccard">
+        <img id="sCardImg" alt="我的 AI 繪圖心得卡（9:16）">
+        <canvas id="sCanvas" width="1080" height="1920" hidden></canvas>
       </div>
       <div class="upl">
-        <label class="btn" for="sFile">放入我的 AI 圖</label><input type="file" id="sFile" accept="image/*">
-        <button class="btn" id="sFileClear" hidden>移除圖片</button>
-        <a class="btn" href="https://chatgpt.com/" target="_blank" rel="noopener">開啟 ChatGPT ↗</a>
+        <label class="btn" for="sFile">放入我的作品</label><input type="file" id="sFile" accept="image/*">
+        <button class="btn primary" id="sDl">下載 9:16 圖卡</button>
       </div>
+      <div class="upl" id="sFitRow" hidden>
+        <span class="hint">作品顯示：</span>
+        <div class="seg" role="group" aria-label="作品顯示方式"><button class="btn small" data-fit="contain" aria-pressed="true">完整顯示</button><button class="btn small" data-fit="cover" aria-pressed="false">填滿裁切</button></div>
+        <button class="btn small" id="sFileClear">移除作品</button>
+      </div>
+      <p class="note">圖卡內容跟著左邊的選擇即時更新。作品可放課堂上用 AI 做的任何一張圖；手機也可以長按圖卡儲存。</p>
       <div class="out-card">
         <div class="out-head">
           <div class="tabs" role="tablist">
@@ -538,7 +522,7 @@ footer b{color:var(--purple);font-family:var(--f-disp)}
       </div>
     </div>
   </div>
-  <button class="btn primary jump" data-jump="shareOut">看分享稿與示意圖 ↓</button>
+  <button class="btn primary jump" data-jump="shareOut">看我的心得圖卡 ↓</button>
 </section>
 </main>
 
@@ -874,7 +858,7 @@ const SLOGAN={'指令要先講清楚角色、目標、方法':'ATM 說清楚，A
 const SA={q1:[],q2:[],q3:[],q4:[]};
 const ssv=store.get('share2');if(ssv)for(const q of QS)if(Array.isArray(ssv[q.id]))SA[q.id]=ssv[q.id].filter(x=>q.o.includes(x)).slice(0,q.multi?2:1);
 let own=(ssv&&typeof ssv.own==='string')?ssv.own:'';
-let shTab='t', upImg=null;
+let shTab='t';
 function renderQs(){
   $('#qs').innerHTML=QS.map((q,i)=>`<div class="card q"><h3><span class="qn">Q${i+1}</span><span>${q.h}</span></h3><p class="hint">${q.hint}</p>
    <div class="opts">${q.o.map(o=>`<button class="opt${q.multi?' multi':''}" data-q="${q.id}" data-o="${esc(o)}" aria-pressed="${SA[q.id].includes(o)}">${esc(o)}</button>`).join('')}</div>
@@ -901,8 +885,7 @@ function updShare(){
   $('#shOut').textContent=shareText();
   const ip=imgPromptShare();
   $('#shImg').innerHTML=esc(ip.text).replace(/^你是/,'<span class="tag a">A</span>你是').replace(/\n我要/,'\n<span class="tag t">T</span>我要').replace(/\n請依照/,'\n<span class="tag m">M</span>請依照');
-  $('#sCapT').textContent=SA.q1[0]?`我用 AI 做了「${SA.q1[0]}」`:'我用 AI 做了＿＿＿';
-  $('#sCapS').textContent=`✦ ${ip.slogan}`;
+  queueCard();
   $('#shOut').hidden=shTab!=='t';$('#shImg').hidden=shTab!=='p';
   $('#shCopy').textContent=shTab==='t'?'複製分享稿':'複製示意圖指令';
   store.set('share2',Object.assign({own},SA));
@@ -914,9 +897,86 @@ $('#qs').addEventListener('click',e=>{const b=e.target.closest('[data-q]');if(!b
 $('#qs').addEventListener('input',e=>{if(e.target.id==='sOwn'){own=e.target.value;updShare()}});
 $$('[data-st2]').forEach(b=>b.addEventListener('click',()=>{shTab=b.dataset.st2;$$('[data-st2]').forEach(x=>x.setAttribute('aria-selected',x===b));updShare()}));
 $('#shCopy').addEventListener('click',()=>{if(shTab==='t'){if(!SA.q1.length){toast('先回答 Q1 主題');return}copyText(shareText(),'已複製分享稿',$('#shOut'))}else copyText(imgPromptShare().text,'已複製示意圖指令，貼到 ChatGPT 生成',$('#shImg'))});
+/* ---------- 9:16 心得圖卡 ---------- */
+const CW=1080,CH=1920,CM=64;
+let fitMode='contain',upEl=null,cardTimer=0,cardURL=null,cardSeq=0;
+const FD='"Huninn","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif',FB='"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif',FN='"Nunito","Noto Sans TC",sans-serif';
+function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
+function wrapT(c,t,maxW){const out=[];let line='';for(const ch of t){if(c.measureText(line+ch).width>maxW&&line){out.push(line);line=ch.trim()?ch:''}else line+=ch}if(line)out.push(line);return out}
+function sparkP(c,x,y,s){c.beginPath();c.moveTo(x,y-s);c.quadraticCurveTo(x,y,x+s,y);c.quadraticCurveTo(x,y,x,y+s);c.quadraticCurveTo(x,y,x-s,y);c.quadraticCurveTo(x,y,x,y-s);c.fill()}
+function cardData(){const q4=SA.q4[0];return{q1:SA.q1[0]||'',q2:SA.q2.slice(),q3:SA.q3[0]||'',q4:SA.q4.slice(),own:own.trim(),slogan:q4?SLOGAN[q4]:'是你，讓 AI 更強大'}}
+/* 內容區：dry=true 只量高度 */
+function cardBody(c,d,y0,dry){
+  let y=y0;const X=CM,Wd=CW-CM*2;
+  const label=(t)=>{if(!dry){c.fillStyle='#36c2b4';rr(c,X,y+6,10,30,5);c.fill();c.fillStyle='#603e8d';c.font=`700 30px ${FB}`;c.textBaseline='middle';c.fillText(t,X+24,y+22)}y+=52};
+  const pill=(t,x,yy,fill,stroke,col,fs)=>{c.font=`700 ${fs}px ${FB}`;const w=c.measureText(t).width+fs*1.6,h=fs*1.9;if(!dry){c.fillStyle=fill;rr(c,x,yy,w,h,h/2);c.fill();if(stroke){c.strokeStyle=stroke;c.lineWidth=3;c.stroke()}c.fillStyle=col;c.textBaseline='middle';c.fillText(t,x+fs*.8,yy+h/2+1)}return[w,h]};
+  // 最驚艷
+  label('最讓我驚艷');
+  {const items=d.q2.length?d.q2:['還沒選'];let x=X,rowH=0;for(const t of items){c.font=`700 30px ${FB}`;const w=c.measureText(t).width+48;if(x>X&&x+w>X+Wd){x=X;y+=rowH+14;rowH=0}const [pw,ph]=pill(t,x,y,'#ffffff','#bfb2d1',d.q2.length?'#2e2640':'#9a92ad',30);x+=pw+14;rowH=Math.max(rowH,ph)}y+=rowH+30}
+  // 感覺（同一列）
+  if(!dry){c.fillStyle='#36c2b4';rr(c,X,y+16,10,30,5);c.fill();c.fillStyle='#603e8d';c.font=`700 30px ${FB}`;c.textBaseline='middle';c.fillText('過程中的感覺',X+24,y+32)}
+  c.font=`700 30px ${FB}`;{const lw=c.measureText('過程中的感覺').width;pill(d.q3||'還沒選',X+24+lw+22,y+3,'#ffc94a',null,d.q3?'#2e2640':'#7a6a3a',30)}
+  y+=64+30;
+  // 收穫
+  label('我的收穫');
+  {const items=d.q4.length?d.q4:['還沒選'];c.font=`500 34px ${FB}`;for(const t of items){const ls=wrapT(c,t,Wd-62);ls.forEach((l,i)=>{if(!dry){if(i===0){c.strokeStyle='#36c2b4';c.lineWidth=7;c.lineCap='round';c.lineJoin='round';c.beginPath();c.moveTo(X+4,y+26);c.lineTo(X+15,y+37);c.lineTo(X+36,y+12);c.stroke()}c.fillStyle=d.q4.length?'#2e2640':'#9a92ad';c.textBaseline='middle';c.font=`500 34px ${FB}`;c.fillText(l,X+58,y+25)}y+=50});y+=4}}
+  // 一句話
+  if(d.own){y+=22;c.font=`500 32px ${FB}`;const ls=wrapT(c,`「${d.own}」`,Wd-40);if(!dry){c.fillStyle='#603e8d';rr(c,X,y,8,ls.length*48-4,4);c.fill();c.fillStyle='#2e2640';c.textBaseline='middle';ls.forEach((l,i)=>c.fillText(l,X+32,y+22+i*48))}y+=ls.length*48}
+  return y-y0;
+}
+function drawCard(c,exporting){
+  const d=cardData();c.clearRect(0,0,CW,CH);c.textAlign='left';
+  c.fillStyle='#efeaf7';c.fillRect(0,0,CW,CH);
+  // 頂部
+  c.fillStyle='#603e8d';c.fillRect(0,0,CW,300);
+  c.save();c.strokeStyle='rgba(255,255,255,.16)';c.lineWidth=16;c.lineCap='round';const a0=(-46+28.5)*Math.PI/180,a1=(-46-28.5)*Math.PI/180+Math.PI*2;c.beginPath();c.arc(940,150,98,a0,a1);c.stroke();c.restore();
+  c.fillStyle='#ffc94a';sparkP(c,940+98*Math.cos(-46*Math.PI/180),150+98*Math.sin(-46*Math.PI/180),26);sparkP(c,1032,62,13);
+  c.textBaseline='alphabetic';c.fillStyle='#efeaf7';c.font=`500 30px ${FB}`;c.fillText('AI效能實驗室｜秉軒老師・實戰課程',CM,96);
+  c.fillStyle='#ffffff';c.font=`400 76px ${FD}`;c.fillText('我的 AI 繪圖心得',CM,198);
+  c.fillStyle='#cfc3e4';c.font=`500 28px ${FB}`;c.fillText('不動產行銷的 AI 社群圖文應用',CM,254);
+  // 版面計算
+  const bandY=1752,top=340,gapAfter=74,gapBefore=36;
+  const bodyH=cardBody(c,d,0,true);
+  const ph=Math.max(560,Math.min(860,bandY-gapBefore-bodyH-gapAfter-top));
+  const px=CM,pw=CW-CM*2;
+  // 作品區
+  c.save();rr(c,px,top,pw,ph,30);c.clip();
+  if(upEl){const iw=upEl.naturalWidth,ih=upEl.naturalHeight,cover=Math.max(pw/iw,ph/ih),cont=Math.min(pw/iw,ph/ih);
+    if(fitMode==='contain'){const blur='filter' in c;if(blur)c.filter='blur(28px)';c.drawImage(upEl,px+(pw-iw*cover*1.15)/2,top+(ph-ih*cover*1.15)/2,iw*cover*1.15,ih*cover*1.15);if(blur)c.filter='none';c.fillStyle='rgba(46,38,64,.45)';c.fillRect(px,top,pw,ph);c.drawImage(upEl,px+(pw-iw*cont)/2,top+(ph-ih*cont)/2,iw*cont,ih*cont)}
+    else c.drawImage(upEl,px+(pw-iw*cover)/2,top+(ph-ih*cover)/2,iw*cover,ih*cover);
+  }else{c.fillStyle='#ffffff';c.fillRect(px,top,pw,ph);c.strokeStyle='#bfb2d1';c.lineWidth=5;c.setLineDash([18,14]);rr(c,px+14,top+14,pw-28,ph-28,22);c.stroke();c.setLineDash([]);
+    const cx=CW/2,cy=top+ph/2-60;c.fillStyle='#e3dcef';rr(c,cx-120,cy-90,240,180,24);c.fill();c.fillStyle='#bfb2d1';c.beginPath();c.moveTo(cx-90,cy+60);c.lineTo(cx-20,cy-20);c.lineTo(cx+30,cy+30);c.lineTo(cx+55,cy+5);c.lineTo(cx+90,cy+60);c.closePath();c.fill();c.beginPath();c.arc(cx+52,cy-40,20,0,Math.PI*2);c.fill();
+    c.textAlign='center';c.textBaseline='alphabetic';c.fillStyle='#603e8d';c.font=`400 46px ${FD}`;c.fillText('我的 AI 作品',cx,cy+160);
+    if(!exporting){c.fillStyle='#615a72';c.font=`500 28px ${FB}`;c.fillText('按下方「放入我的作品」上傳課堂上做的圖',cx,cy+212)}c.textAlign='left'}
+  c.restore();
+  // 主題膠囊（壓在作品區下緣）
+  {const t=d.q1?`主題｜${d.q1}`:'主題｜還沒選';c.font=`700 36px ${FB}`;const w=c.measureText(t).width+64,h=72,y=top+ph-h/2;c.save();c.shadowColor='rgba(46,38,64,.25)';c.shadowBlur=18;c.shadowOffsetY=6;c.fillStyle='#ffc94a';rr(c,CM+28,y,w,h,h/2);c.fill();c.restore();c.fillStyle='#2e2640';c.textBaseline='middle';c.fillText(t,CM+28+32,y+h/2+2)}
+  cardBody(c,d,top+ph+gapAfter,false);
+  // 底部標語
+  c.fillStyle='#603e8d';c.fillRect(0,bandY,CW,CH-bandY);
+  c.fillStyle='#ffc94a';sparkP(c,CM+20,bandY+74,20);
+  c.font=`400 48px ${FD}`;c.textBaseline='middle';c.fillText(d.slogan,CM+56,bandY+76);
+  c.fillStyle='#cfc3e4';c.font=`500 24px ${FB}`;c.fillText('AI效能實驗室｜1119 桃園不動產仲介課程',CM,bandY+138);
+  c.font=`700 24px ${FN}`;c.textAlign='right';c.fillText('#ATM指令',CW-CM,bandY+138);c.textAlign='left';
+}
+async function renderCard(){
+  const seq=++cardSeq,d=cardData();
+  const txt='AI效能實驗室｜秉軒老師・實戰課程我的繪圖心得不動產行銷的社群圖文應用作品按下方放入上傳課堂上做的圖主題最讓驚艷過程中感覺收穫＿「」1119桃園仲介課程#ATM指令'+[d.q1,...d.q2,d.q3,...d.q4,d.own,d.slogan].join('');
+  try{await Promise.all([`400 76px ${FD}`,`500 30px ${FB}`,`700 30px ${FB}`,`700 24px ${FN}`].map(f=>document.fonts.load(f,txt)))}catch(_){}
+  if(seq!==cardSeq)return;
+  const cv=$('#sCanvas');drawCard(cv.getContext('2d'),false);
+  cv.toBlob(b=>{if(seq!==cardSeq||!b)return;if(cardURL)URL.revokeObjectURL(cardURL);cardURL=URL.createObjectURL(b);$('#sCardImg').src=cardURL},'image/jpeg',.88);
+}
+function queueCard(){clearTimeout(cardTimer);cardTimer=setTimeout(renderCard,120)}
+function downloadCard(){
+  const cv=document.createElement('canvas');cv.width=CW;cv.height=CH;drawCard(cv.getContext('2d'),true);
+  cv.toBlob(b=>{if(!b){toast('下載失敗，請長按或右鍵圖卡另存');return}const u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=`AI繪圖心得卡_${SA.q1[0]||'我的作品'}.png`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);toast(upEl?'已下載 9:16 圖卡':'已下載圖卡（還沒放入作品，可放入後再下載一次）')},'image/png');
+}
 $('#sFile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;if(!/^image\//.test(f.type)){toast('請選擇圖片檔');return}
-  const r=new FileReader();r.onload=()=>{upImg=r.result;let img=$('#sFrame img');if(!img){img=document.createElement('img');img.alt='我的 AI 示意圖';$('#sFrame').appendChild(img)}img.src=upImg;$('#sPh').hidden=true;$('#sFileClear').hidden=false;toast('已放入你的 AI 圖')};r.readAsDataURL(f);e.target.value=''});
-$('#sFileClear').addEventListener('click',()=>{const img=$('#sFrame img');if(img)img.remove();upImg=null;$('#sPh').hidden=false;$('#sFileClear').hidden=true});
+  const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{upEl=im;$('#sFitRow').hidden=false;renderCard();toast('已放入你的作品')};im.onerror=()=>toast('這張圖讀不到，換一張試試');im.src=r.result};r.readAsDataURL(f);e.target.value=''});
+$('#sFileClear').addEventListener('click',()=>{upEl=null;$('#sFitRow').hidden=true;renderCard()});
+$$('[data-fit]').forEach(b=>b.addEventListener('click',()=>{fitMode=b.dataset.fit;$$('[data-fit]').forEach(x=>x.setAttribute('aria-pressed',x===b));renderCard()}));
+$('#sDl').addEventListener('click',downloadCard);
 
 /* ---------- 分頁 ---------- */
 const VIEWS=['atm','copy','image','share'];
